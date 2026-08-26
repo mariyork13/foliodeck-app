@@ -1,44 +1,44 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { categories } from "@/lib/projects";
-import type { Project } from "@/lib/types";
-import { ProjectCard } from "./project-card";
+import { roleFilters } from "@/lib/curators";
+import type { Curator } from "@/lib/types";
+import { CuratorCard } from "./curator-card";
 
-export function Gallery({ projects }: { projects: Project[] }) {
-  const [active, setActive] = useState<(typeof categories)[number]>("All");
+export function Gallery({ curators }: { curators: Curator[] }) {
+  const [active, setActive] = useState<(typeof roleFilters)[number]>("Все");
 
   const filtered = useMemo(
-    () => (active === "All" ? projects : projects.filter((p) => p.category === active)),
-    [projects, active],
+    () => (active === "Все" ? curators : curators.filter((c) => c.role === active)),
+    [curators, active],
   );
 
   return (
-    <section className="mx-auto max-w-6xl px-6 pb-24">
+    <section className="mx-auto max-w-[1400px] px-6 pb-24 pt-8">
       <div className="mb-8 flex flex-wrap gap-2">
-        {categories.map((category) => (
+        {roleFilters.map((role) => (
           <button
-            key={category}
-            onClick={() => setActive(category)}
+            key={role}
+            onClick={() => setActive(role)}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              active === category
-                ? "bg-zinc-950 text-white dark:bg-zinc-50 dark:text-zinc-950"
-                : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800"
+              active === role
+                ? "bg-white text-black"
+                : "bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/80"
             }`}
           >
-            {category}
+            {role}
           </button>
         ))}
       </div>
 
       {filtered.length > 0 ? (
         <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
-          {filtered.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+          {filtered.map((curator) => (
+            <CuratorCard key={curator.slug} curator={curator} />
           ))}
         </div>
       ) : (
-        <p className="py-16 text-center text-zinc-500">No projects in this category yet.</p>
+        <p className="py-16 text-center text-white/40">Пока нет портфолио в этой категории.</p>
       )}
     </section>
   );

@@ -15,17 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "foliodeck — portfolio",
-  description: "A gallery of branding, web, UI/UX, and photography work.",
+  title: "Foliodeck — курируемая галерея портфолио",
+  description: "Курируемая галерея портфолио дизайнеров, разработчиков и студий от Марии Чубиной.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="ru"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#161618]">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

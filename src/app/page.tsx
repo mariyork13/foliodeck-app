@@ -1,12 +1,6 @@
 import { Gallery } from "@/components/gallery";
-import { Hero } from "@/components/hero";
-import { projects } from "@/lib/projects";
+import { curators } from "@/lib/curators";
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <Gallery projects={projects} />
-    </>
-  );
+  return <Gallery curators={curators} />;
 }

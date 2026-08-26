@@ -1,14 +1,9 @@
-export type Category = "Branding" | "Web Design" | "UI/UX" | "Photography" | "Illustration";
-
-export type Project = {
+export type Curator = {
   slug: string;
-  title: string;
-  client: string;
-  category: Category;
-  year: number;
-  /** Tailwind gradient classes used as a placeholder cover until real images are uploaded via the admin. */
-  gradient: string;
-  description: string;
-  /** Number of placeholder tiles to render on the project detail page. */
-  imageCount: number;
+  name: string;
+  role: string;
+  /** URL of the curator's real external portfolio site. */
+  externalUrl: string;
+  /** Screenshot preview of the external site (hotlinked from Tilda CDN for now). */
+  previewImage: string;
 };
