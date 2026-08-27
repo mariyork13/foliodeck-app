@@ -14,8 +14,8 @@ const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26
 const HEADER_H = "h-24";
 const ROW_H = "h-12";
 const TEXT = TEXT_SCALE;
-const PAD_X_SM = "px-5";
-const PAD_X_LG = "px-7";
+const PAD_X_SM = "px-4";
+const PAD_X_LG = "px-4";
 const GAP_SM = "gap-5";
 
 export function SiteHeader() {
