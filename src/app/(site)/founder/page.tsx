@@ -14,9 +14,9 @@ function ExtLink({ href, children }: { href: string; children: React.ReactNode }
 export default function FounderPage() {
   return (
     <article className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="mb-6 text-2xl font-medium text-white/90">About the curator</h1>
+      <h1 className="mb-6 text-[22px] font-medium text-white/90">About the curator</h1>
 
-      <div className="space-y-4 text-lg text-white/60">
+      <div className="space-y-4 text-base text-white/60">
         <p>
           My name is <span className="font-medium text-white/90">Masha Chubina</span> :) Product
           Design Lead with 10 years of industry experience. You can check out my own portfolio

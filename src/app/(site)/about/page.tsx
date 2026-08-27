@@ -1,9 +1,9 @@
 export default function AboutPage() {
   return (
     <article className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="mb-6 text-2xl font-medium text-white/90">About the project</h1>
+      <h1 className="mb-6 text-[22px] font-medium text-white/90">About the project</h1>
 
-      <div className="space-y-4 text-lg text-white/60">
+      <div className="space-y-4 text-base text-white/60">
         <p>
           A curated gallery of portfolios from designers around the world, across many
           disciplines. The gallery features 705 portfolios with strong storytelling, clear case
@@ -24,9 +24,9 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <h2 className="mb-6 mt-12 text-2xl font-medium text-white/90">Talent Hub</h2>
+      <h2 className="mb-6 mt-12 text-[22px] font-medium text-white/90">Talent Hub</h2>
 
-      <div className="space-y-4 text-lg text-white/60">
+      <div className="space-y-4 text-base text-white/60">
         <p>
           A selection of designers who took part in the &quot;Design Awesome&quot; mentorship
           programs. Here you can check out their work and approach, and see how their portfolios
