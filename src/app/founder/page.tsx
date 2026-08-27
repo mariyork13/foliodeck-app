@@ -1,31 +1,12 @@
-function ExternalLinkIcon() {
-  return (
-    <svg
-      width="11"
-      height="11"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="inline-block shrink-0"
-    >
-      <path d="M7 17L17 7M9 7h8v8" />
-    </svg>
-  );
-}
-
 function ExtLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 font-medium text-white/90 hover:text-white"
+      className="font-medium text-white/90 hover:text-white"
     >
-      <span className="underline underline-offset-2">{children}</span>
-      <ExternalLinkIcon />
+      {children}
     </a>
   );
 }

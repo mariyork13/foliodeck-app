@@ -11,10 +11,8 @@ const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
 const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
-const ROW_H = "h-12";
 const TEXT = TEXT_SCALE;
-const PAD_X_SM = "px-[14px]";
-const PAD_X_LG = "px-[14px]";
+const PAD_BTN = "px-[14px] py-3";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
@@ -24,23 +22,20 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50">
       <div className="mx-auto flex max-w-[1920px] items-center gap-4 px-4 pb-4 pt-4">
-        <div className={`flex ${ROW_H} shrink-0 items-center`}>
-          <Link
-            href="/"
-            className={`flex h-full items-center rounded-lg ${PAD_X_SM} ${TEXT} font-medium text-white ${pillBg}`}
-          >
+        <div className="flex shrink-0 items-center">
+          <Link href="/" className={`rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
             Foliodeck
           </Link>
-          <nav className={`hidden h-full items-center rounded-full sm:flex ${pillBgStatic}`}>
+          <nav className={`hidden sm:flex items-center rounded-full ${pillBgStatic}`}>
             <Link
               href="/about"
-              className={`flex h-full items-center rounded-full px-[14px] ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+              className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
             >
               Проект
             </Link>
             <Link
               href="/founder"
-              className={`flex h-full items-center rounded-full px-[14px] ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+              className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
             >
               Куратор
             </Link>
@@ -48,7 +43,7 @@ export function SiteHeader() {
         </div>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <div className={`relative ${ROW_H} w-full max-w-[416px] rounded-lg ${searchBg}`}>
+          <div className={`relative h-11 w-full max-w-[416px] rounded-lg ${searchBg}`}>
             <svg
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
               width="14"
@@ -82,17 +77,17 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className={`relative ml-auto flex ${ROW_H} shrink-0 items-center`}>
+        <div className="relative ml-auto flex shrink-0 items-center">
           <button
             onClick={() => setFiltersOpen((v) => !v)}
-            className={`h-full rounded-full ${PAD_X_LG} ${TEXT} font-medium text-white ${pillBg}`}
+            className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
           >
             Фильтры
           </button>
-          <button className={`hidden h-full rounded-lg ${PAD_X_LG} ${TEXT} font-medium text-white sm:block ${pillBg}`}>
+          <button className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}>
             Избранное
           </button>
-          <button className={`h-full rounded-full ${submitBg} ${PAD_X_LG} ${TEXT} font-medium text-black/90`}>
+          <button className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}>
             Отправить
           </button>
 
