@@ -3,25 +3,26 @@
 import { collectionOptions, companyOptions, geoOptions, specializationOptions } from "@/lib/filterOptions";
 import { useFilter, type FilterGroup } from "@/lib/filter-context";
 
-function CheckboxItem({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-}) {
+function XIcon({ className }: { className?: string }) {
   return (
-    <label className="flex cursor-pointer items-center gap-2 py-1 text-sm text-white/70 hover:text-white">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-        className="h-3.5 w-3.5 shrink-0 rounded-sm border-white/30 bg-transparent accent-white"
-      />
-      {label}
-    </label>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <path d="M18 6 6 18M6 6l12 12" />
+    </svg>
+  );
+}
+
+function FilterOption({ label, checked, onToggle }: { label: string; checked: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className={`flex w-full items-center justify-between gap-2 whitespace-nowrap py-1 text-left text-base transition-colors ${
+        checked ? "font-medium text-white" : "text-white/60 hover:text-white"
+      }`}
+    >
+      <span>{label}</span>
+      {checked && <XIcon className="shrink-0" />}
+    </button>
   );
 }
 
@@ -38,15 +39,15 @@ function FilterColumn({
 }) {
   const { selected, toggle } = useFilter();
   return (
-    <div className="min-w-0">
-      <h3 className="mb-3 text-sm font-medium text-white">{title}</h3>
-      <div className={scroll ? "max-h-64 overflow-y-auto pr-2" : ""}>
+    <div className={`flex w-44 shrink-0 flex-col ${scroll ? "h-full min-h-0" : ""}`}>
+      <h3 className="mb-3 shrink-0 text-base font-medium text-white">{title}</h3>
+      <div className={scroll ? "min-h-0 flex-1 overflow-y-auto pr-2" : ""}>
         {options.map((option) => (
-          <CheckboxItem
+          <FilterOption
             key={option}
             label={option}
             checked={selected[group].has(option)}
-            onChange={() => toggle(group, option)}
+            onToggle={() => toggle(group, option)}
           />
         ))}
       </div>
@@ -55,21 +56,16 @@ function FilterColumn({
 }
 
 export function FiltersPanel() {
-  const { reset } = useFilter();
-
   return (
-    <div className="absolute right-0 top-[calc(100%+8px)] z-50 flex w-[560px] gap-8 rounded-xl border border-white/10 bg-[#1e1e21] p-6 shadow-xl">
-      <FilterColumn title="Специализация" group="specialization" options={specializationOptions} />
-      <FilterColumn title="Компания" group="company" options={companyOptions} scroll />
-      <div className="flex min-w-0 flex-col gap-6">
-        <FilterColumn title="География" group="geo" options={geoOptions} />
-        <FilterColumn title="Коллекции" group="collections" options={collectionOptions} />
-        <button
-          onClick={reset}
-          className="mt-auto self-start text-sm font-medium text-white/50 underline underline-offset-2 hover:text-white"
-        >
-          Сбросить фильтры
-        </button>
+    <div className="absolute right-0 top-[calc(100%+4px)] z-50">
+      <div className="absolute right-8 -top-2 h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
+      <div className="flex h-[436px] w-[600px] gap-8 rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px]">
+        <FilterColumn title="Специализация" group="specialization" options={specializationOptions} />
+        <FilterColumn title="Компания" group="company" options={companyOptions} scroll />
+        <div className="flex w-44 shrink-0 flex-col gap-6">
+          <FilterColumn title="География" group="geo" options={geoOptions} />
+          <FilterColumn title="Коллекции" group="collections" options={collectionOptions} />
+        </div>
       </div>
     </div>
   );

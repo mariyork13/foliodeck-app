@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
@@ -18,6 +19,8 @@ export function SiteHeader() {
   const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
+  const { selected, reset } = useFilter();
+  const filterCount = Object.values(selected).reduce((sum, set) => sum + set.size, 0);
 
   return (
     <header className="sticky top-0 z-50">
@@ -83,8 +86,26 @@ export function SiteHeader() {
             onMouseEnter={() => setFiltersOpen(true)}
             onMouseLeave={() => setFiltersOpen(false)}
           >
-            <button className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
-              Фильтры
+            <button
+              onClick={() => setFiltersOpen((v) => !v)}
+              className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
+            >
+              {filterCount > 0 ? `Фильтр ${filterCount}` : "Фильтры"}
+              {filterCount > 0 && (
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    reset();
+                  }}
+                  className="flex h-4 w-4 items-center justify-center rounded-full text-white/70 hover:text-white"
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </span>
+              )}
             </button>
             {filtersOpen && <FiltersPanel />}
           </div>
