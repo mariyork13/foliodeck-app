@@ -18,14 +18,26 @@ const SPEC_TO_ROLE_SUBSTRING: Record<string, string> = {
 };
 
 export function Gallery({ curators }: { curators: Curator[] }) {
-  const { selected } = useFilter();
+  const { selected, search } = useFilter();
 
   const filtered = useMemo(() => {
-    if (selected.specialization.size === 0) return curators;
-    return curators.filter((c) =>
-      [...selected.specialization].some((tag) => c.role.includes(SPEC_TO_ROLE_SUBSTRING[tag] ?? tag)),
-    );
-  }, [curators, selected.specialization]);
+    let result = curators;
+
+    if (selected.specialization.size > 0) {
+      result = result.filter((c) =>
+        [...selected.specialization].some((tag) => c.role.includes(SPEC_TO_ROLE_SUBSTRING[tag] ?? tag)),
+      );
+    }
+
+    const query = search.trim().toLowerCase();
+    if (query) {
+      result = result.filter(
+        (c) => c.name.toLowerCase().includes(query) || c.role.toLowerCase().includes(query),
+      );
+    }
+
+    return result;
+  }, [curators, selected.specialization, search]);
 
   const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
 
@@ -69,7 +81,7 @@ export function Gallery({ curators }: { curators: Curator[] }) {
           </div>
         </>
       ) : (
-        <p className="py-16 text-center text-white/40">No portfolios in this category yet.</p>
+        <p className="py-16 text-center text-white/40">No portfolios found.</p>
       )}
     </section>
   );

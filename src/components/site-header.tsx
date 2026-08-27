@@ -21,11 +21,10 @@ const PAD_BTN_BORDERED = "px-4 py-[9px]";
 const CLOSE_DELAY = 200;
 
 export function SiteHeader() {
-  const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [submitOpen, setSubmitOpen] = useState(false);
-  const { selected, reset } = useFilter();
+  const { selected, reset, search, setSearch } = useFilter();
   const filterCount = Object.values(selected).reduce((sum, set) => sum + set.size, 0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 

@@ -8,6 +8,8 @@ type FilterContextValue = {
   selected: Record<FilterGroup, Set<string>>;
   toggle: (group: FilterGroup, value: string) => void;
   reset: () => void;
+  search: string;
+  setSearch: (value: string) => void;
 };
 
 const FilterContext = createContext<FilterContextValue | null>(null);
@@ -21,6 +23,7 @@ const empty = (): Record<FilterGroup, Set<string>> => ({
 
 export function FilterProvider({ children }: { children: React.ReactNode }) {
   const [selected, setSelected] = useState(empty);
+  const [search, setSearch] = useState("");
 
   const toggle = (group: FilterGroup, value: string) => {
     setSelected((prev) => {
@@ -33,7 +36,9 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
 
   const reset = () => setSelected(empty());
 
-  return <FilterContext.Provider value={{ selected, toggle, reset }}>{children}</FilterContext.Provider>;
+  return (
+    <FilterContext.Provider value={{ selected, toggle, reset, search, setSearch }}>{children}</FilterContext.Provider>
+  );
 }
 
 export function useFilter() {
