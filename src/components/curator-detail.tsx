@@ -22,7 +22,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
           <button
             type="button"
             onClick={() => router.back()}
-            className={`flex shrink-0 items-center gap-1.5 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex shrink-0 items-center gap-1.5 rounded-[10px] ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M15 18l-6-6 6-6" />
@@ -35,7 +35,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center gap-0">
           {curator.notes && (
             <div className="relative">
               <button
