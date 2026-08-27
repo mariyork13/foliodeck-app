@@ -8,6 +8,8 @@ import { FiltersPanel } from "./filters-panel";
 import { SubmitModal } from "./submit-modal";
 import { XIcon } from "./x-icon";
 
+const clearBadge = "flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white";
+
 const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
 const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
 const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
@@ -129,8 +131,8 @@ function SearchBox({
     <div className={`relative min-w-0 rounded-lg ${searchBg} ${className ?? ""}`}>
       <svg
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
-        width="14"
-        height="14"
+        width="16"
+        height="16"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -150,11 +152,9 @@ function SearchBox({
         <button
           onClick={() => setSearch("")}
           aria-label="Clear search"
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+          className={`absolute right-3 top-1/2 -translate-y-1/2 ${clearBadge}`}
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
+          <XIcon />
         </button>
       )}
     </div>
