@@ -1,8 +1,16 @@
+import { companyLogoImages } from "@/lib/companyLogoImages";
 import { companyLogos } from "@/lib/companyLogos";
 
 export function CompanyLogo({ name }: { name: string }) {
-  const icon = companyLogos[name];
+  const image = companyLogoImages[name];
+  if (image) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={image} alt="" className="h-5 w-5 shrink-0 rounded-[6px] object-cover" />
+    );
+  }
 
+  const icon = companyLogos[name];
   if (!icon) {
     return <span className="h-5 w-5 shrink-0 rounded-[6px] bg-white/10" />;
   }
