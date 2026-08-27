@@ -11,4 +11,8 @@ export const companyLogoImages: Record<string, string> = {
   Avito: "/logos/avito.png",
   Badoo: "/logos/badoo.jpeg",
   Beeline: "/logos/beeline.png",
+  Citimobil: "/logos/citimobil.png",
+  CreativePeople: "/logos/creativepeople.png",
+  Delimobil: "/logos/delimobil.jpeg",
+  Dodo: "/logos/dodo.jpeg",
 };
