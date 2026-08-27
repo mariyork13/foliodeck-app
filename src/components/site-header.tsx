@@ -57,8 +57,8 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        <div className="hidden flex-1 justify-center md:flex">
-          <div className={`relative h-11 w-full max-w-[416px] rounded-lg ${searchBg}`}>
+        <div className="pointer-events-none absolute inset-0 hidden items-center justify-center md:flex">
+          <div className={`pointer-events-auto relative h-11 w-full max-w-[416px] rounded-lg ${searchBg}`}>
             <svg
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
               width="14"
@@ -76,7 +76,7 @@ export function SiteHeader() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Find a designer, company or industry..."
-              className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white/40 focus:outline-none`}
+              className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
             />
             {search && (
               <button
