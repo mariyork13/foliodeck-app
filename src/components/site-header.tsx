@@ -49,7 +49,7 @@ export function SiteHeader() {
         </div>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <div className={`relative ${ROW_H} w-full max-w-[535px] rounded-lg ${searchBg}`}>
+          <div className={`relative ${ROW_H} w-full max-w-[416px] rounded-lg ${searchBg}`}>
             <svg
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
               width="14"
