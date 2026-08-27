@@ -22,3 +22,12 @@ body {
   background-color: #ffffff;
   color: #000000;
 }
+
+@keyframes shimmer-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useFavorites } from "@/lib/favorites-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
@@ -20,6 +21,7 @@ export function CuratorCard({
   const { isFavorited: checkFavorited, toggleFavorite } = useFavorites();
   const isFavorited = checkFavorited(curator.slug);
   const textClamp = compact ? "truncate" : "";
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <div className={stretch ? "flex h-full flex-col" : ""}>
@@ -67,12 +69,18 @@ export function CuratorCard({
             <path d="M7 17L17 7M7 7h10v10" />
           </svg>
         </button>
+        {!loaded && (
+          <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer-sweep_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          </div>
+        )}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={curator.previewImage}
           alt={`${curator.name} portfolio preview`}
           loading="lazy"
-          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+          onLoad={() => setLoaded(true)}
+          className={`h-full w-full object-cover object-top transition-[transform,opacity] duration-500 group-hover:scale-[1.02] ${loaded ? "opacity-100" : "opacity-0"}`}
         />
       </Link>
     </div>
