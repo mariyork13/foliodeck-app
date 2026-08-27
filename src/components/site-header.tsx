@@ -3,31 +3,44 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const pillBg = "bg-[#26262b]/70";
-const searchBg = "bg-[#26262b]/70 border border-white/[0.04]";
+// The live site is a Tilda Zero Block canvas that scales linearly with
+// viewport width (value-at-1920px scaled down, e.g. 108px -> 5.625vw),
+// so every header dimension below is expressed the same way via clamp().
+const pillBg = "bg-[rgba(38,38,43,0.7)]";
+const searchBg = "bg-[rgba(38,38,43,0.7)] border border-white/[0.04]";
+
+const HEADER_H = "h-[clamp(64px,5.625vw,108px)]";
+const ROW_H = "h-[clamp(40px,2.96875vw,57px)]";
+const TEXT = "text-[clamp(11px,0.625vw,12px)]";
+const PAD_X_SM = "px-[clamp(12px,1.0417vw,20px)]";
+const PAD_X_LG = "px-[clamp(16px,1.4583vw,28px)]";
+const GAP_SM = "gap-[clamp(12px,1.0417vw,20px)]";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
 
   return (
     <header className="sticky top-0 z-50 bg-[#161618]">
-      <div className="mx-auto flex h-[108px] max-w-[1920px] items-center gap-4 px-5 sm:px-6">
-        <div className="flex h-[57px] shrink-0 items-center">
-          <Link href="/" className={`flex h-full items-center rounded-lg px-5 text-xs font-medium text-white ${pillBg}`}>
+      <div className={`mx-auto flex ${HEADER_H} max-w-[1920px] items-center gap-4 px-5 sm:px-6`}>
+        <div className={`flex ${ROW_H} shrink-0 items-center`}>
+          <Link
+            href="/"
+            className={`flex h-full items-center rounded-lg ${PAD_X_SM} ${TEXT} font-medium text-white ${pillBg}`}
+          >
             Foliodeck
           </Link>
-          <nav className={`hidden h-full items-center gap-5 rounded-full px-5 sm:flex ${pillBg}`}>
-            <Link href="/about" className="text-xs font-medium text-white">
+          <nav className={`hidden h-full items-center ${GAP_SM} rounded-full ${PAD_X_SM} sm:flex ${pillBg}`}>
+            <Link href="/about" className={`${TEXT} font-medium text-white`}>
               Проект
             </Link>
-            <Link href="/founder" className="text-xs font-medium text-white">
+            <Link href="/founder" className={`${TEXT} font-medium text-white`}>
               Куратор
             </Link>
           </nav>
         </div>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <div className={`relative h-[57px] w-full max-w-[535px] rounded-lg ${searchBg}`}>
+          <div className={`relative ${ROW_H} w-full max-w-[clamp(300px,27.86vw,535px)] rounded-lg ${searchBg}`}>
             <svg
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
               width="14"
@@ -45,7 +58,7 @@ export function SiteHeader() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Поиск"
-              className="h-full w-full rounded-lg bg-transparent pl-8 pr-8 text-xs text-white placeholder:text-white/40 focus:outline-none"
+              className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white/40 focus:outline-none`}
             />
             {search && (
               <button
@@ -61,14 +74,14 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="ml-auto flex h-[57px] shrink-0 items-center">
-          <button className={`h-full rounded-full px-7 text-xs font-medium text-white ${pillBg}`}>
+        <div className={`ml-auto flex ${ROW_H} shrink-0 items-center`}>
+          <button className={`h-full rounded-full ${PAD_X_LG} ${TEXT} font-medium text-white ${pillBg}`}>
             Фильтры
           </button>
-          <button className={`hidden h-full rounded-lg px-7 text-xs font-medium text-white sm:block ${pillBg}`}>
+          <button className={`hidden h-full rounded-lg ${PAD_X_LG} ${TEXT} font-medium text-white sm:block ${pillBg}`}>
             Избранное
           </button>
-          <button className="h-full rounded-full bg-white/90 px-7 text-xs font-medium text-black/90">
+          <button className={`h-full rounded-full bg-white/90 ${PAD_X_LG} ${TEXT} font-medium text-black/90`}>
             Отправить
           </button>
         </div>
