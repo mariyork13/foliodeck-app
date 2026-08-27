@@ -19,7 +19,7 @@ export const companyOptions = [
   "Flo", "Flowwow", "Framer", "Gazprom", "Google", "Higgsfield", "Holographik", "Home Credit",
   "IBM", "Instagram", "Instories", "MTS", "Mail", "Megafon", "Meta", "Microsoft", "Mish", "Mymind",
   "NASA", "Netflix", "Nike", "Nothing", "Notion", "OpenAI", "Ozon", "PIK", "Pentagram",
-  "Perplexity", "Popto Rocha", "Positive Technologies", "Pragmatica", "Raiffeisen Bank",
+  "Perplexity", "Porto Rocha", "Positive Technologies", "Pragmatica", "Raiffeisen Bank",
   "Readymag", "Red Collar", "Redkeds", "Revolut", "Roblox", "Rocketbank", "Samokat", "Sber",
   "Skillbox", "Skyeng", "Slack", "Smith & Diction", "Spotify", "T-Bank", "Tesla", "Twitch", "VK",
   "VTB", "Wildberries", "Yandex",

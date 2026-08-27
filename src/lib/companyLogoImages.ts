@@ -41,5 +41,9 @@ export const companyLogoImages: Record<string, string> = {
   Notion: "/logos/notion.png",
   OpenAI: "/logos/openai.webp",
   Ozon: "/logos/ozon.jpeg",
+  Pentagram: "/logos/pentagram.png",
+  Perplexity: "/logos/perplexity.png",
   PIK: "/logos/pik.png",
+  "Porto Rocha": "/logos/porto-rocha.png",
+  "Positive Technologies": "/logos/positive-technologies.png",
 };
