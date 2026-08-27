@@ -3,7 +3,7 @@ export default function AboutPage() {
     <article className="mx-auto max-w-2xl px-6 py-16">
       <h1 className="mb-6 text-2xl font-medium text-white/90">О проекте</h1>
 
-      <div className="space-y-4 text-white/60">
+      <div className="space-y-4 text-lg text-white/60">
         <p>
           Курируемая галерея портфолио дизайнеров со всего мира из разных направлений. В галерее
           представлено 705 портфолио с сильным сторителлингом, понятной структурой кейсов и сочным
@@ -26,7 +26,7 @@ export default function AboutPage() {
 
       <h2 className="mb-6 mt-12 text-2xl font-medium text-white/90">Talent Hub</h2>
 
-      <div className="space-y-4 text-white/60">
+      <div className="space-y-4 text-lg text-white/60">
         <p>
           Это подборка дизайнеров, участвовавших в менторских программах проекта «Дизайн тащит».
           Здесь можно познакомиться с их работами и подходами, а также увидеть рост и развитие
