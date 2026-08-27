@@ -11,7 +11,6 @@ const pillBg =
 const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
-const HEADER_H = "h-24";
 const ROW_H = "h-12";
 const TEXT = TEXT_SCALE;
 const PAD_X_SM = "px-4";
@@ -24,7 +23,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className={`mx-auto flex ${HEADER_H} max-w-[1920px] items-center gap-4 px-4`}>
+      <div className="mx-auto flex max-w-[1920px] items-center gap-4 px-4 pb-4 pt-4">
         <div className={`flex ${ROW_H} shrink-0 items-center`}>
           <Link
             href="/"
