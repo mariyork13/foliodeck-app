@@ -38,4 +38,8 @@ export const companyLogoImages: Record<string, string> = {
   Netflix: "/logos/netflix.png",
   Nike: "/logos/nike.png",
   Nothing: "/logos/nothing.png",
+  Notion: "/logos/notion.png",
+  OpenAI: "/logos/openai.webp",
+  Ozon: "/logos/ozon.jpeg",
+  PIK: "/logos/pik.png",
 };
