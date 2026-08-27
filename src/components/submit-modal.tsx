@@ -21,7 +21,7 @@ export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => v
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70" onClick={close} />
-      <div className="relative w-full max-w-[420px] rounded-2xl border border-white/10 bg-[#161618] p-8">
+      <div className="relative w-full max-w-[420px] rounded-2xl border border-white/10 bg-[#161618]/90 p-8 backdrop-blur-[74px]">
         <button
           onClick={close}
           aria-label="Close"
