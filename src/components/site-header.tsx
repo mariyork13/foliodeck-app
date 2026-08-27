@@ -59,39 +59,16 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 hidden items-center justify-center md:flex">
-          <div className={`pointer-events-auto relative h-11 w-full max-w-[416px] rounded-lg ${searchBg}`}>
-            <svg
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Find a designer, company or industry..."
-              className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
-            />
-            {search && (
-              <button
-                onClick={() => setSearch("")}
-                aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 6 6 18M6 6l12 12" />
-                </svg>
-              </button>
-            )}
-          </div>
+        {/* Tablet: a normal flex item that shrinks between the two button
+            groups, keeping a 16px gap via the row's own gap-4. */}
+        <div className="hidden min-w-0 flex-1 md:flex lg:hidden">
+          <SearchBox search={search} setSearch={setSearch} className="w-full" />
+        </div>
+
+        {/* Desktop: centered on the full header width regardless of how
+            wide the button groups on either side are. */}
+        <div className="pointer-events-none absolute inset-0 hidden items-center justify-center lg:flex">
+          <SearchBox search={search} setSearch={setSearch} className="pointer-events-auto w-full max-w-[416px]" />
         </div>
 
         <div className="ml-auto flex shrink-0 items-center">
@@ -135,5 +112,50 @@ export function SiteHeader() {
       <FavoritesPanel open={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
       <SubmitModal open={submitOpen} onClose={() => setSubmitOpen(false)} />
     </header>
+  );
+}
+
+function SearchBox({
+  search,
+  setSearch,
+  className,
+}: {
+  search: string;
+  setSearch: (value: string) => void;
+  className?: string;
+}) {
+  return (
+    <div className={`relative h-11 min-w-0 rounded-lg ${searchBg} ${className ?? ""}`}>
+      <svg
+        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Find a designer, company or industry..."
+        className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
+      />
+      {search && (
+        <button
+          onClick={() => setSearch("")}
+          aria-label="Clear search"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+      )}
+    </div>
   );
 }
