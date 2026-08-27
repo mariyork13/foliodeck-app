@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const pillBg = "bg-[#26262b]/70 border border-white/[0.04]";
+const pillBg = "bg-[#26262b]/70";
+const searchBg = "bg-[#26262b]/70 border border-white/[0.04]";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
@@ -11,11 +12,11 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-[#161618]">
       <div className="mx-auto flex h-[108px] max-w-[1920px] items-center gap-4 px-5 sm:px-6">
-        <div className="flex h-[57px] shrink-0 items-center gap-6">
-          <Link href="/" className="text-xs font-medium text-white">
+        <div className="flex h-[57px] shrink-0 items-center">
+          <Link href="/" className={`flex h-full items-center rounded-lg px-5 text-xs font-medium text-white ${pillBg}`}>
             Foliodeck
           </Link>
-          <nav className="hidden items-center gap-6 sm:flex">
+          <nav className={`hidden h-full items-center gap-5 rounded-full px-5 sm:flex ${pillBg}`}>
             <Link href="/about" className="text-xs font-medium text-white">
               Проект
             </Link>
@@ -26,7 +27,7 @@ export function SiteHeader() {
         </div>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <div className={`relative h-[57px] w-full max-w-[535px] rounded-lg ${pillBg}`}>
+          <div className={`relative h-[57px] w-full max-w-[535px] rounded-lg ${searchBg}`}>
             <svg
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
               width="14"
@@ -60,7 +61,7 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="ml-auto flex h-[57px] shrink-0 items-center gap-2">
+        <div className="ml-auto flex h-[57px] shrink-0 items-center">
           <button className={`h-full rounded-full px-7 text-xs font-medium text-white ${pillBg}`}>
             Фильтры
           </button>
