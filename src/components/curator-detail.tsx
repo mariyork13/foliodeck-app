@@ -7,7 +7,8 @@ import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
 
 const pillBg = "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70";
-const PAD_BTN = "px-5 py-3";
+// Icon-only square tap target on tablet and below; full text+icon pill from lg up.
+const PAD_BTN = "px-3 py-3 lg:px-5";
 
 export function CuratorDetail({ curator }: { curator: Curator }) {
   const router = useRouter();
@@ -22,12 +23,12 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
           <button
             type="button"
             onClick={() => router.back()}
-            className={`flex shrink-0 items-center gap-1.5 rounded-[10px] ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex shrink-0 items-center justify-center gap-1.5 rounded-[10px] ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M15 18l-6-6 6-6" />
             </svg>
-            Back
+            <span className="hidden lg:inline">Back</span>
           </button>
           <div className="min-w-0 truncate">
             <span className={`${TEXT_SCALE} font-medium text-white`}>{curator.name}</span>
@@ -41,13 +42,13 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
               <button
                 type="button"
                 onClick={() => setNotesOpen((v) => !v)}
-                className={`flex items-center gap-2 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+                className={`flex items-center justify-center gap-2 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="4" y="3" width="16" height="18" rx="2" />
                   <path d="M8 8h8M8 12h8M8 16h5" />
                 </svg>
-                Notes
+                <span className="hidden lg:inline">Notes</span>
               </button>
               {notesOpen && (
                 <>
@@ -65,9 +66,9 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
             href={curator.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex items-center justify-center gap-2 rounded-full ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
           >
-            Visit
+            <span className="hidden lg:inline">Visit</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M7 17L17 7M7 7h10v10" />
             </svg>
@@ -75,9 +76,9 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
           <button
             type="button"
             onClick={() => toggleFavorite(curator.slug)}
-            className={`flex items-center gap-2 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex items-center justify-center gap-2 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
           >
-            Favorites
+            <span className="hidden lg:inline">Favorites</span>
             <svg
               width="14"
               height="14"
