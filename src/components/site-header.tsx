@@ -4,18 +4,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { TEXT_SCALE } from "@/lib/scale";
 
-// The live site is a Tilda Zero Block canvas that scales linearly with
-// viewport width (value-at-1920px scaled down, e.g. 108px -> 5.625vw),
-// so every header dimension below is expressed the same way via clamp().
+// The live site's desktop artboard scales linearly with viewport width
+// from 1920px down to a 1200px floor (below 1200px it's a different,
+// separately-authored layout — out of scope for now). Each clamp() below
+// is (valueAt1200px, valueAt1920pxInVw, valueAt1920px).
 const pillBg = "bg-[rgba(38,38,43,0.7)]";
 const searchBg = "bg-[rgba(38,38,43,0.7)] border border-white/[0.04]";
 
-const HEADER_H = "h-[clamp(64px,5.625vw,108px)]";
-const ROW_H = "h-[clamp(40px,2.96875vw,57px)]";
+const HEADER_H = "h-[clamp(67.5px,5.625vw,108px)]";
+const ROW_H = "h-[clamp(35.625px,2.96875vw,57px)]";
 const TEXT = TEXT_SCALE;
-const PAD_X_SM = "px-[clamp(12px,1.0417vw,20px)]";
-const PAD_X_LG = "px-[clamp(16px,1.4583vw,28px)]";
-const GAP_SM = "gap-[clamp(12px,1.0417vw,20px)]";
+const PAD_X_SM = "px-[clamp(12.5px,1.0417vw,20px)]";
+const PAD_X_LG = "px-[clamp(17.5px,1.4583vw,28px)]";
+const GAP_SM = "gap-[clamp(12.5px,1.0417vw,20px)]";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
