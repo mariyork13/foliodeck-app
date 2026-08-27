@@ -50,4 +50,9 @@ export const companyLogoImages: Record<string, string> = {
   "Raiffeisen Bank": "/logos/raiffeisen-bank.png",
   Readymag: "/logos/readymag.png",
   "Red Collar": "/logos/red-collar.jpeg",
+  Redkeds: "/logos/redkeds.png",
+  Revolut: "/logos/revolut.png",
+  Roblox: "/logos/roblox.webp",
+  Rocketbank: "/logos/rocketbank.png",
+  Samokat: "/logos/samokat.jpeg",
 };
