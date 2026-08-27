@@ -13,7 +13,7 @@ const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
 const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
-const TEXT = "text-xs";
+const TEXT = "text-[13px]";
 const PAD_BTN = "px-4 py-2.5";
 const CLOSE_DELAY = 200;
 
@@ -124,7 +124,7 @@ function SearchBox({
   className?: string;
 }) {
   return (
-    <div className={`relative h-11 min-w-0 rounded-lg ${searchBg} ${className ?? ""}`}>
+    <div className={`relative min-w-0 rounded-lg ${searchBg} ${className ?? ""}`}>
       <svg
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
         width="14"
@@ -142,7 +142,7 @@ function SearchBox({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Find a designer, company or industry..."
-        className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
+        className={`w-full rounded-lg bg-transparent py-2.5 pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
       />
       {search && (
         <button
