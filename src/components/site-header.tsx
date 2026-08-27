@@ -6,8 +6,10 @@ import { roleFilters } from "@/lib/curators";
 import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 
-const pillBg = "bg-[rgba(38,38,43,0.7)] backdrop-blur-md";
-const searchBg = "bg-[rgba(38,38,43,0.7)] backdrop-blur-md border border-white/[0.04]";
+const pillBg =
+  "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70";
+const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
+const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
 const HEADER_H = "h-24";
 const ROW_H = "h-12";
@@ -86,9 +88,7 @@ export function SiteHeader() {
           <button className={`hidden h-full rounded-lg ${PAD_X_LG} ${TEXT} font-medium text-white sm:block ${pillBg}`}>
             Избранное
           </button>
-          <button
-            className={`h-full rounded-full bg-white/90 backdrop-blur-md ${PAD_X_LG} ${TEXT} font-medium text-black/90`}
-          >
+          <button className={`h-full rounded-full ${submitBg} ${PAD_X_LG} ${TEXT} font-medium text-black/90`}>
             Отправить
           </button>
 
