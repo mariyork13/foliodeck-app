@@ -30,8 +30,8 @@ export function SubscribeBanner() {
   };
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center">
-      <div className="pointer-events-auto w-fit">
+    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 sm:px-0">
+      <div className="pointer-events-auto w-full sm:w-fit">
         <div className="mb-1 flex justify-end">
           <button
             onClick={close}
@@ -48,7 +48,9 @@ export function SubscribeBanner() {
             alt="Design Awesome channel"
             className="h-12 w-12 shrink-0 rounded-full object-cover"
           />
-          <p className="whitespace-nowrap text-[13px] font-medium text-white">Channel about portfolio and career</p>
+          <p className="flex-1 text-[13px] font-medium text-white sm:flex-initial sm:whitespace-nowrap">
+            Channel about portfolio and career
+          </p>
           <a
             href="https://t.me/design_awesome"
             target="_blank"

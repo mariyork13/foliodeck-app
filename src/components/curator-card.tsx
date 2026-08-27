@@ -6,8 +6,9 @@ import { useFavorites } from "@/lib/favorites-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
 
+// Always visible on touch devices (no hover); hover-reveal only from lg up.
 const iconBadge =
-  "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-0 transition-opacity group-hover:opacity-100";
+  "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100";
 
 export function CuratorCard({
   curator,

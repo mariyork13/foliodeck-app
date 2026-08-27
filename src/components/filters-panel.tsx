@@ -52,9 +52,9 @@ function FilterColumn({
 }) {
   const { selected, toggle } = useFilter();
   return (
-    <div className={`flex w-44 shrink-0 flex-col ${scroll ? "h-full min-h-0" : ""}`}>
+    <div className={`flex w-full shrink-0 flex-col sm:w-44 ${scroll ? "sm:h-full sm:min-h-0" : ""}`}>
       <h3 className="mb-3 shrink-0 text-base font-medium text-white">{title}</h3>
-      <div className={scroll ? "min-h-0 flex-1 overflow-y-auto pr-2" : ""}>
+      <div className={scroll ? "sm:min-h-0 sm:flex-1 sm:overflow-y-auto sm:pr-2" : ""}>
         {options.map((option) => (
           <FilterOption
             key={option}
@@ -78,15 +78,15 @@ export function FiltersPanel({
 }) {
   return (
     <div
-      className="absolute right-3 top-[calc(100%-8px)] z-50"
+      className="absolute left-3 right-3 top-[calc(100%-8px)] z-50 sm:left-auto"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div className="absolute right-14 -top-2 h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
-      <div className="flex h-[436px] w-[640px] gap-8 rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px]">
+      <div className="absolute right-14 -top-2 hidden h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)] sm:block" />
+      <div className="flex max-h-[70vh] flex-col gap-6 overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px] sm:h-[436px] sm:max-h-none sm:w-[640px] sm:flex-row sm:gap-8 sm:overflow-visible">
         <FilterColumn title="Direction" group="specialization" options={specializationOptions} />
         <FilterColumn title="Project" group="company" options={companyOptions} scroll showLogos />
-        <div className="flex w-44 shrink-0 flex-col gap-6">
+        <div className="flex w-full shrink-0 flex-col gap-6 sm:w-44">
           <FilterColumn title="Geography" group="geo" options={geoOptions} />
           <FilterColumn title="Collections" group="collections" options={collectionOptions} />
         </div>

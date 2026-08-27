@@ -44,8 +44,8 @@ export function Gallery({ curators }: { curators: Curator[] }) {
     <section className="mx-auto max-w-[1920px] px-4 pb-24 pt-8">
       {rows.length > 0 ? (
         <>
-          {/* Tablet and below: simplest possible layout, two cards per row. */}
-          <div className="grid grid-cols-2 gap-4 lg:hidden">
+          {/* Mobile: one card per row. Tablet: two cards per row. */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:hidden">
             {filtered.map((card) => (
               <CuratorCard key={card.slug} curator={card} />
             ))}

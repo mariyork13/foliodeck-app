@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useFilter } from "@/lib/filter-context";
 import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
@@ -26,9 +27,14 @@ export function SiteHeader() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [submitOpen, setSubmitOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
   const { selected, reset, search, setSearch } = useFilter();
   const filterCount = Object.values(selected).reduce((sum, set) => sum + set.size, 0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname();
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setNavOpen(false), [pathname]);
 
   const openFilters = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -75,12 +81,66 @@ export function SiteHeader() {
         </div>
 
         <div className="ml-auto flex shrink-0 items-center">
+          {/* Mobile: nav links (Project/Curator) collapse behind a hamburger button. */}
+          <div className="relative sm:hidden">
+            <button
+              onClick={() => setNavOpen((v) => !v)}
+              aria-label="Menu"
+              className={`flex h-[39.5px] w-[39.5px] items-center justify-center rounded-full ${TEXT} font-medium text-white ${pillBg}`}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
+              </svg>
+            </button>
+            {navOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setNavOpen(false)} />
+                <div
+                  className={`absolute right-0 top-[calc(100%+8px)] z-50 flex w-40 flex-col overflow-hidden rounded-xl ${pillBgStatic} backdrop-blur-[74px]`}
+                >
+                  <Link
+                    href="/about"
+                    onClick={() => setNavOpen(false)}
+                    className={`${PAD_BTN} ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+                  >
+                    Project
+                  </Link>
+                  <Link
+                    href="/founder"
+                    onClick={() => setNavOpen(false)}
+                    className={`${PAD_BTN} ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+                  >
+                    Curator
+                  </Link>
+                </div>
+              </>
+            )}
+          </div>
+
           <div onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters}>
             <button
               onClick={() => setFiltersOpen((v) => !v)}
               className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
             >
-              {filterCount > 0 ? `Filter ${filterCount}` : "Filters"}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="shrink-0"
+              >
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <circle cx="15" cy="12" r="1.6" fill="currentColor" stroke="none" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+                <circle cx="11" cy="18" r="1.6" fill="currentColor" stroke="none" />
+              </svg>
+              <span className="hidden sm:inline">{filterCount > 0 ? `Filter ${filterCount}` : "Filters"}</span>
               {filterCount > 0 && (
                 <span
                   role="button"
@@ -89,7 +149,7 @@ export function SiteHeader() {
                     e.stopPropagation();
                     reset();
                   }}
-                  className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
+                  className="hidden h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white sm:flex"
                 >
                   <XIcon />
                 </span>
@@ -99,9 +159,12 @@ export function SiteHeader() {
           {filtersOpen && <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} />}
           <button
             onClick={() => setFavoritesOpen(true)}
-            className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}
+            className={`flex items-center gap-2 rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
           >
-            Favorites
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 21s-6.716-4.35-9.428-8.06C.5 10.1 1.2 6.5 4.2 5.1 6.6 4 9.2 4.8 12 8c2.8-3.2 5.4-4 7.8-2.9 3 1.4 3.7 5 1.628 7.84C18.716 16.65 12 21 12 21Z" />
+            </svg>
+            <span className="hidden sm:inline">Favorites</span>
           </button>
           <button
             onClick={() => setSubmitOpen(true)}
