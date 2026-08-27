@@ -7,8 +7,10 @@ import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
 
 const pillBg = "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70";
+// Matches the main site header's button sizing.
+const BTN_TEXT = "text-[13px]";
 // Icon-only square tap target on tablet and below; full text+icon pill from lg up.
-const PAD_BTN = "px-3 py-3 lg:px-5";
+const PAD_BTN = "px-3 py-2.5 lg:px-4";
 
 export function CuratorDetail({ curator }: { curator: Curator }) {
   const router = useRouter();
@@ -23,7 +25,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
           <button
             type="button"
             onClick={() => router.back()}
-            className={`flex shrink-0 items-center justify-center gap-1.5 rounded-[10px] ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex shrink-0 items-center justify-center gap-1.5 rounded-[10px] ${PAD_BTN} ${BTN_TEXT} font-medium text-white ${pillBg}`}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M15 18l-6-6 6-6" />
@@ -42,7 +44,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
               <button
                 type="button"
                 onClick={() => setNotesOpen((v) => !v)}
-                className={`flex items-center justify-center gap-2 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+                className={`flex items-center justify-center gap-2 rounded-lg ${PAD_BTN} ${BTN_TEXT} font-medium text-white ${pillBg}`}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="4" y="3" width="16" height="18" rx="2" />
@@ -66,7 +68,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
             href={curator.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center justify-center gap-2 rounded-full ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex items-center justify-center gap-2 rounded-full ${PAD_BTN} ${BTN_TEXT} font-medium text-white ${pillBg}`}
           >
             <span className="hidden lg:inline">Visit</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -76,7 +78,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
           <button
             type="button"
             onClick={() => toggleFavorite(curator.slug)}
-            className={`flex items-center justify-center gap-2 rounded-lg ${PAD_BTN} ${TEXT_SCALE} font-medium text-white ${pillBg}`}
+            className={`flex items-center justify-center gap-2 rounded-lg ${PAD_BTN} ${BTN_TEXT} font-medium text-white ${pillBg}`}
           >
             <span className="hidden lg:inline">Favorites</span>
             <svg
