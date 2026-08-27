@@ -17,7 +17,7 @@ export function Gallery({ curators }: { curators: Curator[] }) {
   const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
 
   return (
-    <section className="mx-auto max-w-[1920px] px-5 pb-24 pt-8 sm:px-6">
+    <section className="mx-auto max-w-[1920px] px-4 pb-24 pt-8">
       {rows.length > 0 ? (
         <div className="flex flex-col gap-[100px]">
           {rows.map(({ template, cells }, i) => (

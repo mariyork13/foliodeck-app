@@ -24,7 +24,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className={`mx-auto flex ${HEADER_H} max-w-[1920px] items-center gap-4 px-5 sm:px-6`}>
+      <div className={`mx-auto flex ${HEADER_H} max-w-[1920px] items-center gap-4 px-4`}>
         <div className={`flex ${ROW_H} shrink-0 items-center`}>
           <Link
             href="/"
