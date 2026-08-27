@@ -99,7 +99,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
         <iframe
           src={curator.externalUrl}
           title={`${curator.name} portfolio`}
-          className="h-full w-full rounded-[12px] border-0"
+          className="h-full w-full rounded-[8px] border-0"
           sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox"
         />
       </div>
