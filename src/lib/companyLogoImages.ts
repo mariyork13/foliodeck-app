@@ -18,4 +18,8 @@ export const companyLogoImages: Record<string, string> = {
   Drinkit: "/logos/drinkit.png",
   Facebook: "/logos/facebook.png",
   Flo: "/logos/flo.png",
+  Flowwow: "/logos/flowwow.png",
+  Framer: "/logos/framer.png",
+  Gazprom: "/logos/gazprom.png",
+  Google: "/logos/google.png",
 };
