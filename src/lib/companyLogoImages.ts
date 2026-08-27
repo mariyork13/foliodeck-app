@@ -30,5 +30,9 @@ export const companyLogoImages: Record<string, string> = {
   Instories: "/logos/instories.jpeg",
   Mail: "/logos/mail.jpeg",
   Megafon: "/logos/megafon.png",
+  Meta: "/logos/meta.jpeg",
+  Microsoft: "/logos/microsoft.jpeg",
+  Mish: "/logos/mish.jpeg",
   MTS: "/logos/mts.png",
+  Mymind: "/logos/mymind.png",
 };
