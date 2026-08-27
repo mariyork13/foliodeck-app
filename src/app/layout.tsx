@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { SubscribeBanner } from "@/components/subscribe-banner";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { FilterProvider } from "@/lib/filter-context";
 import "./globals.css";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />
+            <SubscribeBanner />
           </FavoritesProvider>
         </FilterProvider>
       </body>
