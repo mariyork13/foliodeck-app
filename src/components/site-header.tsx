@@ -16,7 +16,6 @@ const ROW_H = "h-12";
 const TEXT = TEXT_SCALE;
 const PAD_X_SM = "px-4";
 const PAD_X_LG = "px-4";
-const GAP_SM = "gap-5";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
@@ -33,11 +32,17 @@ export function SiteHeader() {
           >
             Foliodeck
           </Link>
-          <nav className={`hidden h-full items-center ${GAP_SM} rounded-full ${PAD_X_SM} sm:flex ${pillBg}`}>
-            <Link href="/about" className={`${TEXT} font-medium text-white`}>
+          <nav className={`hidden h-full items-center rounded-full sm:flex ${pillBg}`}>
+            <Link
+              href="/about"
+              className={`flex h-full items-center rounded-full px-4 ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+            >
               Проект
             </Link>
-            <Link href="/founder" className={`${TEXT} font-medium text-white`}>
+            <Link
+              href="/founder"
+              className={`flex h-full items-center rounded-full px-4 ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+            >
               Куратор
             </Link>
           </nav>
