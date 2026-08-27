@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { roleFilters } from "@/lib/curators";
-import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import { FavoritesPanel } from "./favorites-panel";
+import { FiltersPanel } from "./filters-panel";
 
 const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
 const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
@@ -19,7 +18,6 @@ export function SiteHeader() {
   const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
-  const { active, setActive } = useFilter();
 
   return (
     <header className="sticky top-0 z-50">
@@ -79,13 +77,17 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className="relative ml-auto flex shrink-0 items-center">
-          <button
-            onClick={() => setFiltersOpen((v) => !v)}
-            className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
+        <div className="ml-auto flex shrink-0 items-center">
+          <div
+            className="relative"
+            onMouseEnter={() => setFiltersOpen(true)}
+            onMouseLeave={() => setFiltersOpen(false)}
           >
-            Фильтры
-          </button>
+            <button className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
+              Фильтры
+            </button>
+            {filtersOpen && <FiltersPanel />}
+          </div>
           <button
             onClick={() => setFavoritesOpen(true)}
             className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}
@@ -95,28 +97,6 @@ export function SiteHeader() {
           <button className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}>
             Отправить
           </button>
-
-          {filtersOpen && (
-            <>
-              <div className="fixed inset-0 z-40" onClick={() => setFiltersOpen(false)} />
-              <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-72 rounded-xl border border-white/10 bg-[#1e1e21] p-2 shadow-xl">
-                {roleFilters.map((role) => (
-                  <button
-                    key={role}
-                    onClick={() => {
-                      setActive(role);
-                      setFiltersOpen(false);
-                    }}
-                    className={`block w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
-                      active === role ? "bg-white text-black" : "text-white/70 hover:bg-white/10 hover:text-white"
-                    }`}
-                  >
-                    {role}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
         </div>
       </div>
 

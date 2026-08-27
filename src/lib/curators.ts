@@ -42,18 +42,6 @@ export const curators: Curator[] = [
   { slug: "claire-taylor", name: "Claire Taylor", role: "Продуктовый и UI UX дизайнер", externalUrl: "https://claire.io/", previewImage: "https://static.tildacdn.com/stor3930-6434-4361-b232-343637346364/f7fa3f47c0c7c9f543d0b27a0fad7d80.png" },
 ];
 
-export const roleFilters = [
-  "Все",
-  "Продуктовый и UI UX дизайнер",
-  "Графический дизайнер",
-  "Бренд дизайнер",
-  "Разработчик",
-  "Motion дизайнер",
-  "Мультидисциплинарный дизайнер",
-  "Digital дизайнер",
-  "Агентство",
-] as const;
-
 export function getCuratorBySlug(slug: string) {
   return curators.find((curator) => curator.slug === slug);
 }

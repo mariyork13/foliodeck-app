@@ -1,20 +1,39 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { roleFilters } from "@/lib/curators";
 
-type Role = (typeof roleFilters)[number];
+export type FilterGroup = "specialization" | "company" | "geo" | "collections";
 
 type FilterContextValue = {
-  active: Role;
-  setActive: (role: Role) => void;
+  selected: Record<FilterGroup, Set<string>>;
+  toggle: (group: FilterGroup, value: string) => void;
+  reset: () => void;
 };
 
 const FilterContext = createContext<FilterContextValue | null>(null);
 
+const empty = (): Record<FilterGroup, Set<string>> => ({
+  specialization: new Set(),
+  company: new Set(),
+  geo: new Set(),
+  collections: new Set(),
+});
+
 export function FilterProvider({ children }: { children: React.ReactNode }) {
-  const [active, setActive] = useState<Role>("Все");
-  return <FilterContext.Provider value={{ active, setActive }}>{children}</FilterContext.Provider>;
+  const [selected, setSelected] = useState(empty);
+
+  const toggle = (group: FilterGroup, value: string) => {
+    setSelected((prev) => {
+      const next = { ...prev, [group]: new Set(prev[group]) };
+      if (next[group].has(value)) next[group].delete(value);
+      else next[group].add(value);
+      return next;
+    });
+  };
+
+  const reset = () => setSelected(empty());
+
+  return <FilterContext.Provider value={{ selected, toggle, reset }}>{children}</FilterContext.Provider>;
 }
 
 export function useFilter() {

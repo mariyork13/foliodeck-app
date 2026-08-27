@@ -6,13 +6,26 @@ import { chunkIntoRows } from "@/lib/rowTemplates";
 import type { Curator } from "@/lib/types";
 import { CuratorCard } from "./curator-card";
 
-export function Gallery({ curators }: { curators: Curator[] }) {
-  const { active } = useFilter();
+// Best-effort match from the real specialization taxonomy to the free-text
+// role strings in the sample data, until curators carry real tags.
+const SPEC_TO_ROLE_SUBSTRING: Record<string, string> = {
+  "Продуктовые и UI UX": "UI UX",
+  Графические: "Графический",
+  Бренд: "Бренд",
+  Мульти: "Мультидисциплинарный",
+  Digital: "Digital",
+  "Motion и 3D": "Motion",
+};
 
-  const filtered = useMemo(
-    () => (active === "Все" ? curators : curators.filter((c) => c.role === active)),
-    [curators, active],
-  );
+export function Gallery({ curators }: { curators: Curator[] }) {
+  const { selected } = useFilter();
+
+  const filtered = useMemo(() => {
+    if (selected.specialization.size === 0) return curators;
+    return curators.filter((c) =>
+      [...selected.specialization].some((tag) => c.role.includes(SPEC_TO_ROLE_SUBSTRING[tag] ?? tag)),
+    );
+  }, [curators, selected.specialization]);
 
   const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
 
