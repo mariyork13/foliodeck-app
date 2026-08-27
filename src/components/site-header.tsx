@@ -15,6 +15,9 @@ const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26
 
 const TEXT = "text-[13px]";
 const PAD_BTN = "px-4 py-2.5";
+// 1px border on the search box and Submit button eats into their box height
+// relative to the borderless pills, so they get 1px less padding to match.
+const PAD_BTN_BORDERED = "px-4 py-[9px]";
 const CLOSE_DELAY = 200;
 
 export function SiteHeader() {
@@ -101,7 +104,7 @@ export function SiteHeader() {
           </button>
           <button
             onClick={() => setSubmitOpen(true)}
-            className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}
+            className={`rounded-full ${submitBg} ${PAD_BTN_BORDERED} ${TEXT} font-medium text-black/90`}
           >
             Submit
           </button>
@@ -142,7 +145,7 @@ function SearchBox({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Find a designer, company or industry..."
-        className={`w-full rounded-lg bg-transparent py-2.5 pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
+        className={`w-full rounded-lg bg-transparent py-[9px] pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
       />
       {search && (
         <button
