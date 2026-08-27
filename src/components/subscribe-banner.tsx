@@ -30,16 +30,18 @@ export function SubscribeBanner() {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-3 z-40 flex justify-center">
-      <div className="pointer-events-auto relative w-fit">
-        <button
-          onClick={close}
-          aria-label="Dismiss"
-          className={`absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full text-white/80 hover:text-white ${panelBg}`}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
-        </button>
+      <div className="pointer-events-auto w-fit">
+        <div className="mb-1 flex justify-end">
+          <button
+            onClick={close}
+            aria-label="Dismiss"
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-white/80 hover:text-white ${panelBg}`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
         <div className={`flex items-center gap-3 rounded-xl p-3 ${panelBg}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
