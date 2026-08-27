@@ -6,15 +6,15 @@ import { roleFilters } from "@/lib/curators";
 import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 
-const pillBg =
-  "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70";
+const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
+const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
 const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
 const ROW_H = "h-12";
 const TEXT = TEXT_SCALE;
-const PAD_X_SM = "px-4";
-const PAD_X_LG = "px-4";
+const PAD_X_SM = "px-[14px]";
+const PAD_X_LG = "px-[14px]";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
@@ -31,16 +31,16 @@ export function SiteHeader() {
           >
             Foliodeck
           </Link>
-          <nav className={`hidden h-full items-center rounded-full sm:flex ${pillBg}`}>
+          <nav className={`hidden h-full items-center rounded-full sm:flex ${pillBgStatic}`}>
             <Link
               href="/about"
-              className={`flex h-full items-center rounded-full px-4 ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+              className={`flex h-full items-center rounded-full px-[14px] ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
             >
               Проект
             </Link>
             <Link
               href="/founder"
-              className={`flex h-full items-center rounded-full px-4 ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
+              className={`flex h-full items-center rounded-full px-[14px] ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
             >
               Куратор
             </Link>

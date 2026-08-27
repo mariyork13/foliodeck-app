@@ -1,7 +1,7 @@
 export default function AboutPage() {
   return (
     <article className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="mb-6 text-2xl font-semibold text-white/90">О проекте</h1>
+      <h1 className="mb-6 text-2xl font-medium text-white/90">О проекте</h1>
 
       <div className="space-y-4 text-white/60">
         <p>
@@ -24,7 +24,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      <h2 className="mb-6 mt-12 text-2xl font-semibold text-white/90">Talent Hub</h2>
+      <h2 className="mb-6 mt-12 text-2xl font-medium text-white/90">Talent Hub</h2>
 
       <div className="space-y-4 text-white/60">
         <p>

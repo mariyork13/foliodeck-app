@@ -1,7 +1,39 @@
+function ExternalLinkIcon() {
+  return (
+    <svg
+      width="11"
+      height="11"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="inline-block shrink-0"
+    >
+      <path d="M7 17L17 7M9 7h8v8" />
+    </svg>
+  );
+}
+
+function ExtLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 font-medium text-white/90 hover:text-white"
+    >
+      <span className="underline underline-offset-2">{children}</span>
+      <ExternalLinkIcon />
+    </a>
+  );
+}
+
 export default function FounderPage() {
   return (
     <article className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="mb-6 text-2xl font-semibold text-white/90">О кураторе</h1>
+      <h1 className="mb-6 text-2xl font-medium text-white/90">О кураторе</h1>
 
       <div className="space-y-4 text-white/60">
         <p>
@@ -14,50 +46,18 @@ export default function FounderPage() {
         </p>
         <p>
           Делаю <span className="font-medium text-white/90">разборы портфолио и резюме</span> дизайнеров на{" "}
-          <a
-            href="https://www.youtube.com/@design_awesome"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-white/90 underline underline-offset-2 hover:text-white"
-          >
-            YouTube↗
-          </a>{" "}
-          и в{" "}
-          <a
-            href="https://t.me/design_awesome"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-white/90 underline underline-offset-2 hover:text-white"
-          >
-            Telegram «Дизайн тащит»↗
-          </a>
-          , провожу эфиры с экспертами и развиваю профессиональное комьюнити. Делюсь практическими
-          инструментами, карьерными стратегиями и реальным опытом из продуктовой среды.
+          <ExtLink href="https://www.youtube.com/@design_awesome">YouTube</ExtLink> и в{" "}
+          <ExtLink href="https://t.me/design_awesome">Telegram «Дизайн тащит»</ExtLink>, провожу эфиры с
+          экспертами и развиваю профессиональное комьюнити. Делюсь практическими инструментами, карьерными
+          стратегиями и реальным опытом из продуктовой среды.
         </p>
         <p>
           Через свои проекты помогаю дизайнерам развивать насмотренность, осваивать лучшие карьерные
           практики, набираться опыта и уверенно продвигаться в карьере.
         </p>
         <p>
-          Пишите мне в{" "}
-          <a
-            href="https://t.me/chubina_mv"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-white/90 underline underline-offset-2 hover:text-white"
-          >
-            Telegram↗
-          </a>{" "}
-          и{" "}
-          <a
-            href="https://www.linkedin.com/in/maria-chubina-25a659a8/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-white/90 underline underline-offset-2 hover:text-white"
-          >
-            LinkedIn↗
-          </a>
-          .
+          Пишите мне в <ExtLink href="https://t.me/chubina_mv">Telegram</ExtLink> и{" "}
+          <ExtLink href="https://www.linkedin.com/in/maria-chubina-25a659a8/">LinkedIn</ExtLink>.
         </p>
         <p>Ну и присылайте свои портфолио :)</p>
       </div>
