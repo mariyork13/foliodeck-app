@@ -25,4 +25,7 @@ export const companyLogoImages: Record<string, string> = {
   Higgsfield: "/logos/higgsfield.png",
   Holographik: "/logos/holographik.jpeg",
   "Home Credit": "/logos/home-credit.png",
+  IBM: "/logos/ibm.png",
+  Instagram: "/logos/instagram.jpeg",
+  Instories: "/logos/instories.jpeg",
 };
