@@ -36,10 +36,23 @@ export function Gallery({ curators }: { curators: Curator[] }) {
 
       {rows.length > 0 ? (
         <div className="flex flex-col gap-8">
-          {rows.map((row, i) => (
-            <div key={i} className="flex items-start gap-4">
-              {row.map(({ size, item }) => (
-                <CuratorCard key={item.slug} curator={item} size={size} />
+          {rows.map(({ template, cells }, i) => (
+            <div
+              key={i}
+              className={`grid grid-cols-12 gap-4 ${template.align === "end" ? "items-end" : "items-start"}`}
+            >
+              {cells.map(({ slot, card }) => (
+                <div
+                  key={card.slug}
+                  style={{
+                    gridColumn: slot.colStart
+                      ? `${slot.colStart} / span ${slot.colSpan}`
+                      : `span ${slot.colSpan}`,
+                    gridRow: slot.rowStart ? `${slot.rowStart} / span ${slot.rowSpan ?? 1}` : undefined,
+                  }}
+                >
+                  <CuratorCard curator={card} />
+                </div>
               ))}
             </div>
           ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { TEXT_SCALE } from "@/lib/scale";
-import type { CardSize, Curator } from "@/lib/types";
+import type { Curator } from "@/lib/types";
 
 function hostname(url: string) {
   try {
@@ -11,9 +11,9 @@ function hostname(url: string) {
   }
 }
 
-export function CuratorCard({ curator, size }: { curator: Curator; size: CardSize }) {
+export function CuratorCard({ curator }: { curator: Curator }) {
   return (
-    <div className={size === "big" ? "w-[calc(50%-8px)] shrink-0" : "w-[calc(25%-12px)] shrink-0"}>
+    <div>
       <div className="mb-2">
         <h3 className={`${TEXT_SCALE} font-medium text-white/90`}>{curator.name}</h3>
         <p className={`${TEXT_SCALE} text-white/30`}>{curator.role}</p>
