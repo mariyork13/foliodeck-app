@@ -75,7 +75,7 @@ export function SiteHeader() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Find a designer, company, industry..."
+              placeholder="Find a designer, company, or industry..."
               className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white/40 focus:outline-none`}
             />
             {search && (
