@@ -35,7 +35,7 @@ export function Gallery({ curators }: { curators: Curator[] }) {
       </div>
 
       {rows.length > 0 ? (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-[100px]">
           {rows.map(({ template, cells }, i) => (
             <div
               key={i}
