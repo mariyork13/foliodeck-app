@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { roleFilters } from "@/lib/curators";
+import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 
-const pillBg = "bg-[rgba(38,38,43,0.7)]";
-const searchBg = "bg-[rgba(38,38,43,0.7)] border border-white/[0.04]";
+const pillBg = "bg-[rgba(38,38,43,0.7)] backdrop-blur-md";
+const searchBg = "bg-[rgba(38,38,43,0.7)] backdrop-blur-md border border-white/[0.04]";
 
 const HEADER_H = "h-24";
 const ROW_H = "h-12";
@@ -16,9 +18,11 @@ const GAP_SM = "gap-5";
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const { active, setActive } = useFilter();
 
   return (
-    <header className="sticky top-0 z-50 bg-[#161618]">
+    <header className="sticky top-0 z-50">
       <div className={`mx-auto flex ${HEADER_H} max-w-[1920px] items-center gap-4 px-5 sm:px-6`}>
         <div className={`flex ${ROW_H} shrink-0 items-center`}>
           <Link
@@ -72,16 +76,43 @@ export function SiteHeader() {
           </div>
         </div>
 
-        <div className={`ml-auto flex ${ROW_H} shrink-0 items-center`}>
-          <button className={`h-full rounded-full ${PAD_X_LG} ${TEXT} font-medium text-white ${pillBg}`}>
+        <div className={`relative ml-auto flex ${ROW_H} shrink-0 items-center`}>
+          <button
+            onClick={() => setFiltersOpen((v) => !v)}
+            className={`h-full rounded-full ${PAD_X_LG} ${TEXT} font-medium text-white ${pillBg}`}
+          >
             Фильтры
           </button>
           <button className={`hidden h-full rounded-lg ${PAD_X_LG} ${TEXT} font-medium text-white sm:block ${pillBg}`}>
             Избранное
           </button>
-          <button className={`h-full rounded-full bg-white/90 ${PAD_X_LG} ${TEXT} font-medium text-black/90`}>
+          <button
+            className={`h-full rounded-full bg-white/90 backdrop-blur-md ${PAD_X_LG} ${TEXT} font-medium text-black/90`}
+          >
             Отправить
           </button>
+
+          {filtersOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setFiltersOpen(false)} />
+              <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-72 rounded-xl border border-white/10 bg-[#1e1e21] p-2 shadow-xl">
+                {roleFilters.map((role) => (
+                  <button
+                    key={role}
+                    onClick={() => {
+                      setActive(role);
+                      setFiltersOpen(false);
+                    }}
+                    className={`block w-full rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
+                      active === role ? "bg-white text-black" : "text-white/70 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    {role}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </header>

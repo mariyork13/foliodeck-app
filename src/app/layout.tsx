@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { FilterProvider } from "@/lib/filter-context";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -19,9 +20,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ru" className={`${roboto.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[#161618]">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <FilterProvider>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </FilterProvider>
       </body>
     </html>
   );
