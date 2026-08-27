@@ -6,17 +6,6 @@ import { chunkIntoRows } from "@/lib/rowTemplates";
 import type { Curator } from "@/lib/types";
 import { CuratorCard } from "./curator-card";
 
-// Best-effort match from the real specialization taxonomy to the free-text
-// role strings in the sample data, until curators carry real tags.
-const SPEC_TO_ROLE_SUBSTRING: Record<string, string> = {
-  "Product & UI UX": "UI UX",
-  Graphic: "Graphic",
-  Brand: "Brand",
-  Multidisciplinary: "Multidisciplinary",
-  Digital: "Digital",
-  "Motion & 3D": "Motion",
-};
-
 export function Gallery({ curators }: { curators: Curator[] }) {
   const { selected, search } = useFilter();
 
@@ -24,20 +13,30 @@ export function Gallery({ curators }: { curators: Curator[] }) {
     let result = curators;
 
     if (selected.specialization.size > 0) {
-      result = result.filter((c) =>
-        [...selected.specialization].some((tag) => c.role.includes(SPEC_TO_ROLE_SUBSTRING[tag] ?? tag)),
-      );
+      result = result.filter((c) => c.specializations.some((s) => selected.specialization.has(s)));
+    }
+    if (selected.company.size > 0) {
+      result = result.filter((c) => c.companies?.some((co) => selected.company.has(co)));
+    }
+    if (selected.geo.size > 0) {
+      result = result.filter((c) => c.geo && selected.geo.has(c.geo));
+    }
+    if (selected.collections.size > 0) {
+      result = result.filter((c) => c.collections?.some((col) => selected.collections.has(col)));
     }
 
     const query = search.trim().toLowerCase();
     if (query) {
       result = result.filter(
-        (c) => c.name.toLowerCase().includes(query) || c.role.toLowerCase().includes(query),
+        (c) =>
+          c.name.toLowerCase().includes(query) ||
+          c.role.toLowerCase().includes(query) ||
+          c.companies?.some((co) => co.toLowerCase().includes(query)),
       );
     }
 
     return result;
-  }, [curators, selected.specialization, search]);
+  }, [curators, selected, search]);
 
   const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
 
