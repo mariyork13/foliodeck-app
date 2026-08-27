@@ -14,7 +14,7 @@ export function Gallery({ curators }: { curators: Curator[] }) {
   );
 
   return (
-    <section className="mx-auto max-w-[1400px] px-6 pb-24 pt-8">
+    <section className="mx-auto max-w-[1920px] px-5 pb-24 pt-8 sm:px-6">
       <div className="mb-8 flex flex-wrap gap-2">
         {roleFilters.map((role) => (
           <button

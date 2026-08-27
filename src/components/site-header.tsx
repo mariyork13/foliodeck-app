@@ -1,38 +1,73 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+
+const pillBg = "bg-[#26262b]/70 border border-white/[0.04]";
 
 export function SiteHeader() {
+  const [search, setSearch] = useState("");
+
   return (
-    <header className="sticky top-0 z-50 border-b border-white/5 bg-[#161618]/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-6">
-        <Link href="/" className="shrink-0 text-base font-medium tracking-tight text-white/90">
-          Foliodeck
-        </Link>
-
-        <nav className="hidden shrink-0 items-center gap-5 text-sm text-white/50 sm:flex">
-          <Link href="/about" className="transition-colors hover:text-white/90">
-            Проект
+    <header className="sticky top-0 z-50 bg-[#161618]">
+      <div className="mx-auto flex h-[108px] max-w-[1920px] items-center gap-4 px-5 sm:px-6">
+        <div className="flex h-[57px] shrink-0 items-center gap-6">
+          <Link href="/" className="text-xs font-medium text-white">
+            Foliodeck
           </Link>
-          <Link href="/founder" className="transition-colors hover:text-white/90">
-            Куратор
-          </Link>
-        </nav>
-
-        <div className="hidden flex-1 md:block">
-          <input
-            type="text"
-            placeholder="Поиск"
-            className="w-full max-w-xs rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/80 placeholder:text-white/30 focus:border-white/20 focus:outline-none"
-          />
+          <nav className="hidden items-center gap-6 sm:flex">
+            <Link href="/about" className="text-xs font-medium text-white">
+              Проект
+            </Link>
+            <Link href="/founder" className="text-xs font-medium text-white">
+              Куратор
+            </Link>
+          </nav>
         </div>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2 text-sm">
-          <button className="rounded-full px-3 py-1.5 text-white/60 transition-colors hover:bg-white/5 hover:text-white/90">
+        <div className="hidden flex-1 justify-center md:flex">
+          <div className={`relative h-[57px] w-full max-w-[535px] rounded-lg ${pillBg}`}>
+            <svg
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Поиск"
+              className="h-full w-full rounded-lg bg-transparent pl-8 pr-8 text-xs text-white placeholder:text-white/40 focus:outline-none"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                aria-label="Очистить поиск"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="ml-auto flex h-[57px] shrink-0 items-center gap-2">
+          <button className={`h-full rounded-full px-7 text-xs font-medium text-white ${pillBg}`}>
             Фильтры
           </button>
-          <button className="hidden rounded-full px-3 py-1.5 text-white/60 transition-colors hover:bg-white/5 hover:text-white/90 sm:inline-block">
+          <button className={`hidden h-full rounded-lg px-7 text-xs font-medium text-white sm:block ${pillBg}`}>
             Избранное
           </button>
-          <button className="rounded-full bg-white px-4 py-1.5 font-medium text-black transition-colors hover:bg-white/90">
+          <button className="h-full rounded-full bg-white/90 px-7 text-xs font-medium text-black/90">
             Отправить
           </button>
         </div>
