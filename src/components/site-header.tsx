@@ -6,6 +6,7 @@ import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
+import { SubmitModal } from "./submit-modal";
 import { XIcon } from "./x-icon";
 
 const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
@@ -21,6 +22,7 @@ export function SiteHeader() {
   const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
+  const [submitOpen, setSubmitOpen] = useState(false);
   const { selected, reset } = useFilter();
   const filterCount = Object.values(selected).reduce((sum, set) => sum + set.size, 0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -121,13 +123,17 @@ export function SiteHeader() {
           >
             Favorites
           </button>
-          <button className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}>
+          <button
+            onClick={() => setSubmitOpen(true)}
+            className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}
+          >
             Submit
           </button>
         </div>
       </div>
 
       <FavoritesPanel open={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
+      <SubmitModal open={submitOpen} onClose={() => setSubmitOpen(false)} />
     </header>
   );
 }
