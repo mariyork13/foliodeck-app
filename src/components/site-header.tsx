@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
+import { XIcon } from "./x-icon";
 
 const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
 const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
@@ -14,6 +15,7 @@ const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26
 
 const TEXT = TEXT_SCALE;
 const PAD_BTN = "px-[14px] py-3";
+const CLOSE_DELAY = 200;
 
 export function SiteHeader() {
   const [search, setSearch] = useState("");
@@ -21,10 +23,20 @@ export function SiteHeader() {
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const { selected, reset } = useFilter();
   const filterCount = Object.values(selected).reduce((sum, set) => sum + set.size, 0);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openFilters = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setFiltersOpen(true);
+  };
+  const scheduleCloseFilters = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setFiltersOpen(false), CLOSE_DELAY);
+  };
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="mx-auto flex max-w-[1920px] items-center gap-4 px-4 pb-4 pt-4">
+      <div className="relative mx-auto flex max-w-[1920px] items-center gap-4 px-4 pb-4 pt-4">
         <div className="flex shrink-0 items-center">
           <Link href="/" className={`rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
             Foliodeck
@@ -81,11 +93,7 @@ export function SiteHeader() {
         </div>
 
         <div className="ml-auto flex shrink-0 items-center">
-          <div
-            className="relative"
-            onMouseEnter={() => setFiltersOpen(true)}
-            onMouseLeave={() => setFiltersOpen(false)}
-          >
+          <div onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters}>
             <button
               onClick={() => setFiltersOpen((v) => !v)}
               className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
@@ -99,16 +107,14 @@ export function SiteHeader() {
                     e.stopPropagation();
                     reset();
                   }}
-                  className="flex h-4 w-4 items-center justify-center rounded-full text-white/70 hover:text-white"
+                  className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
                 >
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M18 6 6 18M6 6l12 12" />
-                  </svg>
+                  <XIcon />
                 </span>
               )}
             </button>
-            {filtersOpen && <FiltersPanel />}
           </div>
+          {filtersOpen && <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} />}
           <button
             onClick={() => setFavoritesOpen(true)}
             className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}
