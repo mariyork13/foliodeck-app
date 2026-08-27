@@ -32,32 +32,42 @@ export function Gallery({ curators }: { curators: Curator[] }) {
   return (
     <section className="mx-auto max-w-[1920px] px-4 pb-24 pt-8">
       {rows.length > 0 ? (
-        <div className="flex flex-col gap-[100px]">
-          {rows.map(({ template, cells }, i) => (
-            <div
-              key={i}
-              className={`grid grid-cols-12 gap-4 ${template.align === "end" ? "items-end" : "items-start"}`}
-            >
-              {cells.map(({ slot, card }) => {
-                const spansRows = (slot.rowSpan ?? 1) > 1;
-                return (
-                  <div
-                    key={card.slug}
-                    style={{
-                      gridColumn: slot.colStart
-                        ? `${slot.colStart} / span ${slot.colSpan}`
-                        : `span ${slot.colSpan}`,
-                      gridRow: slot.rowStart ? `${slot.rowStart} / span ${slot.rowSpan ?? 1}` : undefined,
-                      alignSelf: spansRows ? "stretch" : undefined,
-                    }}
-                  >
-                    <CuratorCard curator={card} stretch={spansRows} />
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
+        <>
+          {/* Tablet and below: simplest possible layout, two cards per row. */}
+          <div className="grid grid-cols-2 gap-4 lg:hidden">
+            {filtered.map((card) => (
+              <CuratorCard key={card.slug} curator={card} />
+            ))}
+          </div>
+
+          {/* Desktop: the hand-authored row-template layout. */}
+          <div className="hidden flex-col gap-[100px] lg:flex">
+            {rows.map(({ template, cells }, i) => (
+              <div
+                key={i}
+                className={`grid grid-cols-12 gap-4 ${template.align === "end" ? "items-end" : "items-start"}`}
+              >
+                {cells.map(({ slot, card }) => {
+                  const spansRows = (slot.rowSpan ?? 1) > 1;
+                  return (
+                    <div
+                      key={card.slug}
+                      style={{
+                        gridColumn: slot.colStart
+                          ? `${slot.colStart} / span ${slot.colSpan}`
+                          : `span ${slot.colSpan}`,
+                        gridRow: slot.rowStart ? `${slot.rowStart} / span ${slot.rowSpan ?? 1}` : undefined,
+                        alignSelf: spansRows ? "stretch" : undefined,
+                      }}
+                    >
+                      <CuratorCard curator={card} stretch={spansRows} />
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <p className="py-16 text-center text-white/40">No portfolios in this category yet.</p>
       )}
