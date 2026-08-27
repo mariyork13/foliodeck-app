@@ -5,7 +5,7 @@ import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
 
 const iconBadge =
-  "flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white opacity-0 transition-opacity group-hover:opacity-100";
+  "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-0 transition-opacity group-hover:opacity-100";
 
 export function CuratorCard({ curator }: { curator: Curator }) {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -21,7 +21,7 @@ export function CuratorCard({ curator }: { curator: Curator }) {
         href={curator.externalUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative block aspect-[4/3] overflow-hidden rounded-xl bg-white"
+        className="group relative block aspect-[4/3] overflow-hidden rounded-[8px] bg-white"
       >
         <button
           type="button"
@@ -31,7 +31,7 @@ export function CuratorCard({ curator }: { curator: Curator }) {
             e.stopPropagation();
             setIsFavorited((prev) => !prev);
           }}
-          className={`absolute right-2.5 top-2.5 z-10 ${iconBadge}`}
+          className={`absolute right-2 top-2 z-10 ${iconBadge}`}
         >
           <svg
             width="16"
@@ -44,7 +44,7 @@ export function CuratorCard({ curator }: { curator: Curator }) {
             <path d="M12 21s-6.716-4.35-9.428-8.06C.5 10.1 1.2 6.5 4.2 5.1 6.6 4 9.2 4.8 12 8c2.8-3.2 5.4-4 7.8-2.9 3 1.4 3.7 5 1.628 7.84C18.716 16.65 12 21 12 21Z" />
           </svg>
         </button>
-        <span aria-label="Open portfolio" className={`absolute bottom-2.5 right-2.5 z-10 ${iconBadge}`}>
+        <span aria-label="Open portfolio" className={`absolute bottom-2 right-2 z-10 ${iconBadge}`}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M7 17L17 7M7 7h10v10" />
           </svg>
