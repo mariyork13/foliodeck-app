@@ -1,5 +1,4 @@
 import {
-  siFacebook,
   siFramer,
   siGoogle,
   siInstagram,
@@ -22,7 +21,6 @@ import {
 // icon set. Names with no reliable match (regional brands, small studios)
 // are intentionally left unmapped and fall back to a plain placeholder.
 export const companyLogos: Record<string, { path: string; hex: string }> = {
-  Facebook: siFacebook,
   Framer: siFramer,
   Google: siGoogle,
   Instagram: siInstagram,

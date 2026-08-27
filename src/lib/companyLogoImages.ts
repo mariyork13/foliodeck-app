@@ -15,4 +15,7 @@ export const companyLogoImages: Record<string, string> = {
   CreativePeople: "/logos/creativepeople.png",
   Delimobil: "/logos/delimobil.jpeg",
   Dodo: "/logos/dodo.jpeg",
+  Drinkit: "/logos/drinkit.png",
+  Facebook: "/logos/facebook.png",
+  Flo: "/logos/flo.png",
 };
