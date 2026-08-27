@@ -22,4 +22,7 @@ export const companyLogoImages: Record<string, string> = {
   Framer: "/logos/framer.png",
   Gazprom: "/logos/gazprom.png",
   Google: "/logos/google.png",
+  Higgsfield: "/logos/higgsfield.png",
+  Holographik: "/logos/holographik.jpeg",
+  "Home Credit": "/logos/home-credit.png",
 };
