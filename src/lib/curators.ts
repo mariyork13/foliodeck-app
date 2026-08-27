@@ -4,7 +4,7 @@ import type { Curator } from "./types";
 // entries) — enough to build and test the UI. Full migration of all 706
 // records happens separately via a proper Tilda CSV export.
 export const curators: Curator[] = [
-  { slug: "denis-lykin", name: "Denis Lykin", role: "Product & UI UX Designer", externalUrl: "https://denislykin.ru/", previewImage: "https://static.tildacdn.com/stor3338-3933-4530-b135-313533333761/119cdfe277a4f6aef15bff9577b4df2d.png" },
+  { slug: "denis-lykin", name: "Denis Lykin", role: "Product & UI UX Designer", externalUrl: "https://denislykin.ru/", previewImage: "https://static.tildacdn.com/stor3338-3933-4530-b135-313533333761/119cdfe277a4f6aef15bff9577b4df2d.png", notes: "The portfolio is built on a node-based system that nicely reflects the designer's specialization and the kind of solutions he works with. The format itself becomes a demonstration of his professional skills." },
   { slug: "casper-kessels", name: "Casper Kessels", role: "Product & UI UX Designer", externalUrl: "https://www.casperkessels.com/", previewImage: "https://static.tildacdn.com/stor3231-6432-4461-b365-323463643864/de0439364a21301c0227314b8ad28e0d.png" },
   { slug: "judy-zhou", name: "Judy Zhou", role: "Graphic Designer", externalUrl: "https://judyzhou.me/", previewImage: "https://static.tildacdn.com/stor6462-6637-4964-b465-663862323736/8e194f14aa9d590f594923227e94a8ec.png" },
   { slug: "emmi-wu", name: "Emmi Wu", role: "Product & UI UX Designer", externalUrl: "https://emmiwu.com/playground", previewImage: "https://static.tildacdn.com/stor3861-3761-4461-b264-613638306533/a7e21c69324f07482ae71ee031256ab9.png" },
