@@ -7,15 +7,16 @@ import type { Curator } from "@/lib/types";
 const iconBadge =
   "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-0 transition-opacity group-hover:opacity-100";
 
-export function CuratorCard({ curator }: { curator: Curator }) {
+export function CuratorCard({ curator, compact }: { curator: Curator; compact?: boolean }) {
   const { isFavorited: checkFavorited, toggleFavorite } = useFavorites();
   const isFavorited = checkFavorited(curator.slug);
+  const textClamp = compact ? "truncate" : "";
 
   return (
     <div>
       <div className="mb-2">
-        <h3 className={`${TEXT_SCALE} font-medium text-white/90`}>{curator.name}</h3>
-        <p className={`${TEXT_SCALE} text-white/30`}>{curator.role}</p>
+        <h3 className={`${TEXT_SCALE} font-medium text-white/90 ${textClamp}`}>{curator.name}</h3>
+        <p className={`${TEXT_SCALE} text-white/30 ${textClamp}`}>{curator.role}</p>
       </div>
 
       <a
