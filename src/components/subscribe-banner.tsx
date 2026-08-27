@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { XIcon } from "./x-icon";
 
 const STORAGE_KEY = "foliodeck-subscribe-banner-dismissed";
 const panelBg = "bg-[#26262B]/70 backdrop-blur-[74px]";
@@ -35,11 +36,9 @@ export function SubscribeBanner() {
           <button
             onClick={close}
             aria-label="Dismiss"
-            className={`flex h-8 w-8 items-center justify-center rounded-full text-white/80 hover:text-white ${panelBg}`}
+            className={`flex h-5 w-5 items-center justify-center rounded-full text-white/70 hover:text-white ${panelBg}`}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
+            <XIcon />
           </button>
         </div>
         <div className={`flex items-center gap-3 rounded-xl p-3 ${panelBg}`}>

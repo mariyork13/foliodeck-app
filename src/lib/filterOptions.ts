@@ -27,4 +27,4 @@ export const companyOptions = [
 
 export const geoOptions = ["Asia", "Europe & US", "CIS"] as const;
 
-export const collectionOptions = ["Design Awesome", "Agencies"] as const;
+export const collectionOptions = ["Talent Hub", "Agencies"] as const;
