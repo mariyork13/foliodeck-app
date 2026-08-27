@@ -30,7 +30,7 @@ export function SubscribeBanner() {
   };
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-3 z-40 flex justify-center">
+    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center">
       <div className="pointer-events-auto w-fit">
         <div className="mb-1 flex justify-end">
           <button
