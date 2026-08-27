@@ -5,6 +5,7 @@ import { useState } from "react";
 import { roleFilters } from "@/lib/curators";
 import { useFilter } from "@/lib/filter-context";
 import { TEXT_SCALE } from "@/lib/scale";
+import { FavoritesPanel } from "./favorites-panel";
 
 const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
 const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
@@ -17,6 +18,7 @@ const PAD_BTN = "px-[14px] py-3";
 export function SiteHeader() {
   const [search, setSearch] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
   const { active, setActive } = useFilter();
 
   return (
@@ -84,7 +86,10 @@ export function SiteHeader() {
           >
             Фильтры
           </button>
-          <button className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}>
+          <button
+            onClick={() => setFavoritesOpen(true)}
+            className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}
+          >
             Избранное
           </button>
           <button className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}>
@@ -114,6 +119,8 @@ export function SiteHeader() {
           )}
         </div>
       </div>
+
+      <FavoritesPanel open={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
     </header>
   );
 }

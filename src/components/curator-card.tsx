@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useFavorites } from "@/lib/favorites-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
 
@@ -8,7 +8,8 @@ const iconBadge =
   "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-0 transition-opacity group-hover:opacity-100";
 
 export function CuratorCard({ curator }: { curator: Curator }) {
-  const [isFavorited, setIsFavorited] = useState(false);
+  const { isFavorited: checkFavorited, toggleFavorite } = useFavorites();
+  const isFavorited = checkFavorited(curator.slug);
 
   return (
     <div>
@@ -29,7 +30,7 @@ export function CuratorCard({ curator }: { curator: Curator }) {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            setIsFavorited((prev) => !prev);
+            toggleFavorite(curator.slug);
           }}
           className={`absolute right-2 top-2 z-10 ${iconBadge}`}
         >
