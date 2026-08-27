@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { roleFilters } from "@/lib/curators";
+import { chunkIntoRows } from "@/lib/rowTemplates";
 import type { Curator } from "@/lib/types";
 import { CuratorCard } from "./curator-card";
 
@@ -12,6 +13,8 @@ export function Gallery({ curators }: { curators: Curator[] }) {
     () => (active === "Все" ? curators : curators.filter((c) => c.role === active)),
     [curators, active],
   );
+
+  const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
 
   return (
     <section className="mx-auto max-w-[1920px] px-5 pb-24 pt-8 sm:px-6">
@@ -31,10 +34,14 @@ export function Gallery({ curators }: { curators: Curator[] }) {
         ))}
       </div>
 
-      {filtered.length > 0 ? (
-        <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
-          {filtered.map((curator) => (
-            <CuratorCard key={curator.slug} curator={curator} />
+      {rows.length > 0 ? (
+        <div className="flex flex-col gap-8">
+          {rows.map((row, i) => (
+            <div key={i} className="flex items-start gap-4">
+              {row.map(({ size, item }) => (
+                <CuratorCard key={item.slug} curator={item} size={size} />
+              ))}
+            </div>
           ))}
         </div>
       ) : (

@@ -7,3 +7,6 @@ export type Curator = {
   /** Screenshot preview of the external site (hotlinked from Tilda CDN for now). */
   previewImage: string;
 };
+
+/** A card's size within a row template — "big" renders at 2x the width and height of "small". */
+export type CardSize = "small" | "big";

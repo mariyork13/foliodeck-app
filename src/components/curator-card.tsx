@@ -1,7 +1,7 @@
 "use client";
 
 import { TEXT_SCALE } from "@/lib/scale";
-import type { Curator } from "@/lib/types";
+import type { CardSize, Curator } from "@/lib/types";
 
 function hostname(url: string) {
   try {
@@ -11,9 +11,9 @@ function hostname(url: string) {
   }
 }
 
-export function CuratorCard({ curator }: { curator: Curator }) {
+export function CuratorCard({ curator, size }: { curator: Curator; size: CardSize }) {
   return (
-    <div className="mb-6 break-inside-avoid">
+    <div className={size === "big" ? "w-[calc(50%-8px)] shrink-0" : "w-[calc(25%-12px)] shrink-0"}>
       <div className="mb-2">
         <h3 className={`${TEXT_SCALE} font-medium text-white/90`}>{curator.name}</h3>
         <p className={`${TEXT_SCALE} text-white/30`}>{curator.role}</p>
@@ -23,7 +23,7 @@ export function CuratorCard({ curator }: { curator: Curator }) {
         href={curator.externalUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative block overflow-hidden rounded-xl bg-white"
+        className="group relative block aspect-[4/3] overflow-hidden rounded-xl bg-white"
       >
         <span
           className={`absolute left-2.5 top-2.5 z-10 rounded-full bg-[#ff4a4a] px-2.5 py-1 ${TEXT_SCALE} font-medium text-white [font-family:var(--font-roboto),Arial,sans-serif]`}
@@ -40,7 +40,7 @@ export function CuratorCard({ curator }: { curator: Curator }) {
           src={curator.previewImage}
           alt={`${curator.name} portfolio preview`}
           loading="lazy"
-          className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
         />
       </a>
     </div>
