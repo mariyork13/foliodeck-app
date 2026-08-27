@@ -14,7 +14,7 @@ const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
 const TEXT = TEXT_SCALE;
-const PAD_BTN = "px-[14px] py-3";
+const PAD_BTN = "px-5 py-3";
 const CLOSE_DELAY = 200;
 
 export function SiteHeader() {
@@ -46,13 +46,13 @@ export function SiteHeader() {
               href="/about"
               className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
             >
-              Проект
+              Project
             </Link>
             <Link
               href="/founder"
               className={`rounded-full ${PAD_BTN} ${TEXT} font-medium text-white transition-colors hover:bg-white/10`}
             >
-              Куратор
+              Curator
             </Link>
           </nav>
         </div>
@@ -75,13 +75,13 @@ export function SiteHeader() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Поиск"
+              placeholder="Find a designer, company, industry..."
               className={`h-full w-full rounded-lg bg-transparent pl-8 pr-8 ${TEXT} text-white placeholder:text-white/40 focus:outline-none`}
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                aria-label="Очистить поиск"
+                aria-label="Clear search"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -98,7 +98,7 @@ export function SiteHeader() {
               onClick={() => setFiltersOpen((v) => !v)}
               className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
             >
-              {filterCount > 0 ? `Фильтр ${filterCount}` : "Фильтры"}
+              {filterCount > 0 ? `Filter ${filterCount}` : "Filters"}
               {filterCount > 0 && (
                 <span
                   role="button"
@@ -119,10 +119,10 @@ export function SiteHeader() {
             onClick={() => setFavoritesOpen(true)}
             className={`hidden rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white sm:block ${pillBg}`}
           >
-            Избранное
+            Favorites
           </button>
           <button className={`rounded-full ${submitBg} ${PAD_BTN} ${TEXT} font-medium text-black/90`}>
-            Отправить
+            Submit
           </button>
         </div>
       </div>

@@ -9,12 +9,12 @@ import { CuratorCard } from "./curator-card";
 // Best-effort match from the real specialization taxonomy to the free-text
 // role strings in the sample data, until curators carry real tags.
 const SPEC_TO_ROLE_SUBSTRING: Record<string, string> = {
-  "Продуктовые и UI UX": "UI UX",
-  Графические: "Графический",
-  Бренд: "Бренд",
-  Мульти: "Мультидисциплинарный",
+  "Product & UI UX": "UI UX",
+  Graphic: "Graphic",
+  Brand: "Brand",
+  Multidisciplinary: "Multidisciplinary",
   Digital: "Digital",
-  "Motion и 3D": "Motion",
+  "Motion & 3D": "Motion",
 };
 
 export function Gallery({ curators }: { curators: Curator[] }) {
@@ -38,24 +38,28 @@ export function Gallery({ curators }: { curators: Curator[] }) {
               key={i}
               className={`grid grid-cols-12 gap-4 ${template.align === "end" ? "items-end" : "items-start"}`}
             >
-              {cells.map(({ slot, card }) => (
-                <div
-                  key={card.slug}
-                  style={{
-                    gridColumn: slot.colStart
-                      ? `${slot.colStart} / span ${slot.colSpan}`
-                      : `span ${slot.colSpan}`,
-                    gridRow: slot.rowStart ? `${slot.rowStart} / span ${slot.rowSpan ?? 1}` : undefined,
-                  }}
-                >
-                  <CuratorCard curator={card} />
-                </div>
-              ))}
+              {cells.map(({ slot, card }) => {
+                const spansRows = (slot.rowSpan ?? 1) > 1;
+                return (
+                  <div
+                    key={card.slug}
+                    style={{
+                      gridColumn: slot.colStart
+                        ? `${slot.colStart} / span ${slot.colSpan}`
+                        : `span ${slot.colSpan}`,
+                      gridRow: slot.rowStart ? `${slot.rowStart} / span ${slot.rowSpan ?? 1}` : undefined,
+                      alignSelf: spansRows ? "stretch" : undefined,
+                    }}
+                  >
+                    <CuratorCard curator={card} stretch={spansRows} />
+                  </div>
+                );
+              })}
             </div>
           ))}
         </div>
       ) : (
-        <p className="py-16 text-center text-white/40">Пока нет портфолио в этой категории.</p>
+        <p className="py-16 text-center text-white/40">No portfolios in this category yet.</p>
       )}
     </section>
   );

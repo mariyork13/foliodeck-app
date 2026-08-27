@@ -7,14 +7,22 @@ import type { Curator } from "@/lib/types";
 const iconBadge =
   "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-0 transition-opacity group-hover:opacity-100";
 
-export function CuratorCard({ curator, compact }: { curator: Curator; compact?: boolean }) {
+export function CuratorCard({
+  curator,
+  compact,
+  stretch,
+}: {
+  curator: Curator;
+  compact?: boolean;
+  stretch?: boolean;
+}) {
   const { isFavorited: checkFavorited, toggleFavorite } = useFavorites();
   const isFavorited = checkFavorited(curator.slug);
   const textClamp = compact ? "truncate" : "";
 
   return (
-    <div>
-      <div className="mb-2">
+    <div className={stretch ? "flex h-full flex-col" : ""}>
+      <div className="mb-2 shrink-0">
         <h3 className={`${TEXT_SCALE} font-medium text-white/90 ${textClamp}`}>{curator.name}</h3>
         <p className={`${TEXT_SCALE} text-white/30 ${textClamp}`}>{curator.role}</p>
       </div>
@@ -23,7 +31,7 @@ export function CuratorCard({ curator, compact }: { curator: Curator; compact?: 
         href={curator.externalUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative block aspect-[4/3] overflow-hidden rounded-[8px] bg-white"
+        className={`group relative block overflow-hidden rounded-[8px] bg-white ${stretch ? "flex-1" : "aspect-[4/3]"}`}
       >
         <button
           type="button"

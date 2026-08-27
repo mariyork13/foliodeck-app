@@ -2,15 +2,15 @@
 export const specializationOptions = [
   "Digital",
   "Mobile",
-  "Motion и 3D",
+  "Motion & 3D",
   "Web",
-  "Бренд",
-  "Графические",
-  "Искусство",
-  "Мульти",
-  "Продуктовые и UI UX",
-  "Промышленные",
-  "Фотографы",
+  "Brand",
+  "Graphic",
+  "Art",
+  "Multidisciplinary",
+  "Product & UI UX",
+  "Industrial",
+  "Photography",
 ] as const;
 
 export const companyOptions = [
@@ -25,6 +25,6 @@ export const companyOptions = [
   "VTB", "Wildberries", "Yandex",
 ] as const;
 
-export const geoOptions = ["Азия", "Европа и США", "СНГ"] as const;
+export const geoOptions = ["Asia", "Europe & US", "CIS"] as const;
 
-export const collectionOptions = ["Дизайн тащит", "Студии"] as const;
+export const collectionOptions = ["Design Awesome", "Agencies"] as const;

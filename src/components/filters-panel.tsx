@@ -67,11 +67,11 @@ export function FiltersPanel({
     >
       <div className="absolute right-14 -top-2 h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
       <div className="flex h-[436px] w-[640px] gap-8 rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px]">
-        <FilterColumn title="Специализация" group="specialization" options={specializationOptions} />
-        <FilterColumn title="Компания" group="company" options={companyOptions} scroll />
+        <FilterColumn title="Direction" group="specialization" options={specializationOptions} />
+        <FilterColumn title="Project" group="company" options={companyOptions} scroll />
         <div className="flex w-44 shrink-0 flex-col gap-6">
-          <FilterColumn title="География" group="geo" options={geoOptions} />
-          <FilterColumn title="Коллекции" group="collections" options={collectionOptions} />
+          <FilterColumn title="Geography" group="geo" options={geoOptions} />
+          <FilterColumn title="Collections" group="collections" options={collectionOptions} />
         </div>
       </div>
     </div>

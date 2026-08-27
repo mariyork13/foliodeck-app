@@ -13,13 +13,13 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Foliodeck — курируемая галерея портфолио",
-  description: "Курируемая галерея портфолио дизайнеров, разработчиков и студий от Марии Чубиной.",
+  title: "Foliodeck — a curated portfolio gallery",
+  description: "A curated portfolio gallery of designers, developers, and studios by Maria Chubina.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ru" className={`${roboto.variable} h-full antialiased`}>
+    <html lang="en" className={`${roboto.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[#161618]">
         <FilterProvider>
           <FavoritesProvider>
