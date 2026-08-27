@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { TEXT_SCALE } from "@/lib/scale";
 
 // The live site is a Tilda Zero Block canvas that scales linearly with
 // viewport width (value-at-1920px scaled down, e.g. 108px -> 5.625vw),
@@ -11,7 +12,7 @@ const searchBg = "bg-[rgba(38,38,43,0.7)] border border-white/[0.04]";
 
 const HEADER_H = "h-[clamp(64px,5.625vw,108px)]";
 const ROW_H = "h-[clamp(40px,2.96875vw,57px)]";
-const TEXT = "text-[clamp(11px,0.625vw,12px)]";
+const TEXT = TEXT_SCALE;
 const PAD_X_SM = "px-[clamp(12px,1.0417vw,20px)]";
 const PAD_X_LG = "px-[clamp(16px,1.4583vw,28px)]";
 const GAP_SM = "gap-[clamp(12px,1.0417vw,20px)]";

@@ -1,5 +1,6 @@
 "use client";
 
+import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
 
 function hostname(url: string) {
@@ -14,8 +15,8 @@ export function CuratorCard({ curator }: { curator: Curator }) {
   return (
     <div className="mb-6 break-inside-avoid">
       <div className="mb-2">
-        <h3 className="text-sm font-medium text-white/90">{curator.name}</h3>
-        <p className="text-sm text-white/30">{curator.role}</p>
+        <h3 className={`${TEXT_SCALE} font-medium text-white/90`}>{curator.name}</h3>
+        <p className={`${TEXT_SCALE} text-white/30`}>{curator.role}</p>
       </div>
 
       <a
@@ -24,7 +25,9 @@ export function CuratorCard({ curator }: { curator: Curator }) {
         rel="noopener noreferrer"
         className="group relative block overflow-hidden rounded-xl bg-white"
       >
-        <span className="absolute left-2.5 top-2.5 z-10 rounded-full bg-[#ff4a4a] px-2.5 py-1 text-[11px] font-medium text-white">
+        <span
+          className={`absolute left-2.5 top-2.5 z-10 rounded-full bg-[#ff4a4a] px-2.5 py-1 ${TEXT_SCALE} font-medium text-white [font-family:var(--font-roboto),Arial,sans-serif]`}
+        >
           {hostname(curator.externalUrl)}
         </span>
         <span className="absolute right-2.5 top-2.5 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition-opacity group-hover:opacity-100">
