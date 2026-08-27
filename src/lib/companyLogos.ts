@@ -1,7 +1,5 @@
 import {
   siNasa,
-  siNetflix,
-  siNike,
   siNotion,
   siPerplexity,
   siRevolut,
@@ -17,8 +15,6 @@ import {
 // are intentionally left unmapped and fall back to a plain placeholder.
 export const companyLogos: Record<string, { path: string; hex: string }> = {
   NASA: siNasa,
-  Netflix: siNetflix,
-  Nike: siNike,
   Notion: siNotion,
   Perplexity: siPerplexity,
   Revolut: siRevolut,

@@ -35,4 +35,7 @@ export const companyLogoImages: Record<string, string> = {
   Mish: "/logos/mish.jpeg",
   MTS: "/logos/mts.png",
   Mymind: "/logos/mymind.png",
+  Netflix: "/logos/netflix.png",
+  Nike: "/logos/nike.png",
+  Nothing: "/logos/nothing.png",
 };
