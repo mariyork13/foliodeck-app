@@ -46,4 +46,8 @@ export const companyLogoImages: Record<string, string> = {
   PIK: "/logos/pik.png",
   "Porto Rocha": "/logos/porto-rocha.png",
   "Positive Technologies": "/logos/positive-technologies.png",
+  Pragmatica: "/logos/pragmatica.png",
+  "Raiffeisen Bank": "/logos/raiffeisen-bank.png",
+  Readymag: "/logos/readymag.png",
+  "Red Collar": "/logos/red-collar.jpeg",
 };
