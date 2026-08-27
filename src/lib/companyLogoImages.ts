@@ -28,4 +28,7 @@ export const companyLogoImages: Record<string, string> = {
   IBM: "/logos/ibm.png",
   Instagram: "/logos/instagram.jpeg",
   Instories: "/logos/instories.jpeg",
+  Mail: "/logos/mail.jpeg",
+  Megafon: "/logos/megafon.png",
+  MTS: "/logos/mts.png",
 };
