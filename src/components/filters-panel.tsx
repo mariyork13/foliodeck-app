@@ -2,9 +2,20 @@
 
 import { collectionOptions, companyOptions, geoOptions, specializationOptions } from "@/lib/filterOptions";
 import { useFilter, type FilterGroup } from "@/lib/filter-context";
+import { CompanyLogo } from "./company-logo";
 import { XIcon } from "./x-icon";
 
-function FilterOption({ label, checked, onToggle }: { label: string; checked: boolean; onToggle: () => void }) {
+function FilterOption({
+  label,
+  checked,
+  onToggle,
+  showLogo,
+}: {
+  label: string;
+  checked: boolean;
+  onToggle: () => void;
+  showLogo?: boolean;
+}) {
   return (
     <button
       type="button"
@@ -13,7 +24,10 @@ function FilterOption({ label, checked, onToggle }: { label: string; checked: bo
         checked ? "text-white" : "text-white/60 hover:text-white"
       }`}
     >
-      <span>{label}</span>
+      <span className="flex min-w-0 items-center gap-2">
+        {showLogo && <CompanyLogo name={label} />}
+        <span className="truncate">{label}</span>
+      </span>
       {checked && (
         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/10 hover:bg-white/20">
           <XIcon />
@@ -28,11 +42,13 @@ function FilterColumn({
   group,
   options,
   scroll,
+  showLogos,
 }: {
   title: string;
   group: FilterGroup;
   options: readonly string[];
   scroll?: boolean;
+  showLogos?: boolean;
 }) {
   const { selected, toggle } = useFilter();
   return (
@@ -45,6 +61,7 @@ function FilterColumn({
             label={option}
             checked={selected[group].has(option)}
             onToggle={() => toggle(group, option)}
+            showLogo={showLogos}
           />
         ))}
       </div>
@@ -68,7 +85,7 @@ export function FiltersPanel({
       <div className="absolute right-14 -top-2 h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
       <div className="flex h-[436px] w-[640px] gap-8 rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px]">
         <FilterColumn title="Direction" group="specialization" options={specializationOptions} />
-        <FilterColumn title="Project" group="company" options={companyOptions} scroll />
+        <FilterColumn title="Project" group="company" options={companyOptions} scroll showLogos />
         <div className="flex w-44 shrink-0 flex-col gap-6">
           <FilterColumn title="Geography" group="geo" options={geoOptions} />
           <FilterColumn title="Collections" group="collections" options={collectionOptions} />
