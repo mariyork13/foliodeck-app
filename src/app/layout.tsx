@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { FilterProvider } from "@/lib/filter-context";
+import { LanguageProvider } from "@/lib/language-context";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -19,9 +20,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${roboto.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[#161618]">
-        <FilterProvider>
-          <FavoritesProvider>{children}</FavoritesProvider>
-        </FilterProvider>
+        <LanguageProvider>
+          <FilterProvider>
+            <FavoritesProvider>{children}</FavoritesProvider>
+          </FilterProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
