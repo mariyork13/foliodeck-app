@@ -1,4 +1,4 @@
-const LAYERS = 16;
+const LAYERS = 24;
 const HEIGHT_PX = 96;
 const MAX_BLUR_PX = 20;
 const TINT_COLOR = "22, 22, 24"; // #161618
@@ -14,13 +14,15 @@ export function BottomBlurOverlay() {
           background: `linear-gradient(to bottom, rgba(${TINT_COLOR}, ${TOP_OPACITY}) 0%, rgba(${TINT_COLOR}, ${BOTTOM_OPACITY}) 100%)`,
         }}
       />
+      {/* Non-overlapping hard-edged bands: each backdrop-filter samples the page
+          directly, so adjacent layers never blur an already-blurred layer
+          beneath them (that compounding is what made the effect look like a
+          single heavy uniform blur instead of a gradient in some browsers). */}
       {Array.from({ length: LAYERS }).map((_, i) => {
         const start = (i / LAYERS) * 100;
-        const mid1 = ((i + 1) / LAYERS) * 100;
-        const mid2 = ((i + 2) / LAYERS) * 100;
-        const end = ((i + 3) / LAYERS) * 100;
-        const mask = `linear-gradient(to top, rgba(0,0,0,0) ${start}%, rgba(0,0,0,1) ${mid1}%, rgba(0,0,0,1) ${mid2}%, rgba(0,0,0,0) ${end}%)`;
-        const blur = ((LAYERS - i) / LAYERS) * MAX_BLUR_PX;
+        const end = ((i + 1) / LAYERS) * 100;
+        const mask = `linear-gradient(to top, transparent ${start}%, black ${start}%, black ${end}%, transparent ${end}%)`;
+        const blur = ((LAYERS - 1 - i) / (LAYERS - 1)) * MAX_BLUR_PX;
         return (
           <div
             key={i}
