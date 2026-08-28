@@ -54,6 +54,21 @@ export function ExternalLinkIcon({ size = 16, className }: IconProps) {
   );
 }
 
+export function HistoryIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" className={className}>
+      <path
+        d="M9 14H10C11.4001 14 12.1002 14 12.635 13.7275C13.1054 13.4878 13.4878 13.1054 13.7275 12.635C14 12.1002 14 11.4001 14 10M9 14H7C4.64298 14 3.46447 14 2.73223 13.2678C2 12.5355 2 11.357 2 9V7C2 4.64298 2 3.46447 2.73223 2.73223C3.46447 2 4.64298 2 7 2H9C11.357 2 12.5355 2 13.2678 2.73223C14 3.46447 14 4.64298 14 7V10M9 14C9 12.5999 9 11.8998 9.27248 11.365C9.51217 10.8946 9.89462 10.5122 10.365 10.2725C10.8998 10 11.5999 10 13 10H14"
+        stroke="currentColor"
+        strokeOpacity="0.6"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path d="M5 5H11" stroke="currentColor" strokeOpacity="0.6" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function ChevronLeftIcon({ size = 16, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
