@@ -1,4 +1,3 @@
-import { BottomBlurOverlay } from "@/components/bottom-blur-overlay";
 import { ScrollToTopButton } from "@/components/scroll-to-top-button";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -10,7 +9,6 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
-      <BottomBlurOverlay />
       <SubscribeBanner />
       <ScrollToTopButton />
     </>
