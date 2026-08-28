@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useFilter } from "@/lib/filter-context";
 import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
+import { FilterIcon, HeartIcon, SearchIcon } from "./icons";
 import { SubmitModal } from "./submit-modal";
 import { XIcon } from "./x-icon";
 
@@ -124,22 +125,7 @@ export function SiteHeader() {
               onClick={() => setFiltersOpen((v) => !v)}
               className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="shrink-0 sm:hidden"
-              >
-                <line x1="4" y1="6" x2="20" y2="6" />
-                <circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none" />
-                <line x1="4" y1="12" x2="20" y2="12" />
-                <circle cx="15" cy="12" r="1.6" fill="currentColor" stroke="none" />
-                <line x1="4" y1="18" x2="20" y2="18" />
-                <circle cx="11" cy="18" r="1.6" fill="currentColor" stroke="none" />
-              </svg>
+              <FilterIcon className="shrink-0 sm:hidden" />
               <span className="hidden sm:inline">{filterCount > 0 ? `Filter ${filterCount}` : "Filters"}</span>
               {filterCount > 0 && (
                 <span
@@ -161,17 +147,7 @@ export function SiteHeader() {
             onClick={() => setFavoritesOpen(true)}
             className={`flex items-center gap-2 rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="sm:hidden"
-            >
-              <path d="M12 21s-6.716-4.35-9.428-8.06C.5 10.1 1.2 6.5 4.2 5.1 6.6 4 9.2 4.8 12 8c2.8-3.2 5.4-4 7.8-2.9 3 1.4 3.7 5 1.628 7.84C18.716 16.65 12 21 12 21Z" />
-            </svg>
+            <HeartIcon className="sm:hidden" />
             <span className="hidden sm:inline">Favorites</span>
           </button>
           <button
@@ -200,18 +176,7 @@ function SearchBox({
 }) {
   return (
     <div className={`relative min-w-0 rounded-lg ${searchBg} ${className ?? ""}`}>
-      <svg
-        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <circle cx="11" cy="11" r="7" />
-        <path d="m21 21-4.3-4.3" />
-      </svg>
+      <SearchIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
       <input
         type="text"
         value={search}

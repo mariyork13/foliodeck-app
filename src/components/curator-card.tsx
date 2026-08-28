@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useFavorites } from "@/lib/favorites-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
+import { ExternalLinkIcon, HeartIcon } from "./icons";
 
 // Always visible on touch devices (no hover); hover-reveal only from lg up.
 const iconBadge =
@@ -45,16 +46,7 @@ export function CuratorCard({
           }}
           className={`absolute right-2 top-2 z-10 ${iconBadge}`}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill={isFavorited ? "currentColor" : "none"}
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M12 21s-6.716-4.35-9.428-8.06C.5 10.1 1.2 6.5 4.2 5.1 6.6 4 9.2 4.8 12 8c2.8-3.2 5.4-4 7.8-2.9 3 1.4 3.7 5 1.628 7.84C18.716 16.65 12 21 12 21Z" />
-          </svg>
+          <HeartIcon active={isFavorited} />
         </button>
         <button
           type="button"
@@ -66,9 +58,7 @@ export function CuratorCard({
           }}
           className={`absolute bottom-2 right-2 z-10 ${iconBadge}`}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M7 17L17 7M7 7h10v10" />
-          </svg>
+          <ExternalLinkIcon />
         </button>
         {!loaded && (
           <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
