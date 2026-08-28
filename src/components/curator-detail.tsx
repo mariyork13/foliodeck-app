@@ -53,7 +53,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNotesOpen(false)} />
                   <div
-                    className={`absolute left-3 right-3 top-[calc(100%+8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 ${TEXT_SCALE} leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
+                    className={`absolute left-3 right-3 top-[calc(100%-8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 ${TEXT_SCALE} leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
                   >
                     {curator.notes}
                   </div>
