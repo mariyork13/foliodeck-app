@@ -7,10 +7,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="flex items-center justify-between border-b border-white/10 px-6 py-4">
         <nav className="flex items-center gap-4 text-sm">
           <Link href="/admin" className="font-medium hover:text-white/70">
-            Curators
+            Портфолио
+          </Link>
+          <Link href="/admin/submissions" className="font-medium hover:text-white/70">
+            Заявки
           </Link>
           <Link href="/admin/tags" className="font-medium hover:text-white/70">
-            Tags
+            Теги
+          </Link>
+          <Link href="/designer" className="font-medium hover:text-white/70">
+            Выпускники
+          </Link>
+          <Link href="/admin/taxonomy" className="font-medium hover:text-white/70">
+            Справочник
           </Link>
         </nav>
         <form action={logoutAction}>

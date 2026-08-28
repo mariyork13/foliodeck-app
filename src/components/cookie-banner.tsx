@@ -31,8 +31,7 @@ export function CookieBanner() {
   return (
     <div className={`pointer-events-auto flex w-full items-center gap-4 rounded-xl p-4 sm:w-[420px] ${panelBg}`}>
       <p className="flex-1 text-[13px] leading-relaxed text-white/70">
-        We use cookies to improve the site and analyze how it&apos;s used. By continuing to use the site, you agree
-        to this.
+        We use only technically necessary cookies to keep the site working. No analytics or tracking.
       </p>
       <button
         onClick={accept}

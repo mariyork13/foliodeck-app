@@ -1,0 +1,56 @@
+import type { TaxonomyCategory } from "./constants";
+
+// Base vocabulary from the spec. This only seeds the `taxonomy` table on first
+// setup — it is NOT the source of truth. New values are added at runtime via the
+// tag picker in the form or the /designer/taxonomy editor.
+export const TAXONOMY_SEED: Record<TaxonomyCategory, string[]> = {
+  platform: ["Web", "Mobile", "iOS", "Android", "Desktop", "Other platforms"],
+  business_model: ["B2C", "B2B", "B2E", "B2B2C"],
+  industry: [
+    "Fintech",
+    "AdTech",
+    "HealthTech",
+    "EdTech",
+    "HRTech",
+    "E-commerce",
+    "Retail",
+    "TravelTech",
+    "PropTech",
+    "FoodTech",
+    "Logistics",
+    "Media",
+    "Entertainment",
+    "Social",
+    "AI",
+    "Cybersecurity",
+    "Telecom",
+    "Industrial / Manufacturing",
+    "LegalTech",
+    "MarTech",
+    "GovTech",
+    "Automotive",
+    "Real Estate",
+    "Productivity",
+    "Other",
+  ],
+  interface_type: [
+    "Data-heavy interfaces",
+    "Admin panels",
+    "CRM",
+    "ERP",
+    "Dashboards",
+    "AI interfaces",
+    "Other",
+  ],
+  skill: [
+    "AI",
+    "Live coding / Vibe coding",
+    "Mobile design",
+    "Web design",
+    "UI",
+    "Data-heavy interfaces",
+    "Research",
+    "Design systems",
+  ],
+  company_type: ["Startup", "Small business", "Agency", "BigTech", "Government company"],
+};

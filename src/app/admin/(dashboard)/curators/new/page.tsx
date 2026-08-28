@@ -9,7 +9,7 @@ export default async function NewCuratorPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-medium">Add curator</h1>
+      <h1 className="mb-6 text-xl font-medium">Добавить портфолио</h1>
       <CuratorForm action={createCuratorAction} tags={tags} geoOptions={geoOptions} />
     </div>
   );

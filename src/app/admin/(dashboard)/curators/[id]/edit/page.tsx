@@ -18,7 +18,7 @@ export default async function EditCuratorPage(props: PageProps<"/admin/curators/
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-medium">Edit curator</h1>
+      <h1 className="mb-6 text-xl font-medium">Редактировать портфолио</h1>
       <CuratorForm
         action={updateCuratorAction.bind(null, curatorId)}
         curator={curator}

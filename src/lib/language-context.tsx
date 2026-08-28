@@ -5,7 +5,8 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 export type Language = "ru" | "en";
 
 const STORAGE_KEY = "foliodeck-language";
-const DEFAULT_LANGUAGE: Language = "ru";
+// The public interface is English-first; Russian stays available via the footer toggle.
+const DEFAULT_LANGUAGE: Language = "en";
 
 type LanguageContextValue = {
   language: Language;

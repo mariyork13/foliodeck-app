@@ -114,7 +114,7 @@ export function CuratorForm({
 
       <div>
         <label className={labelClass} htmlFor="notes">
-          Curator notes
+          Portfolio notes
         </label>
         <textarea id="notes" name="notes" defaultValue={curator?.notes} rows={6} className={inputClass} />
       </div>

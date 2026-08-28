@@ -118,7 +118,7 @@ export async function createCurator(input: CuratorInput): Promise<number> {
     VALUES (
       ${input.slug}, ${input.name}, ${input.role}, ${input.externalUrl}, ${input.previewImage},
       ${input.geo ?? null}, ${input.notes ?? null},
-      COALESCE((SELECT MAX(sort_order) FROM curators), 0) + 1
+      COALESCE((SELECT MIN(sort_order) FROM curators), 0) - 1
     )
     RETURNING id
   `;

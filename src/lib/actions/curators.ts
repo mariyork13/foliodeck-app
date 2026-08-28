@@ -57,11 +57,19 @@ export async function deleteCuratorAction(id: number): Promise<void> {
   revalidatePath("/admin");
 }
 
-export async function reorderCuratorAction(id: number, formData: FormData): Promise<void> {
+/** Persist a drag-and-drop move: `index` is the 0-based position in the full list. */
+export async function setCuratorPositionAction(id: number, index: number): Promise<void> {
   await requireAdminSession();
-  const position = Number(formData.get("position"));
-  if (!Number.isInteger(position) || position < 1) return;
-  await reorderCurator(id, position - 1);
+  if (!Number.isInteger(index) || index < 0) return;
+  await reorderCurator(id, index);
+  revalidatePublicPages();
+  revalidatePath("/admin");
+}
+
+/** Per-row shortcut: jump a portfolio to the very top or bottom of the whole list. */
+export async function moveCuratorToEdgeAction(id: number, edge: "top" | "bottom"): Promise<void> {
+  await requireAdminSession();
+  await reorderCurator(id, edge === "top" ? 0 : Number.MAX_SAFE_INTEGER);
   revalidatePublicPages();
   revalidatePath("/admin");
 }
