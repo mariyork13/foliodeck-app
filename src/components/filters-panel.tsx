@@ -43,16 +43,18 @@ function FilterColumn({
   options,
   scroll,
   showLogos,
+  className,
 }: {
   title: string;
   group: FilterGroup;
   options: readonly string[];
   scroll?: boolean;
   showLogos?: boolean;
+  className?: string;
 }) {
   const { selected, toggle } = useFilter();
   return (
-    <div className={`flex w-full shrink-0 flex-col sm:w-44 ${scroll ? "sm:h-full sm:min-h-0" : ""}`}>
+    <div className={`flex w-full shrink-0 flex-col sm:w-44 ${scroll ? "sm:h-full sm:min-h-0" : ""} ${className ?? ""}`}>
       <h3 className="mb-3 shrink-0 text-base font-medium text-white">{title}</h3>
       <div className={scroll ? "sm:min-h-0 sm:flex-1 sm:overflow-y-auto sm:pr-2" : ""}>
         {options.map((option) => (
@@ -83,13 +85,27 @@ export function FiltersPanel({
       onMouseLeave={onMouseLeave}
     >
       <div className="absolute right-14 -top-2 hidden h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)] sm:block" />
-      <div className="flex max-h-[70vh] flex-col gap-6 overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px] sm:h-[436px] sm:max-h-none sm:w-[640px] sm:flex-row sm:gap-8 sm:overflow-visible">
-        <FilterColumn title="Direction" group="specialization" options={specializationOptions} />
-        <FilterColumn title="Project" group="company" options={companyOptions} scroll showLogos />
-        <div className="flex w-full shrink-0 flex-col gap-6 sm:w-44">
-          <FilterColumn title="Geography" group="geo" options={geoOptions} />
-          <FilterColumn title="Collections" group="collections" options={collectionOptions} />
+      <div className="grid max-h-[70vh] grid-cols-2 gap-x-4 overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px] sm:flex sm:h-[436px] sm:max-h-none sm:w-[640px] sm:flex-row sm:gap-8 sm:overflow-visible">
+        <div className="col-start-1 flex w-full shrink-0 flex-col gap-6 sm:contents">
+          <FilterColumn
+            title="Direction"
+            group="specialization"
+            options={specializationOptions}
+            className="sm:order-1"
+          />
+          <div className="flex w-full shrink-0 flex-col gap-6 sm:order-3 sm:w-44">
+            <FilterColumn title="Geography" group="geo" options={geoOptions} />
+            <FilterColumn title="Collections" group="collections" options={collectionOptions} />
+          </div>
         </div>
+        <FilterColumn
+          title="Project"
+          group="company"
+          options={companyOptions}
+          scroll
+          showLogos
+          className="col-start-2 sm:order-2"
+        />
       </div>
     </div>
   );

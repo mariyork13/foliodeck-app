@@ -91,9 +91,10 @@ export function SiteHeader() {
           <div onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters}>
             <button
               onClick={() => setFiltersOpen((v) => !v)}
-              className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-full ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
+              className={`flex h-[39.5px] items-center justify-center gap-2 rounded-full ${TEXT} font-medium text-white ${pillBg} ${filterCount > 0 ? "px-3" : "w-[39.5px]"} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
             >
               <FilterIcon className="shrink-0 sm:hidden" />
+              {filterCount > 0 && <span className="sm:hidden">{filterCount}</span>}
               <span className="hidden sm:inline">{filterCount > 0 ? `Filter ${filterCount}` : "Filters"}</span>
               {filterCount > 0 && (
                 <span
@@ -103,7 +104,7 @@ export function SiteHeader() {
                     e.stopPropagation();
                     reset();
                   }}
-                  className="hidden h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white sm:flex"
+                  className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
                 >
                   <XIcon />
                 </span>
