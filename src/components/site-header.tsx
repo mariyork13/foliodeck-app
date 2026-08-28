@@ -53,6 +53,12 @@ export function SiteHeader() {
           <Link href="/" className={`rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
             Foliodeck
           </Link>
+          <button
+            onClick={() => setSubmitOpen(true)}
+            className={`rounded-full sm:hidden ${submitBg} ${PAD_BTN_BORDERED} ${TEXT} font-medium text-black/90`}
+          >
+            Submit
+          </button>
           <nav className={`hidden sm:flex items-center rounded-full ${pillBgStatic}`}>
             <Link
               href="/about"
@@ -82,7 +88,39 @@ export function SiteHeader() {
         </div>
 
         <div className="ml-auto flex shrink-0 items-center">
-          {/* Mobile: nav links (Project/Curator) collapse behind a hamburger button. */}
+          <div onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters}>
+            <button
+              onClick={() => setFiltersOpen((v) => !v)}
+              className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-full ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
+            >
+              <FilterIcon className="shrink-0 sm:hidden" />
+              <span className="hidden sm:inline">{filterCount > 0 ? `Filter ${filterCount}` : "Filters"}</span>
+              {filterCount > 0 && (
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    reset();
+                  }}
+                  className="hidden h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white sm:flex"
+                >
+                  <XIcon />
+                </span>
+              )}
+            </button>
+          </div>
+          {filtersOpen && <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} />}
+          <button
+            onClick={() => setFavoritesOpen(true)}
+            className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-lg ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
+          >
+            <HeartIcon className="sm:hidden" />
+            <span className="hidden sm:inline">Favorites</span>
+          </button>
+
+          {/* Mobile: nav links (Project/Curator) collapse behind a hamburger button,
+              placed last so it sits at the outer edge of the icon cluster. */}
           <div className="relative sm:hidden">
             <button
               onClick={() => setNavOpen((v) => !v)}
@@ -120,39 +158,9 @@ export function SiteHeader() {
             )}
           </div>
 
-          <div onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters}>
-            <button
-              onClick={() => setFiltersOpen((v) => !v)}
-              className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-full ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
-            >
-              <FilterIcon className="shrink-0 sm:hidden" />
-              <span className="hidden sm:inline">{filterCount > 0 ? `Filter ${filterCount}` : "Filters"}</span>
-              {filterCount > 0 && (
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    reset();
-                  }}
-                  className="hidden h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white sm:flex"
-                >
-                  <XIcon />
-                </span>
-              )}
-            </button>
-          </div>
-          {filtersOpen && <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} />}
-          <button
-            onClick={() => setFavoritesOpen(true)}
-            className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-lg ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
-          >
-            <HeartIcon className="sm:hidden" />
-            <span className="hidden sm:inline">Favorites</span>
-          </button>
           <button
             onClick={() => setSubmitOpen(true)}
-            className={`rounded-full ${submitBg} ${PAD_BTN_BORDERED} ${TEXT} font-medium text-black/90`}
+            className={`hidden rounded-full sm:block ${submitBg} ${PAD_BTN_BORDERED} ${TEXT} font-medium text-black/90`}
           >
             Submit
           </button>
