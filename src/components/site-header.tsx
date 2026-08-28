@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useFilter } from "@/lib/filter-context";
+import type { Curator, FilterOptions } from "@/lib/types";
 import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
 import { FilterIcon, HeartIcon, SearchIcon } from "./icons";
@@ -24,7 +25,7 @@ const PAD_BTN = "px-4 py-2.5";
 const PAD_BTN_BORDERED = "px-4 py-[9px]";
 const CLOSE_DELAY = 200;
 
-export function SiteHeader() {
+export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; filterOptions: FilterOptions }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [submitOpen, setSubmitOpen] = useState(false);
@@ -111,7 +112,9 @@ export function SiteHeader() {
               )}
             </button>
           </div>
-          {filtersOpen && <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} />}
+          {filtersOpen && (
+            <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} options={filterOptions} />
+          )}
           <button
             onClick={() => setFavoritesOpen(true)}
             className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-lg ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
@@ -168,7 +171,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <FavoritesPanel open={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
+      <FavoritesPanel open={favoritesOpen} onClose={() => setFavoritesOpen(false)} curators={curators} />
       <SubmitModal open={submitOpen} onClose={() => setSubmitOpen(false)} />
     </header>
   );

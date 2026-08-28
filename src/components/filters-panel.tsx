@@ -1,7 +1,7 @@
 "use client";
 
-import { collectionOptions, companyOptions, geoOptions, specializationOptions } from "@/lib/filterOptions";
 import { useFilter, type FilterGroup } from "@/lib/filter-context";
+import type { FilterOptions } from "@/lib/types";
 import { CompanyLogo } from "./company-logo";
 import { XIcon } from "./x-icon";
 
@@ -74,9 +74,11 @@ function FilterColumn({
 export function FiltersPanel({
   onMouseEnter,
   onMouseLeave,
+  options,
 }: {
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  options: FilterOptions;
 }) {
   return (
     <div
@@ -90,18 +92,18 @@ export function FiltersPanel({
           <FilterColumn
             title="Direction"
             group="specialization"
-            options={specializationOptions}
+            options={options.specializations}
             className="sm:order-1"
           />
           <div className="flex w-full shrink-0 flex-col gap-6 sm:order-3 sm:w-44">
-            <FilterColumn title="Geography" group="geo" options={geoOptions} />
-            <FilterColumn title="Collections" group="collections" options={collectionOptions} />
+            <FilterColumn title="Geography" group="geo" options={options.geo} />
+            <FilterColumn title="Collections" group="collections" options={options.collections} />
           </div>
         </div>
         <FilterColumn
           title="Project"
           group="company"
-          options={companyOptions}
+          options={options.companies}
           scroll
           showLogos
           className="col-start-2 sm:order-2"

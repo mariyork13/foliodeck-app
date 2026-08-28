@@ -1,11 +1,19 @@
 "use client";
 
-import { curators } from "@/lib/curators";
 import { useFavorites } from "@/lib/favorites-context";
+import type { Curator } from "@/lib/types";
 import { CuratorCard } from "./curator-card";
 import { XIcon } from "./x-icon";
 
-export function FavoritesPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function FavoritesPanel({
+  open,
+  onClose,
+  curators,
+}: {
+  open: boolean;
+  onClose: () => void;
+  curators: Curator[];
+}) {
   const { favorites } = useFavorites();
 
   if (!open) return null;

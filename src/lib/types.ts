@@ -17,3 +17,11 @@ export type Curator = {
   /** Curator's own commentary on this portfolio, shown in the Notes dropdown on the detail page. */
   notes?: string;
 };
+
+/** DB-backed replacement for the old static filterOptions.ts constants. */
+export type FilterOptions = {
+  specializations: string[];
+  companies: string[];
+  collections: string[];
+  geo: string[];
+};

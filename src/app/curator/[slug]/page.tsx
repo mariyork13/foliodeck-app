@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { CuratorDetail } from "@/components/curator-detail";
-import { curators } from "@/lib/curators";
+import { getCuratorBySlug } from "@/lib/db/curators";
 
 export default async function CuratorPage(props: PageProps<"/curator/[slug]">) {
   const { slug } = await props.params;
-  const curator = curators.find((c) => c.slug === slug);
+  const curator = await getCuratorBySlug(slug);
 
   if (!curator) notFound();
 
