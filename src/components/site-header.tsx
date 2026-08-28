@@ -131,7 +131,7 @@ export function SiteHeader() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="shrink-0"
+                className="shrink-0 sm:hidden"
               >
                 <line x1="4" y1="6" x2="20" y2="6" />
                 <circle cx="9" cy="6" r="1.6" fill="currentColor" stroke="none" />
@@ -161,7 +161,15 @@ export function SiteHeader() {
             onClick={() => setFavoritesOpen(true)}
             className={`flex items-center gap-2 rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="sm:hidden"
+            >
               <path d="M12 21s-6.716-4.35-9.428-8.06C.5 10.1 1.2 6.5 4.2 5.1 6.6 4 9.2 4.8 12 8c2.8-3.2 5.4-4 7.8-2.9 3 1.4 3.7 5 1.628 7.84C18.716 16.65 12 21 12 21Z" />
             </svg>
             <span className="hidden sm:inline">Favorites</span>
