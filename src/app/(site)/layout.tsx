@@ -1,3 +1,4 @@
+import { CookieBanner } from "@/components/cookie-banner";
 import { ScrollToTopButton } from "@/components/scroll-to-top-button";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -29,7 +30,13 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <SiteHeader curators={curators} filterOptions={filterOptions} />
       <main className="flex-1">{children}</main>
       <SiteFooter />
-      <SubscribeBanner />
+      <div
+        id="bottom-banner-stack"
+        className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex flex-col-reverse items-center gap-3 px-4 sm:px-0"
+      >
+        <CookieBanner />
+        <SubscribeBanner />
+      </div>
       <ScrollToTopButton />
     </>
   );

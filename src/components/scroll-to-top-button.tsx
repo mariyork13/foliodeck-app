@@ -20,8 +20,8 @@ export function ScrollToTopButton() {
 
   useEffect(() => {
     const recompute = () => {
-      const banner = document.getElementById("subscribe-banner");
-      if (!banner) {
+      const banner = document.getElementById("bottom-banner-stack");
+      if (!banner || banner.children.length === 0) {
         setBottomOffset(EDGE_GAP);
         return;
       }
@@ -40,11 +40,11 @@ export function ScrollToTopButton() {
     const resizeObserver = new ResizeObserver(recompute);
     const mutationObserver = new MutationObserver(() => {
       recompute();
-      const banner = document.getElementById("subscribe-banner");
+      const banner = document.getElementById("bottom-banner-stack");
       if (banner) resizeObserver.observe(banner);
     });
     mutationObserver.observe(document.body, { childList: true, subtree: true });
-    const initialBanner = document.getElementById("subscribe-banner");
+    const initialBanner = document.getElementById("bottom-banner-stack");
     if (initialBanner) resizeObserver.observe(initialBanner);
 
     return () => {

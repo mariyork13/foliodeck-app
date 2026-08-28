@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { XIcon } from "./x-icon";
 
@@ -7,7 +8,8 @@ const inputClass =
   "h-11 w-full rounded-[10px] border border-[#3A3A3D] bg-transparent px-4 text-sm text-white placeholder:text-white/40 focus:outline-none";
 
 export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const [agreed, setAgreed] = useState(false);
+  const [agreedProcessing, setAgreedProcessing] = useState(false);
+  const [agreedDistribution, setAgreedDistribution] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   if (!open) return null;
@@ -15,7 +17,8 @@ export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => v
   const close = () => {
     onClose();
     setSubmitted(false);
-    setAgreed(false);
+    setAgreedProcessing(false);
+    setAgreedDistribution(false);
   };
 
   return (
@@ -57,16 +60,40 @@ export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => v
               <input type="url" required placeholder="Link to your portfolio" className={inputClass} />
             </div>
 
-            <label className="mt-4 flex items-start gap-2 text-xs leading-relaxed text-white/50">
-              <input
-                type="checkbox"
-                required
-                checked={agreed}
-                onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-[#3A3A3D] bg-transparent accent-white"
-              />
-              I agree to the processing of my data to be considered for the portfolio gallery.
-            </label>
+            <div className="mt-4 flex flex-col gap-3">
+              <label className="flex items-start gap-2 text-xs leading-relaxed text-white/50">
+                <input
+                  type="checkbox"
+                  required
+                  checked={agreedProcessing}
+                  onChange={(e) => setAgreedProcessing(e.target.checked)}
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-[#3A3A3D] bg-transparent accent-white"
+                />
+                <span>
+                  Я даю согласие на обработку персональных данных и ознакомлен(а) с{" "}
+                  <Link href="/privacy-policy" target="_blank" className="underline hover:text-white/80">
+                    Политикой обработки персональных данных
+                  </Link>
+                  .
+                </span>
+              </label>
+              <label className="flex items-start gap-2 text-xs leading-relaxed text-white/50">
+                <input
+                  type="checkbox"
+                  required
+                  checked={agreedDistribution}
+                  onChange={(e) => setAgreedDistribution(e.target.checked)}
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-[#3A3A3D] bg-transparent accent-white"
+                />
+                <span>
+                  Я даю{" "}
+                  <Link href="/data-distribution-consent" target="_blank" className="underline hover:text-white/80">
+                    согласие на публикацию и распространение
+                  </Link>{" "}
+                  моих персональных данных на сайте foliodeck.pro.
+                </span>
+              </label>
+            </div>
 
             <button
               type="submit"
