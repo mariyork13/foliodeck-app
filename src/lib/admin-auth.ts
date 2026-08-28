@@ -15,7 +15,9 @@ export async function createSession(): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.set(COOKIE_NAME, getExpectedSessionToken(), {
     httpOnly: true,
-    secure: true,
+    // A Secure cookie set over plain http://localhost in dev is silently
+    // dropped by some browsers, breaking the session right after login.
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: MAX_AGE_SECONDS,

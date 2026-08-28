@@ -4,6 +4,7 @@ import { sql } from "./client";
 export type TagType = "specialization" | "company" | "collection";
 
 export type Tag = { id: number; type: TagType; name: string };
+export type TagWithUsage = Tag & { usageCount: number };
 
 async function getTagsByTypeImpl(type: TagType): Promise<Tag[]> {
   const rows = await sql`SELECT id, type, name FROM tags WHERE type = ${type} ORDER BY name`;
@@ -18,6 +19,20 @@ async function getAllTagsGroupedImpl(): Promise<Record<TagType, Tag[]>> {
   return grouped;
 }
 export const getAllTagsGrouped = cache(getAllTagsGroupedImpl);
+
+async function getAllTagsGroupedWithUsageImpl(): Promise<Record<TagType, TagWithUsage[]>> {
+  const rows = await sql`
+    SELECT t.id, t.type, t.name, COUNT(ct.curator_id)::int AS "usageCount"
+    FROM tags t
+    LEFT JOIN curator_tags ct ON ct.tag_id = t.id
+    GROUP BY t.id
+    ORDER BY t.type, t.name
+  `;
+  const grouped: Record<TagType, TagWithUsage[]> = { specialization: [], company: [], collection: [] };
+  for (const row of rows as TagWithUsage[]) grouped[row.type].push(row);
+  return grouped;
+}
+export const getAllTagsGroupedWithUsage = cache(getAllTagsGroupedWithUsageImpl);
 
 async function getDistinctGeoValuesImpl(): Promise<string[]> {
   const rows = await sql`SELECT DISTINCT geo FROM curators WHERE geo IS NOT NULL ORDER BY geo`;
@@ -42,7 +57,3 @@ export async function deleteTag(id: number): Promise<void> {
   await sql`DELETE FROM tags WHERE id = ${id}`;
 }
 
-export async function getTagUsageCount(id: number): Promise<number> {
-  const rows = await sql`SELECT COUNT(*)::int AS count FROM curator_tags WHERE tag_id = ${id}`;
-  return rows[0].count as number;
-}
