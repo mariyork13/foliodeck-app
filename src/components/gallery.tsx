@@ -41,7 +41,7 @@ export function Gallery({ curators }: { curators: Curator[] }) {
   const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
 
   return (
-    <section className="mx-auto max-w-[1920px] px-4 pb-24 pt-8">
+    <section className="mx-auto max-w-[1920px] px-4 pb-24 pt-4 sm:pt-8">
       {rows.length > 0 ? (
         <>
           {/* Mobile: one card per row. Tablet: two cards per row. */}
