@@ -123,7 +123,7 @@ export function SiteHeader() {
           <div onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters}>
             <button
               onClick={() => setFiltersOpen((v) => !v)}
-              className={`flex items-center gap-2 rounded-full ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
+              className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-full ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
             >
               <FilterIcon className="shrink-0 sm:hidden" />
               <span className="hidden sm:inline">{filterCount > 0 ? `Filter ${filterCount}` : "Filters"}</span>
@@ -145,7 +145,7 @@ export function SiteHeader() {
           {filtersOpen && <FiltersPanel onMouseEnter={openFilters} onMouseLeave={scheduleCloseFilters} />}
           <button
             onClick={() => setFavoritesOpen(true)}
-            className={`flex items-center gap-2 rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}
+            className={`flex h-[39.5px] w-[39.5px] items-center justify-center gap-2 rounded-lg ${TEXT} font-medium text-white ${pillBg} sm:h-auto sm:w-auto sm:justify-start sm:px-4 sm:py-2.5`}
           >
             <HeartIcon className="sm:hidden" />
             <span className="hidden sm:inline">Favorites</span>

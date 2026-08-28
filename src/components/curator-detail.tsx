@@ -11,7 +11,8 @@ const pillBg = "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-
 // Matches the main site header's button sizing.
 const BTN_TEXT = "text-[13px]";
 // Icon-only square tap target on tablet and below; full text+icon pill from lg up.
-const PAD_BTN = "px-3 py-2.5 lg:px-4";
+// Fixed height matches the main site header's pills regardless of icon/text state.
+const PAD_BTN = "h-[39.5px] w-[39.5px] lg:w-auto lg:px-4";
 
 export function CuratorDetail({ curator }: { curator: Curator }) {
   const router = useRouter();

@@ -31,7 +31,7 @@ export function SubscribeBanner() {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4 sm:px-0">
-      <div className="pointer-events-auto w-full sm:w-fit">
+      <div id="subscribe-banner" className="pointer-events-auto w-full sm:w-fit">
         <div className="mb-1 flex justify-end">
           <button
             onClick={close}
