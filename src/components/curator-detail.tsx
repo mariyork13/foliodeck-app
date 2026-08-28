@@ -22,7 +22,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
 
   return (
     <div className="flex h-screen flex-col bg-[#161618]">
-      <header className="flex shrink-0 items-center justify-between gap-4 px-4 py-4">
+      <header className="relative flex shrink-0 items-center justify-between gap-4 px-4 py-4">
         <div className="flex min-w-0 items-center gap-3">
           <button
             type="button"
@@ -40,7 +40,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
 
         <div className="flex shrink-0 items-center gap-0">
           {curator.notes && (
-            <div className="relative">
+            <>
               <button
                 type="button"
                 onClick={() => setNotesOpen((v) => !v)}
@@ -53,13 +53,13 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNotesOpen(false)} />
                   <div
-                    className={`absolute right-0 top-[calc(100%+8px)] z-50 w-80 rounded-xl bg-[#1e1e21]/70 p-4 ${TEXT_SCALE} leading-relaxed text-white/80 backdrop-blur-[74px]`}
+                    className={`absolute left-3 right-3 top-[calc(100%+8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 ${TEXT_SCALE} leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
                   >
                     {curator.notes}
                   </div>
                 </>
               )}
-            </div>
+            </>
           )}
           <a
             href={curator.externalUrl}
