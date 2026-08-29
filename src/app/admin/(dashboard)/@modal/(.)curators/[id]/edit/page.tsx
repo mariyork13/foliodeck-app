@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { CuratorEditModal } from "@/components/admin/curator-edit-modal";
+import { CuratorFormModal } from "@/components/admin/curator-form-modal";
+import { updateCuratorAction } from "@/lib/actions/curators";
 import { getCuratorById } from "@/lib/db/curators";
 import { getAllTagsGrouped, getDistinctGeoValues } from "@/lib/db/tags";
 
@@ -25,8 +26,9 @@ export default async function InterceptedEditCuratorModal({
   if (!curator) notFound();
 
   return (
-    <CuratorEditModal
-      curatorId={curatorId}
+    <CuratorFormModal
+      title="Редактировать портфолио"
+      action={updateCuratorAction.bind(null, curatorId)}
       curator={curator}
       tags={tags}
       geoOptions={geoOptions}

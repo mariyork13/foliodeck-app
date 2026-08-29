@@ -5,13 +5,18 @@ import { getAllTagsGrouped, getDistinctGeoValues } from "@/lib/db/tags";
 
 export const dynamic = "force-dynamic";
 
-// Direct visit / refresh of /admin/curators/new — render the same modal; closing
-// it goes to /admin.
-export default async function NewCuratorPage(props: PageProps<"/admin/curators/new">) {
+// Intercepts a soft navigation to /admin/curators/new (the "Добавить портфолио"
+// button, or "Опубликовать" on a submission) and shows the form in a modal over
+// whatever list it was opened from.
+export default async function InterceptedNewCuratorModal({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const [tags, geoOptions, sp] = await Promise.all([
     getAllTagsGrouped(),
     getDistinctGeoValues(),
-    props.searchParams,
+    searchParams,
   ]);
   const { prefill, fromSubmissionId, note } = parseCuratorPrefill(sp);
 
@@ -24,6 +29,7 @@ export default async function NewCuratorPage(props: PageProps<"/admin/curators/n
       geoOptions={geoOptions}
       fromSubmissionId={fromSubmissionId}
       note={note}
+      intercepted
     />
   );
 }

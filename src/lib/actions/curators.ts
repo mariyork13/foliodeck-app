@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { createCurator, deleteCurator, reorderCurator, updateCurator, type CuratorInput } from "@/lib/db/curators";
 import { updateSubmissionStatus } from "@/lib/db/submissions";
@@ -49,7 +48,8 @@ export async function createCuratorAction(formData: FormData): Promise<void> {
   }
 
   revalidatePublicPages(input.slug);
-  redirect("/admin");
+  // No redirect: the form lives in a modal now and closes itself client-side.
+  revalidatePath("/admin");
 }
 
 export async function updateCuratorAction(id: number, formData: FormData): Promise<void> {
