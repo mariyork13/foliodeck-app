@@ -14,7 +14,9 @@ import { XIcon } from "./x-icon";
 const clearBadge = "flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white";
 
 const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
-const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70`;
+// `max-lg:active:` gives touch devices (mobile + tablet) a pressed-state colour
+// change, since there's no hover there.
+const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70 max-lg:active:bg-[#4D4D55]/70`;
 const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 

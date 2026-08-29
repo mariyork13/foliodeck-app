@@ -74,6 +74,9 @@ export function CuratorCard({
             src={cardImage}
             alt={`${curator.name} portfolio preview`}
             loading="lazy"
+            // Decode off the main thread so a fresh card scrolling into view
+            // doesn't stall the scroll while its (up-to-2400px) image decodes.
+            decoding="async"
             // onLoad doesn't fire for images already in the browser cache — catch those on mount.
             ref={(el) => {
               if (el?.complete && el.naturalWidth > 0 && !loaded) setLoaded(true);

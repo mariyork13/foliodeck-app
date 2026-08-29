@@ -10,7 +10,10 @@ import { ChevronLeftIcon, ExternalLinkIcon, HeartIcon, HistoryIcon } from "./ico
 const FRAME =
   "relative h-full w-full overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)]";
 
-const pillBg = "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70";
+// `max-lg:active:` gives touch devices (mobile + tablet) a pressed-state colour
+// change, since there's no hover there.
+const pillBg =
+  "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70 max-lg:active:bg-[#4D4D55]/70";
 // Matches the main site header's button sizing.
 const BTN_TEXT = "text-[13px]";
 // Icon-only square tap target on tablet and below; full text+icon pill from lg up.
@@ -35,7 +38,9 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
             <ChevronLeftIcon size={14} />
             <span className="hidden lg:inline">Back</span>
           </button>
-          <div className="min-w-0 truncate">
+          {/* `text-white/40` on the truncating box so the clipped "…" matches the
+              role colour rather than staying bright white. */}
+          <div className="min-w-0 truncate text-white/40">
             <span className={`${TEXT_SCALE} font-medium text-white`}>{curator.name}</span>
             <span className={`${TEXT_SCALE} ml-2 text-white/40`}>{curator.role}</span>
           </div>
@@ -56,7 +61,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNotesOpen(false)} />
                   <div
-                    className={`absolute left-3 right-3 top-[calc(100%-8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 ${TEXT_SCALE} leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
+                    className={`absolute left-3 right-3 top-[calc(100%-8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 text-[15px] leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
                   >
                     {curator.notes}
                   </div>
@@ -84,8 +89,9 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
         </div>
       </header>
 
-      {/* Site view fills the viewport below the header, with 16px padding on every side. */}
-      <div className="min-h-0 flex-1 p-4">
+      {/* Site view sits 16px below the header buttons — that gap is the header's
+          own padding-bottom, so only the other three sides are padded here. */}
+      <div className="min-h-0 flex-1 px-4 pb-4">
         <PortfolioView curator={curator} />
       </div>
     </div>

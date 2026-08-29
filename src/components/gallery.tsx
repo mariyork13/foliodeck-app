@@ -1,10 +1,17 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFilter } from "@/lib/filter-context";
 import { chunkIntoRows } from "@/lib/rowTemplates";
 import type { Curator } from "@/lib/types";
 import { CuratorCard } from "./curator-card";
+
+// Render the feed in batches instead of mounting every portfolio at once —
+// with several hundred curators a single mount means hundreds of <img> tags,
+// shimmer animations and backdrop-blur badges competing for the main thread,
+// which is what makes the first scroll down stutter on phones. 50 keeps the
+// hand-authored desktop row cycle (25 slots) on a clean boundary.
+const PAGE = 50;
 
 export function Gallery({ curators }: { curators: Curator[] }) {
   const { selected, search } = useFilter();
@@ -38,16 +45,49 @@ export function Gallery({ curators }: { curators: Curator[] }) {
     return result;
   }, [curators, selected, search]);
 
-  const rows = useMemo(() => chunkIntoRows(filtered), [filtered]);
+  const [limit, setLimit] = useState(PAGE);
+  // Any change to the filter result starts the feed over from the top. `filtered`
+  // is memoised, so its identity only changes when the filters actually do.
+  const [pagedList, setPagedList] = useState(filtered);
+  if (filtered !== pagedList) {
+    setPagedList(filtered);
+    setLimit(PAGE);
+  }
+
+  const visible = useMemo(() => filtered.slice(0, limit), [filtered, limit]);
+  const rows = useMemo(() => chunkIntoRows(visible), [visible]);
+  const hasMore = limit < filtered.length;
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el || !hasMore) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) setLimit((n) => n + PAGE);
+      },
+      // Pull the next batch in well before it scrolls into view.
+      { rootMargin: "1500px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [hasMore]);
 
   return (
     <section className="mx-auto max-w-[1920px] px-4 pb-24 pt-4 sm:pt-8">
       {rows.length > 0 ? (
         <>
-          {/* Mobile: one card per row. Tablet: two cards per row. */}
+          {/* Mobile: one card per row. Tablet: two cards per row.
+              `content-visibility:auto` keeps off-screen cards out of the render
+              loop so their shimmer/blur work doesn't run until they're near. */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:hidden">
-            {filtered.map((card) => (
-              <CuratorCard key={card.slug} curator={card} />
+            {visible.map((card) => (
+              <div
+                key={card.slug}
+                className="[content-visibility:auto] [contain-intrinsic-size:auto_320px]"
+              >
+                <CuratorCard curator={card} />
+              </div>
             ))}
           </div>
 
@@ -78,6 +118,8 @@ export function Gallery({ curators }: { curators: Curator[] }) {
               </div>
             ))}
           </div>
+
+          {hasMore && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
         </>
       ) : (
         <p className="py-16 text-center text-white/40">No portfolios found.</p>
