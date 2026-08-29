@@ -90,7 +90,7 @@ export function FiltersPanel({
       <div className="grid max-h-[70vh] grid-cols-2 gap-x-4 overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px] sm:flex sm:h-[436px] sm:max-h-none sm:w-[640px] sm:flex-row sm:gap-8 sm:overflow-visible">
         <div className="col-start-1 flex w-full shrink-0 flex-col gap-6 sm:contents">
           <FilterColumn
-            title="Direction"
+            title="Design"
             group="specialization"
             options={options.specializations}
             className="sm:order-1"

@@ -4,8 +4,14 @@ export type Curator = {
   role: string;
   /** URL of the curator's real external portfolio site. */
   externalUrl: string;
-  /** Screenshot preview of the external site (hotlinked from Tilda CDN for now). */
+  /** Auto screenshot of the external site (often a dead Tilda link). */
   previewImage: string;
+  /** Manual cover shown when the site can't be embedded in an iframe. */
+  coverImage?: string | null;
+  /** Whether the site can be shown in an <iframe> (null = not checked yet). */
+  embeddable?: boolean | null;
+  /** Legacy: full-page screenshots (feature removed, table kept). */
+  images: string[];
   /** Matches specializationOptions in filterOptions.ts. */
   specializations: string[];
   /** Matches geoOptions in filterOptions.ts. */

@@ -37,7 +37,7 @@ export function validateSubmission(fields: SubmissionFields): FieldErrors {
     errors.contact = "Please provide your Telegram or LinkedIn.";
   }
   if (!fields.specialization.trim()) {
-    errors.specialization = "Please enter your specialization.";
+    errors.specialization = "Please select your specialization.";
   }
   if (!isHttpUrl(fields.portfolioUrl.trim())) {
     errors.portfolioUrl = "Please enter a valid portfolio URL.";

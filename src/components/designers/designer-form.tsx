@@ -89,7 +89,7 @@ export function DesignerForm({
 
       <div>
         <label className={labelClass} htmlFor="slug">
-          Slug (в адресе профиля)
+          Адрес профиля (в ссылке на сайте)
         </label>
         <input
           id="slug"

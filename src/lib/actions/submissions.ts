@@ -111,3 +111,27 @@ export async function setSubmissionStatusAction(id: number, formData: FormData):
   revalidatePath("/admin/submissions");
   revalidatePath(`/admin/submissions/${id}`);
 }
+
+/**
+ * Quick one-click mark from the list, mirroring the ✓/✗ Telegram reactions:
+ * ✓ = approved, ✗ = won't publish. "published" is set separately, only when the
+ * portfolio is actually created from the submission. Leaves any admin note
+ * untouched; clicking the mark a submission already has clears it back to "new".
+ * `currentStatus` comes from the list row so no re-read is needed.
+ */
+export async function markSubmissionAction(
+  id: number,
+  mark: Extract<SubmissionStatus, "approved" | "rejected">,
+  currentStatus: SubmissionStatus,
+): Promise<void> {
+  await requireAdminSession();
+
+  // Don't let the quick ✓ downgrade an already-published submission.
+  if (mark === "approved" && currentStatus === "published") return;
+
+  const next = currentStatus === mark ? "new" : mark;
+  await updateSubmissionStatus(id, next);
+
+  revalidatePath("/admin/submissions");
+  revalidatePath(`/admin/submissions/${id}`);
+}

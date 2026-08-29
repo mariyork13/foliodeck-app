@@ -24,6 +24,8 @@ export function CuratorCard({
   const isFavorited = checkFavorited(curator.slug);
   const textClamp = compact ? "truncate" : "";
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const cardImage = curator.coverImage || curator.previewImage;
 
   return (
     <div className={stretch ? "flex h-full flex-col" : ""}>
@@ -34,7 +36,7 @@ export function CuratorCard({
 
       <Link
         href={`/curator/${curator.slug}`}
-        className={`group relative block overflow-hidden rounded-[8px] bg-white ${stretch ? "flex-1" : "aspect-[4/3]"}`}
+        className={`group relative block overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)] ${stretch ? "flex-1" : "aspect-[4/3]"}`}
       >
         <button
           type="button"
@@ -60,19 +62,27 @@ export function CuratorCard({
         >
           <ExternalLinkIcon />
         </button>
-        {!loaded && (
-          <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
+        {/* Grey underlay — animated while loading, static once the image (or a dead state) resolves. */}
+        <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
+          {!loaded && !errored && (
             <div className="absolute inset-0 -translate-x-full animate-[shimmer-sweep_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          </div>
+          )}
+        </div>
+        {!errored && cardImage && (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={cardImage}
+            alt={`${curator.name} portfolio preview`}
+            loading="lazy"
+            // onLoad doesn't fire for images already in the browser cache — catch those on mount.
+            ref={(el) => {
+              if (el?.complete && el.naturalWidth > 0 && !loaded) setLoaded(true);
+            }}
+            onLoad={() => setLoaded(true)}
+            onError={() => setErrored(true)}
+            className="relative h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+          />
         )}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={curator.previewImage}
-          alt={`${curator.name} portfolio preview`}
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          className={`h-full w-full object-cover object-top transition-[transform,opacity] duration-500 group-hover:scale-[1.02] ${loaded ? "opacity-100" : "opacity-0"}`}
-        />
       </Link>
     </div>
   );

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { createCurator, deleteCurator, reorderCurator, updateCurator, type CuratorInput } from "@/lib/db/curators";
+import { updateSubmissionStatus } from "@/lib/db/submissions";
 
 function parseIds(formData: FormData, field: string): number[] {
   return formData
@@ -21,6 +22,7 @@ function parseInput(formData: FormData): CuratorInput {
     role: String(formData.get("role") ?? "").trim(),
     externalUrl: String(formData.get("externalUrl") ?? "").trim(),
     previewImage: String(formData.get("previewImage") ?? "").trim(),
+    coverImage: String(formData.get("coverImage") ?? "").trim() || null,
     geo: typeof geo === "string" && geo.trim() ? geo.trim() : null,
     notes: typeof notes === "string" && notes.trim() ? notes.trim() : null,
     specializationIds: parseIds(formData, "specializationIds"),
@@ -38,6 +40,14 @@ export async function createCuratorAction(formData: FormData): Promise<void> {
   await requireAdminSession();
   const input = parseInput(formData);
   await createCurator(input);
+
+  // Created straight from a portfolio submission → mark that submission published.
+  const fromSubmission = Number(formData.get("fromSubmission"));
+  if (Number.isInteger(fromSubmission) && fromSubmission > 0) {
+    await updateSubmissionStatus(fromSubmission, "published");
+    revalidatePath("/admin/submissions");
+  }
+
   revalidatePublicPages(input.slug);
   redirect("/admin");
 }

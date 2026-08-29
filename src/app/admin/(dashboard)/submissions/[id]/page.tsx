@@ -29,9 +29,22 @@ export default async function AdminSubmissionDetailPage(props: PageProps<"/admin
         ← К списку заявок
       </Link>
 
-      <h1 className="mb-6 mt-4 text-xl font-medium">
-        Заявка #{submission.id} · {submission.name}
-      </h1>
+      <div className="mb-6 mt-4 flex items-center justify-between gap-3">
+        <h1 className="text-xl font-medium">
+          Заявка #{submission.id} · {submission.name}
+        </h1>
+        <Link
+          href={`/admin/curators/new?${new URLSearchParams({
+            name: submission.name,
+            role: submission.specialization,
+            url: submission.portfolioUrl,
+            from: String(submission.id),
+          })}`}
+          className="shrink-0 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black hover:bg-white/90"
+        >
+          Опубликовать
+        </Link>
+      </div>
 
       <div className="mb-8">
         <Row label="Имя">{submission.name}</Row>

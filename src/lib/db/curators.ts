@@ -15,6 +15,7 @@ export type CuratorInput = {
   role: string;
   externalUrl: string;
   previewImage: string;
+  coverImage: string | null;
   geo?: string | null;
   notes?: string | null;
   specializationIds: number[];
@@ -31,6 +32,9 @@ function mapRow(row: any): CuratorRecord {
     role: row.role,
     externalUrl: row.external_url,
     previewImage: row.preview_image,
+    coverImage: row.cover_image ?? null,
+    embeddable: row.embeddable ?? null,
+    images: row.images ?? [],
     specializations: row.specializations ?? [],
     geo: row.geo ?? undefined,
     companies: row.companies ?? [],
@@ -42,7 +46,9 @@ function mapRow(row: any): CuratorRecord {
 async function getCuratorsImpl(): Promise<CuratorRecord[]> {
   const rows = await sql`
     SELECT
-      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.geo, c.notes, c.sort_order,
+      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+      (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
+       FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
@@ -61,7 +67,9 @@ export const getCurators = cache(getCuratorsImpl);
 async function getCuratorBySlugImpl(slug: string): Promise<CuratorRecord | null> {
   const rows = await sql`
     SELECT
-      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.geo, c.notes, c.sort_order,
+      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+      (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
+       FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
@@ -78,7 +86,9 @@ export const getCuratorBySlug = cache(getCuratorBySlugImpl);
 async function getCuratorByIdImpl(id: number): Promise<CuratorRecord | null> {
   const rows = await sql`
     SELECT
-      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.geo, c.notes, c.sort_order,
+      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+      (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
+       FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
@@ -114,10 +124,10 @@ async function linkTags(curatorId: number, input: CuratorInput): Promise<void> {
 
 export async function createCurator(input: CuratorInput): Promise<number> {
   const rows = await sql`
-    INSERT INTO curators (slug, name, role, external_url, preview_image, geo, notes, sort_order)
+    INSERT INTO curators (slug, name, role, external_url, preview_image, cover_image, geo, notes, sort_order)
     VALUES (
       ${input.slug}, ${input.name}, ${input.role}, ${input.externalUrl}, ${input.previewImage},
-      ${input.geo ?? null}, ${input.notes ?? null},
+      ${input.coverImage}, ${input.geo ?? null}, ${input.notes ?? null},
       COALESCE((SELECT MIN(sort_order) FROM curators), 0) - 1
     )
     RETURNING id
@@ -135,6 +145,7 @@ export async function updateCurator(id: number, input: CuratorInput): Promise<vo
       role = ${input.role},
       external_url = ${input.externalUrl},
       preview_image = ${input.previewImage},
+      cover_image = ${input.coverImage},
       geo = ${input.geo ?? null},
       notes = ${input.notes ?? null},
       updated_at = now()
@@ -183,7 +194,9 @@ export async function getCuratorsPage(options: {
   const [rows, countRows] = await Promise.all([
     sql`
       SELECT
-        c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.geo, c.notes, c.sort_order,
+        c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+        (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
+         FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
         COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
         COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
         COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections

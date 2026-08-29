@@ -2,9 +2,9 @@ import { createTag, deleteTagAction, renameTagAction, type TagType } from "@/lib
 import { getAllTagsGroupedWithUsage } from "@/lib/db/tags";
 
 const SECTIONS: { type: TagType; title: string }[] = [
-  { type: "specialization", title: "Direction" },
-  { type: "company", title: "Company" },
-  { type: "collection", title: "Collections" },
+  { type: "specialization", title: "Направление" },
+  { type: "company", title: "Компания" },
+  { type: "collection", title: "Коллекции" },
 ];
 
 export const dynamic = "force-dynamic";
@@ -21,7 +21,7 @@ export default async function AdminTagsPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <h1 className="text-xl font-medium">Tags</h1>
+      <h1 className="text-xl font-medium">Теги портфолио</h1>
       {SECTIONS.map((section) => (
         <div key={section.type}>
           <h2 className="mb-3 text-lg font-medium text-white/90">{section.title}</h2>
@@ -35,13 +35,13 @@ export default async function AdminTagsPage() {
                     className="flex-1 rounded bg-white/10 px-2 py-1 text-white outline-none"
                   />
                   <button type="submit" className="text-white/60 hover:text-white">
-                    Rename
+                    Переименовать
                   </button>
                 </form>
-                <span className="text-white/40">{tag.usageCount} used</span>
+                <span className="text-white/40">{tag.usageCount}×</span>
                 <form action={deleteTagAction.bind(null, tag.id)}>
                   <button type="submit" className="text-red-400/80 hover:text-red-400">
-                    Delete
+                    Удалить
                   </button>
                 </form>
               </li>
@@ -50,11 +50,11 @@ export default async function AdminTagsPage() {
           <form action={createTagAction.bind(null, section.type)} className="flex max-w-sm gap-2">
             <input
               name="name"
-              placeholder={`New ${section.title.toLowerCase()} tag`}
+              placeholder={`Добавить в «${section.title}»`}
               className="flex-1 rounded-lg bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-white/40"
             />
             <button type="submit" className="rounded-lg bg-white/10 px-3 py-2 text-sm text-white hover:bg-white/20">
-              Add
+              Добавить
             </button>
           </form>
         </div>

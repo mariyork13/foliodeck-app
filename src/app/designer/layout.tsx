@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AdminShell } from "@/components/admin/admin-shell";
 import { DesignerFilterProvider } from "@/lib/designers/filter-context";
 import { getDesigners, getDistinctProgramYears } from "@/lib/db/designers";
 import { getTaxonomyGrouped } from "@/lib/db/taxonomy";
@@ -7,7 +8,7 @@ import { getTaxonomyGrouped } from "@/lib/db/taxonomy";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Дизайн тащит — база учеников",
+  title: "Выпускники — база учеников",
 };
 
 export default async function DesignerLayout({
@@ -24,11 +25,11 @@ export default async function DesignerLayout({
   ]);
 
   return (
-    <div className="min-h-screen bg-[#161618] text-white">
+    <AdminShell>
       <DesignerFilterProvider designers={designers} taxonomy={taxonomy} years={years}>
         {children}
         {modal}
       </DesignerFilterProvider>
-    </div>
+    </AdminShell>
   );
 }

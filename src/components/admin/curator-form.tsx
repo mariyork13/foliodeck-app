@@ -1,5 +1,6 @@
 import type { CuratorRecord } from "@/lib/db/curators";
 import type { Tag } from "@/lib/db/tags";
+import { CoverImageField } from "./cover-image-field";
 import { TagPicker } from "./tag-picker";
 
 const inputClass = "w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-white/40";
@@ -10,11 +11,15 @@ export function CuratorForm({
   curator,
   tags,
   geoOptions,
+  fromSubmissionId,
 }: {
   action: (formData: FormData) => void | Promise<void>;
-  curator?: CuratorRecord;
+  /** A full record when editing, or a partial prefill when creating from a submission. */
+  curator?: Partial<CuratorRecord>;
   tags: Record<"specialization" | "company" | "collection", Tag[]>;
   geoOptions: string[];
+  /** When set, saving also marks the source portfolio submission as published. */
+  fromSubmissionId?: number;
 }) {
   const selectedIds = (type: "specialization" | "company" | "collection") => {
     const names = new Set(
@@ -29,30 +34,33 @@ export function CuratorForm({
 
   return (
     <form action={action} className="flex flex-col gap-5">
+      {fromSubmissionId != null && (
+        <input type="hidden" name="fromSubmission" value={fromSubmissionId} />
+      )}
       <div>
         <label className={labelClass} htmlFor="name">
-          Name
+          Имя
         </label>
         <input id="name" name="name" defaultValue={curator?.name} required className={inputClass} />
       </div>
 
       <div>
         <label className={labelClass} htmlFor="slug">
-          Slug (used in the URL)
+          Адрес страницы (в ссылке на сайте)
         </label>
         <input id="slug" name="slug" defaultValue={curator?.slug} required className={inputClass} />
       </div>
 
       <div>
         <label className={labelClass} htmlFor="role">
-          Role
+          Роль
         </label>
         <input id="role" name="role" defaultValue={curator?.role} required className={inputClass} />
       </div>
 
       <div>
         <label className={labelClass} htmlFor="externalUrl">
-          Portfolio URL
+          Ссылка на портфолио
         </label>
         <input
           id="externalUrl"
@@ -66,7 +74,7 @@ export function CuratorForm({
 
       <div>
         <label className={labelClass} htmlFor="previewImage">
-          Preview image URL
+          Превью сайта (скриншот)
         </label>
         <input
           id="previewImage"
@@ -78,9 +86,11 @@ export function CuratorForm({
         />
       </div>
 
+      <CoverImageField defaultValue={curator?.coverImage} />
+
       <div>
         <label className={labelClass} htmlFor="geo">
-          Geography
+          География
         </label>
         <input id="geo" name="geo" list="geo-options" defaultValue={curator?.geo} className={inputClass} />
         <datalist id="geo-options">
@@ -93,34 +103,34 @@ export function CuratorForm({
       <TagPicker
         tagType="specialization"
         fieldName="specializationIds"
-        label="Direction"
+        label="Направление"
         options={tags.specialization}
         defaultSelectedIds={selectedIds("specialization")}
       />
       <TagPicker
         tagType="company"
         fieldName="companyIds"
-        label="Company"
+        label="Компания"
         options={tags.company}
         defaultSelectedIds={selectedIds("company")}
       />
       <TagPicker
         tagType="collection"
         fieldName="collectionIds"
-        label="Collections"
+        label="Коллекции"
         options={tags.collection}
         defaultSelectedIds={selectedIds("collection")}
       />
 
       <div>
         <label className={labelClass} htmlFor="notes">
-          Portfolio notes
+          Заметки о портфолио
         </label>
         <textarea id="notes" name="notes" defaultValue={curator?.notes} rows={6} className={inputClass} />
       </div>
 
       <button type="submit" className="self-start rounded-lg bg-white px-4 py-2 text-sm font-medium text-black hover:bg-white/90">
-        Save
+        Сохранить
       </button>
     </form>
   );

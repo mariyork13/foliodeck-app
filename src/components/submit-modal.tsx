@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, type FormEvent } from "react";
 import { submitPortfolioAction } from "@/lib/actions/submissions";
 import { validateSubmission, type FieldErrors } from "@/lib/submissions/validation";
+import { MultiSelect } from "./multi-select";
 import { XIcon } from "./x-icon";
 
 const inputClass =
@@ -14,10 +15,19 @@ function FieldError({ message }: { message?: string }) {
   return message ? <p className={errorClass}>{message}</p> : null;
 }
 
-export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function SubmitModal({
+  open,
+  onClose,
+  specializations,
+}: {
+  open: boolean;
+  onClose: () => void;
+  specializations: string[];
+}) {
   const [state, formAction, isPending] = useActionState(submitPortfolioAction, null);
   const [agreedProcessing, setAgreedProcessing] = useState(false);
   const [agreedDistribution, setAgreedDistribution] = useState(false);
+  const [specs, setSpecs] = useState<string[]>([]);
   const [clientErrors, setClientErrors] = useState<FieldErrors>({});
   const [retry, setRetry] = useState(false);
 
@@ -27,6 +37,7 @@ export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => v
     onClose();
     setAgreedProcessing(false);
     setAgreedDistribution(false);
+    setSpecs([]);
     setClientErrors({});
     setRetry(false);
   };
@@ -45,7 +56,7 @@ export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => v
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       contact: String(formData.get("contact") ?? ""),
-      specialization: String(formData.get("specialization") ?? ""),
+      specialization: specs.join(", "),
       portfolioUrl: String(formData.get("portfolioUrl") ?? ""),
       consentProcessing: agreedProcessing,
       consentDisclosure: agreedDistribution,
@@ -118,18 +129,16 @@ export function SubmitModal({ open, onClose }: { open: boolean; onClose: () => v
                   placeholder="Telegram or LinkedIn"
                   className={inputClass}
                 />
-                <p className="mt-1 text-xs leading-relaxed text-white/40">
-                  Please provide a contact where we can reach you regarding your submission.
-                </p>
                 <FieldError message={errors.contact} />
               </div>
               <div>
-                <input
-                  name="specialization"
-                  type="text"
+                <MultiSelect
+                  options={specializations}
+                  value={specs}
+                  onChange={setSpecs}
                   placeholder="Specialization"
-                  className={inputClass}
                 />
+                <input type="hidden" name="specialization" value={specs.join(", ")} />
                 <FieldError message={errors.specialization} />
               </div>
               <div>

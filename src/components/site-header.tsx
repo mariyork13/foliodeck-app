@@ -172,7 +172,13 @@ export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; f
       </div>
 
       <FavoritesPanel open={favoritesOpen} onClose={() => setFavoritesOpen(false)} curators={curators} />
-      {submitOpen && <SubmitModal open onClose={() => setSubmitOpen(false)} />}
+      {submitOpen && (
+        <SubmitModal
+          open
+          onClose={() => setSubmitOpen(false)}
+          specializations={filterOptions.specializations}
+        />
+      )}
     </header>
   );
 }

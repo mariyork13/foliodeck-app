@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { markSubmissionAction } from "@/lib/actions/submissions";
 import { getSubmissionsPage, getSubmissionStatusCounts, SUBMISSION_STATUSES } from "@/lib/db/submissions";
 import { STATUS_LABELS } from "@/lib/submissions/status-labels";
 
@@ -21,8 +22,9 @@ export default async function AdminSubmissionsPage(props: PageProps<"/admin/subm
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const allCount = Object.values(counts).reduce((sum, n) => sum + n, 0);
 
-  const tab = (href: string, label: string, count: number, active: boolean) => (
+  const tab = (key: string, href: string, label: string, count: number, active: boolean) => (
     <Link
+      key={key}
       href={href}
       className={`rounded-full px-3 py-1 ${active ? "bg-white text-black" : "bg-white/10 text-white/70 hover:text-white"}`}
     >
@@ -35,9 +37,9 @@ export default async function AdminSubmissionsPage(props: PageProps<"/admin/subm
       <h1 className="mb-6 text-xl font-medium">Заявки на портфолио ({allCount})</h1>
 
       <div className="mb-6 flex flex-wrap gap-2 text-sm">
-        {tab("/admin/submissions", "Все", allCount, status === null)}
+        {tab("all", "/admin/submissions", "Все", allCount, status === null)}
         {SUBMISSION_STATUSES.map((s) =>
-          tab(`/admin/submissions?status=${s}`, STATUS_LABELS[s], counts[s] ?? 0, status === s),
+          tab(s, `/admin/submissions?status=${s}`, STATUS_LABELS[s], counts[s] ?? 0, status === s),
         )}
       </div>
 
@@ -49,7 +51,7 @@ export default async function AdminSubmissionsPage(props: PageProps<"/admin/subm
             <th className="py-2 font-normal">Специализация</th>
             <th className="py-2 font-normal">Портфолио</th>
             <th className="py-2 font-normal">Статус</th>
-            <th className="w-24 py-2 font-normal"></th>
+            <th className="w-44 py-2 font-normal"></th>
           </tr>
         </thead>
         <tbody>
@@ -69,10 +71,41 @@ export default async function AdminSubmissionsPage(props: PageProps<"/admin/subm
                 </a>
               </td>
               <td className="py-2 text-white/60">{STATUS_LABELS[s.status]}</td>
-              <td className="py-2 text-right">
-                <Link href={`/admin/submissions/${s.id}`} className="text-white/70 hover:text-white">
-                  Открыть
-                </Link>
+              <td className="py-2">
+                <div className="flex items-center justify-end gap-1.5">
+                  <form action={markSubmissionAction.bind(null, s.id, "approved", s.status)}>
+                    <button
+                      type="submit"
+                      title="Одобрить"
+                      className={`flex h-7 w-7 items-center justify-center rounded-md text-sm ${
+                        s.status === "approved" || s.status === "published"
+                          ? "bg-green-500/20 text-green-400"
+                          : "text-white/30 hover:bg-white/5 hover:text-green-400"
+                      }`}
+                    >
+                      ✓
+                    </button>
+                  </form>
+                  <form action={markSubmissionAction.bind(null, s.id, "rejected", s.status)}>
+                    <button
+                      type="submit"
+                      title="Не буду публиковать"
+                      className={`flex h-7 w-7 items-center justify-center rounded-md text-sm ${
+                        s.status === "rejected"
+                          ? "bg-red-500/20 text-red-400"
+                          : "text-white/30 hover:bg-white/5 hover:text-red-400"
+                      }`}
+                    >
+                      ✗
+                    </button>
+                  </form>
+                  <Link
+                    href={`/admin/submissions/${s.id}`}
+                    className="ml-1 text-white/70 hover:text-white"
+                  >
+                    Открыть
+                  </Link>
+                </div>
               </td>
             </tr>
           ))}

@@ -53,7 +53,7 @@ export function TagPicker({
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder={`Search or add ${label.toLowerCase()}...`}
+        placeholder={`Искать или добавить: ${label.toLowerCase()}…`}
         className="mb-2 w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-white/40"
       />
       {query.trim() && !exactMatch && (
@@ -63,7 +63,7 @@ export function TagPicker({
           disabled={isPending}
           className="mb-2 rounded-lg bg-white/10 px-3 py-1.5 text-sm text-white hover:bg-white/20 disabled:opacity-50"
         >
-          {isPending ? "Adding..." : `+ Create "${query.trim()}"`}
+          {isPending ? "Добавляю…" : `+ Создать «${query.trim()}»`}
         </button>
       )}
       <div className="flex flex-wrap gap-2">

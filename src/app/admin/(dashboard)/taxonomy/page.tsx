@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   createTaxonomyTermAction,
   deleteTaxonomyTermAction,
@@ -21,12 +20,7 @@ export default async function TaxonomyPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">Справочники дизайнеров</h1>
-        <Link href="/designer" className="text-sm text-white/60 hover:text-white">
-          ← К базе
-        </Link>
-      </div>
+      <h1 className="text-xl font-medium">Теги выпускников</h1>
 
       {TAXONOMY_CATEGORIES.map((category) => (
         <div key={category}>

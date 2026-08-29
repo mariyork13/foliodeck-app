@@ -107,9 +107,10 @@ async function getSubmissionsPageImpl(options: {
         sql`SELECT COUNT(*)::int AS count FROM portfolio_submissions WHERE status = ${status}`,
       ])
     : await Promise.all([
+        // Unprocessed ("new") submissions float to the top; handled ones sink below.
         sql`
           SELECT * FROM portfolio_submissions
-          ORDER BY created_at DESC
+          ORDER BY (status <> 'new'), created_at DESC
           LIMIT ${pageSize} OFFSET ${offset}
         `,
         sql`SELECT COUNT(*)::int AS count FROM portfolio_submissions`,
@@ -134,11 +135,20 @@ export async function getSubmissionStatusCounts(): Promise<Record<string, number
   return counts;
 }
 
+/** `adminNote === undefined` leaves the existing note untouched (used by the quick ✓/✗ buttons). */
 export async function updateSubmissionStatus(
   id: number,
   status: SubmissionStatus,
-  adminNote: string | null,
+  adminNote?: string | null,
 ): Promise<void> {
+  if (adminNote === undefined) {
+    await sql`
+      UPDATE portfolio_submissions
+      SET status = ${status}, updated_at = now()
+      WHERE id = ${id}
+    `;
+    return;
+  }
   await sql`
     UPDATE portfolio_submissions
     SET status = ${status}, admin_note = ${adminNote}, updated_at = now()

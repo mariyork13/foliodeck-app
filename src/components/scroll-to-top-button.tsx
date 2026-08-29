@@ -21,31 +21,48 @@ export function ScrollToTopButton() {
   useEffect(() => {
     const recompute = () => {
       const banner = document.getElementById("bottom-banner-stack");
-      if (!banner || banner.children.length === 0) {
+      const cards = banner ? Array.from(banner.children) : [];
+      if (cards.length === 0) {
         setBottomOffset(EDGE_GAP);
         return;
       }
-      const bannerRect = banner.getBoundingClientRect();
       const buttonRight = window.innerWidth - EDGE_GAP;
       const buttonLeft = buttonRight - BUTTON_SIZE;
-      const buttonBottom = window.innerHeight - EDGE_GAP;
-      const buttonTop = buttonBottom - BUTTON_SIZE;
-      const overlaps = bannerRect.right > buttonLeft && bannerRect.left < buttonRight && bannerRect.top < buttonBottom && bannerRect.bottom > buttonTop;
-      setBottomOffset(overlaps ? window.innerHeight - bannerRect.top + BANNER_GAP : EDGE_GAP);
+
+      // The stack container spans the full width (inset-x-0), so measure the
+      // actual banner cards instead: a centered card on desktop never reaches
+      // the right-edge button and must not push it up. The cards are always
+      // bottom-anchored, so a horizontal overlap with any of them means the
+      // button should clear the whole stack (topmost card's top).
+      let liftedTop = Infinity;
+      for (const card of cards) {
+        const rect = card.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) continue;
+        const horizontalOverlap = rect.right > buttonLeft && rect.left < buttonRight;
+        if (horizontalOverlap) liftedTop = Math.min(liftedTop, rect.top);
+      }
+
+      setBottomOffset(
+        liftedTop === Infinity ? EDGE_GAP : window.innerHeight - liftedTop + BANNER_GAP,
+      );
     };
 
     recompute();
     window.addEventListener("resize", recompute);
 
     const resizeObserver = new ResizeObserver(recompute);
+    const observeBanner = () => {
+      const banner = document.getElementById("bottom-banner-stack");
+      if (!banner) return;
+      resizeObserver.observe(banner);
+      for (const card of Array.from(banner.children)) resizeObserver.observe(card);
+    };
     const mutationObserver = new MutationObserver(() => {
       recompute();
-      const banner = document.getElementById("bottom-banner-stack");
-      if (banner) resizeObserver.observe(banner);
+      observeBanner();
     });
     mutationObserver.observe(document.body, { childList: true, subtree: true });
-    const initialBanner = document.getElementById("bottom-banner-stack");
-    if (initialBanner) resizeObserver.observe(initialBanner);
+    observeBanner();
 
     return () => {
       window.removeEventListener("resize", recompute);
