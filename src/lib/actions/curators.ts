@@ -57,7 +57,9 @@ export async function updateCuratorAction(id: number, formData: FormData): Promi
   const input = parseInput(formData);
   await updateCurator(id, input);
   revalidatePublicPages(input.slug);
-  redirect("/admin");
+  // No redirect: the edit form lives in a modal now and closes itself client-side
+  // (router.back / router.refresh) so the list keeps its scroll position.
+  revalidatePath("/admin");
 }
 
 export async function deleteCuratorAction(id: number): Promise<void> {

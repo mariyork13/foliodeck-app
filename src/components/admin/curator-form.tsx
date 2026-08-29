@@ -1,6 +1,7 @@
 import type { CuratorRecord } from "@/lib/db/curators";
 import type { Tag } from "@/lib/db/tags";
 import { CoverImageField } from "./cover-image-field";
+import { FormSubmitButton } from "./form-submit-button";
 import { TagPicker } from "./tag-picker";
 
 const inputClass = "w-full rounded-lg bg-white/10 px-3 py-2 text-sm text-white outline-none placeholder:text-white/40";
@@ -129,9 +130,7 @@ export function CuratorForm({
         <textarea id="notes" name="notes" defaultValue={curator?.notes} rows={6} className={inputClass} />
       </div>
 
-      <button type="submit" className="self-start rounded-lg bg-white px-4 py-2 text-sm font-medium text-black hover:bg-white/90">
-        Сохранить
-      </button>
+      <FormSubmitButton>Сохранить</FormSubmitButton>
     </form>
   );
 }
