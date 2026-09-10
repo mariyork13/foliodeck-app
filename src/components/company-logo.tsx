@@ -1,8 +1,10 @@
 import { companyLogoImages } from "@/lib/companyLogoImages";
 import { companyLogos } from "@/lib/companyLogos";
 
-export function CompanyLogo({ name }: { name: string }) {
-  const image = companyLogoImages[name];
+export function CompanyLogo({ name, src }: { name: string; src?: string | null }) {
+  // An admin-uploaded logo (from the tags table) wins; then the bundled image
+  // map; then a simple-icons match; then a plain placeholder.
+  const image = src || companyLogoImages[name];
   if (image) {
     return (
       // eslint-disable-next-line @next/next/no-img-element

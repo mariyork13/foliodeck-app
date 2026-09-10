@@ -30,3 +30,11 @@ export async function deleteTagAction(id: number): Promise<void> {
   revalidatePath("/", "layout");
   revalidatePath("/admin/tags");
 }
+
+export async function setTagLogoAction(id: number, formData: FormData): Promise<void> {
+  await requireAdminSession();
+  const logo = String(formData.get("logo") ?? "").trim();
+  await tagsDb.setTagLogo(id, logo || null);
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/tags");
+}

@@ -30,4 +30,6 @@ export type FilterOptions = {
   companies: string[];
   collections: string[];
   geo: string[];
+  /** Company name → uploaded logo URL, for companies that have one. */
+  companyLogos: Record<string, string>;
 };

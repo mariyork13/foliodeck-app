@@ -1,4 +1,11 @@
-import { createTag, deleteTagAction, renameTagAction, type TagType } from "@/lib/actions/tags";
+import { TagLogoField } from "@/components/admin/tag-logo-field";
+import {
+  createTag,
+  deleteTagAction,
+  renameTagAction,
+  setTagLogoAction,
+  type TagType,
+} from "@/lib/actions/tags";
 import { getAllTagsGroupedWithUsage } from "@/lib/db/tags";
 
 const SECTIONS: { type: TagType; title: string }[] = [
@@ -27,23 +34,31 @@ export default async function AdminTagsPage() {
           <h2 className="mb-3 text-lg font-medium text-white/90">{section.title}</h2>
           <ul className="mb-4 flex flex-col gap-2">
             {grouped[section.type].map((tag) => (
-              <li key={tag.id} className="flex items-center gap-3 rounded-lg bg-white/5 px-3 py-2 text-sm">
-                <form action={renameTagAction.bind(null, tag.id)} className="flex flex-1 items-center gap-2">
-                  <input
-                    name="name"
-                    defaultValue={tag.name}
-                    className="flex-1 rounded bg-white/10 px-2 py-1 text-white outline-none"
-                  />
-                  <button type="submit" className="text-white/60 hover:text-white">
-                    Переименовать
-                  </button>
-                </form>
-                <span className="text-white/40">{tag.usageCount}×</span>
-                <form action={deleteTagAction.bind(null, tag.id)}>
-                  <button type="submit" className="text-red-400/80 hover:text-red-400">
-                    Удалить
-                  </button>
-                </form>
+              <li key={tag.id} className="flex flex-col gap-2 rounded-lg bg-white/5 px-3 py-2 text-sm">
+                <div className="flex items-center gap-3">
+                  <form action={renameTagAction.bind(null, tag.id)} className="flex flex-1 items-center gap-2">
+                    <input
+                      name="name"
+                      defaultValue={tag.name}
+                      className="flex-1 rounded bg-white/10 px-2 py-1 text-white outline-none"
+                    />
+                    <button type="submit" className="text-white/60 hover:text-white">
+                      Переименовать
+                    </button>
+                  </form>
+                  <span className="text-white/40">{tag.usageCount}×</span>
+                  <form action={deleteTagAction.bind(null, tag.id)}>
+                    <button type="submit" className="text-red-400/80 hover:text-red-400">
+                      Удалить
+                    </button>
+                  </form>
+                </div>
+                {section.type === "company" && (
+                  <div className="flex items-center gap-3 pl-1">
+                    <span className="text-xs text-white/40">Логотип</span>
+                    <TagLogoField tagId={tag.id} defaultValue={tag.logo} action={setTagLogoAction} />
+                  </div>
+                )}
               </li>
             ))}
           </ul>

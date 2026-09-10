@@ -10,11 +10,13 @@ function FilterOption({
   checked,
   onToggle,
   showLogo,
+  logoSrc,
 }: {
   label: string;
   checked: boolean;
   onToggle: () => void;
   showLogo?: boolean;
+  logoSrc?: string;
 }) {
   return (
     <button
@@ -25,7 +27,7 @@ function FilterOption({
       }`}
     >
       <span className="flex min-w-0 items-center gap-2">
-        {showLogo && <CompanyLogo name={label} />}
+        {showLogo && <CompanyLogo name={label} src={logoSrc} />}
         <span className="truncate">{label}</span>
       </span>
       {checked && (
@@ -43,6 +45,7 @@ function FilterColumn({
   options,
   scroll,
   showLogos,
+  logos,
   className,
 }: {
   title: string;
@@ -52,6 +55,7 @@ function FilterColumn({
   // a row (below that the whole left column shares one scroll area).
   scroll?: boolean | "sm";
   showLogos?: boolean;
+  logos?: Record<string, string>;
   className?: string;
 }) {
   const { selected, toggle } = useFilter();
@@ -73,6 +77,7 @@ function FilterColumn({
             checked={selected[group].has(option)}
             onToggle={() => toggle(group, option)}
             showLogo={showLogos}
+            logoSrc={logos?.[option]}
           />
         ))}
       </div>
@@ -121,6 +126,7 @@ export function FiltersPanel({
           options={options.companies}
           scroll
           showLogos
+          logos={options.companyLogos}
           className="col-start-2 sm:order-2"
         />
       </div>

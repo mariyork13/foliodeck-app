@@ -23,6 +23,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     companies: companies.map((tag) => tag.name),
     collections: collections.map((tag) => tag.name),
     geo,
+    companyLogos: Object.fromEntries(
+      companies.flatMap((tag) => (tag.logo ? [[tag.name, tag.logo] as const] : [])),
+    ),
   };
 
   return (

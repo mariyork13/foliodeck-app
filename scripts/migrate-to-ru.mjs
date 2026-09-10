@@ -61,6 +61,7 @@ CREATE TABLE tags (
   id     serial PRIMARY KEY,
   type   text NOT NULL CHECK (type IN ('specialization','company','collection')),
   name   text NOT NULL,
+  logo   text,
   UNIQUE (type, name)
 );
 

@@ -3,17 +3,17 @@ import { sql } from "./client";
 
 export type TagType = "specialization" | "company" | "collection";
 
-export type Tag = { id: number; type: TagType; name: string };
+export type Tag = { id: number; type: TagType; name: string; logo: string | null };
 export type TagWithUsage = Tag & { usageCount: number };
 
 async function getTagsByTypeImpl(type: TagType): Promise<Tag[]> {
-  const rows = await sql`SELECT id, type, name FROM tags WHERE type = ${type} ORDER BY name`;
+  const rows = await sql`SELECT id, type, name, logo FROM tags WHERE type = ${type} ORDER BY name`;
   return rows as Tag[];
 }
 export const getTagsByType = cache(getTagsByTypeImpl);
 
 async function getAllTagsGroupedImpl(): Promise<Record<TagType, Tag[]>> {
-  const rows = await sql`SELECT id, type, name FROM tags ORDER BY type, name`;
+  const rows = await sql`SELECT id, type, name, logo FROM tags ORDER BY type, name`;
   const grouped: Record<TagType, Tag[]> = { specialization: [], company: [], collection: [] };
   for (const row of rows as Tag[]) grouped[row.type].push(row);
   return grouped;
@@ -22,7 +22,7 @@ export const getAllTagsGrouped = cache(getAllTagsGroupedImpl);
 
 async function getAllTagsGroupedWithUsageImpl(): Promise<Record<TagType, TagWithUsage[]>> {
   const rows = await sql`
-    SELECT t.id, t.type, t.name, COUNT(ct.curator_id)::int AS "usageCount"
+    SELECT t.id, t.type, t.name, t.logo, COUNT(ct.curator_id)::int AS "usageCount"
     FROM tags t
     LEFT JOIN curator_tags ct ON ct.tag_id = t.id
     GROUP BY t.id
@@ -63,6 +63,10 @@ export async function createTag(type: TagType, name: string): Promise<Tag> {
 
 export async function renameTag(id: number, name: string): Promise<void> {
   await sql`UPDATE tags SET name = ${name} WHERE id = ${id}`;
+}
+
+export async function setTagLogo(id: number, logo: string | null): Promise<void> {
+  await sql`UPDATE tags SET logo = ${logo} WHERE id = ${id}`;
 }
 
 export async function deleteTag(id: number): Promise<void> {
