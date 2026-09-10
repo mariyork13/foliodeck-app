@@ -100,7 +100,11 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
 
 function PortfolioView({ curator }: { curator: Curator }) {
   const [coverBroken, setCoverBroken] = useState(false);
-  const hasCover = Boolean(curator.coverImage) && !coverBroken;
+  // Same fallback the card uses: a manually uploaded cover, else the auto
+  // screenshot. Only when both are missing (or the image 404s) do we show the
+  // "can't be shown" state instead of a real picture of the portfolio.
+  const coverImage = curator.coverImage || curator.previewImage;
+  const hasCover = Boolean(coverImage) && !coverBroken;
 
   // The detail page shows the live site. The card image is only the fallback
   // here — for sites that refuse to be framed (Tilda etc.).
@@ -150,7 +154,7 @@ function PortfolioView({ curator }: { curator: Curator }) {
       <div className={FRAME}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={curator.coverImage!}
+          src={coverImage}
           alt={`${curator.name} portfolio`}
           onError={() => setCoverBroken(true)}
           className="h-full w-full object-cover object-top"
