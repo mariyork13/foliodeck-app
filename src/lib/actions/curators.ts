@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { createCurator, deleteCurator, reorderCurator, updateCurator, type CuratorInput } from "@/lib/db/curators";
 import { updateSubmissionStatus } from "@/lib/db/submissions";
@@ -41,6 +41,9 @@ function parseInput(formData: FormData): CuratorInput {
 }
 
 function revalidatePublicPages(slug?: string): void {
+  // { expire: 0 } → the next request re-runs the query (read-your-own-writes),
+  // rather than serving stale data while it revalidates.
+  revalidateTag("curators", { expire: 0 }); // getCurators / getCuratorBySlug / geo
   revalidatePath("/");
   if (slug) revalidatePath("/curator/[slug]", "page");
 }

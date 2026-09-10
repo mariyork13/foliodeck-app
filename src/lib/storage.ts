@@ -1,3 +1,4 @@
+import { NodeHttpHandler } from "@smithy/node-http-handler";
 import { S3Client, PutObjectCommand, DeleteObjectsCommand } from "@aws-sdk/client-s3";
 
 // Object storage for uploaded images (curator covers, designer covers/gallery).
@@ -22,6 +23,14 @@ function s3(): S3Client {
         accessKeyId: process.env.S3_ACCESS_KEY_ID!,
         secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
       },
+      // The app runs on Vercel (US/EU) and the bucket is in Russia — a long,
+      // sometimes throttled hop. Fail a stuck attempt fast and let the SDK retry
+      // rather than hanging until the function times out.
+      maxAttempts: 4,
+      requestHandler: new NodeHttpHandler({
+        connectionTimeout: 5_000,
+        requestTimeout: 20_000,
+      }),
     });
   }
   return client;

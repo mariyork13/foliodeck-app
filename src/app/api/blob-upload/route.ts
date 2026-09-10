@@ -4,6 +4,8 @@ import { verifySession } from "@/lib/admin-auth";
 import { isStorageConfigured, putObject } from "@/lib/storage";
 
 export const runtime = "nodejs";
+// Uploading to the Russian bucket from a US/EU function can be slow; give it room.
+export const maxDuration = 60;
 
 const MAX_BYTES = 8 * 1024 * 1024; // safety cap; client downscales before sending
 const ALLOWED = new Set([
@@ -71,11 +73,18 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const filename = request.headers.get("x-filename") ?? "image";
 
+  const key = objectKey(filename, contentType);
+  const body = new Uint8Array(bytes);
+
   try {
-    const { url } = await putObject(objectKey(filename, contentType), new Uint8Array(bytes), contentType);
+    const { url } = await putObject(key, body, contentType);
     return NextResponse.json({ url });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Не удалось загрузить.";
-    return NextResponse.json({ error: message }, { status: 400 });
+    const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+    console.error("[blob-upload] putObject failed", detail);
+    return NextResponse.json(
+      { error: `Не удалось загрузить в хранилище (${detail}).` },
+      { status: 502 },
+    );
   }
 }
