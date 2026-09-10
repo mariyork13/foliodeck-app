@@ -39,6 +39,7 @@ function parseInput(formData: FormData): CuratorInput {
     specializationIds: parseIds(formData, "specializationIds"),
     companyIds: parseIds(formData, "companyIds"),
     collectionIds: parseIds(formData, "collectionIds"),
+    industryIds: parseIds(formData, "industryIds"),
   };
 }
 

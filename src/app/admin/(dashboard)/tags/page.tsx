@@ -12,6 +12,7 @@ const SECTIONS: { type: TagType; title: string }[] = [
   { type: "specialization", title: "Направление" },
   { type: "company", title: "Компания" },
   { type: "collection", title: "Коллекции" },
+  { type: "industry", title: "Индустрия" },
 ];
 
 export const dynamic = "force-dynamic";

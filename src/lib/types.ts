@@ -14,6 +14,8 @@ export type Curator = {
   images: string[];
   /** Matches specializationOptions in filterOptions.ts. */
   specializations: string[];
+  /** Industry taxonomy (Fintech, HealthTech, …). Draft-tagged, editable in admin. */
+  industries: string[];
   /** Matches geoOptions in filterOptions.ts. */
   geo?: string;
   /** Matches companyOptions in filterOptions.ts. */

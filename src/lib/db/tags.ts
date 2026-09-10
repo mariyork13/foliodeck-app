@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { sql } from "./client";
 
-export type TagType = "specialization" | "company" | "collection";
+export type TagType = "specialization" | "company" | "collection" | "industry";
 
 export type Tag = { id: number; type: TagType; name: string; logo: string | null };
 export type TagWithUsage = Tag & { usageCount: number };
@@ -14,7 +14,12 @@ export const getTagsByType = cache(getTagsByTypeImpl);
 
 async function getAllTagsGroupedImpl(): Promise<Record<TagType, Tag[]>> {
   const rows = await sql`SELECT id, type, name, logo FROM tags ORDER BY type, name`;
-  const grouped: Record<TagType, Tag[]> = { specialization: [], company: [], collection: [] };
+  const grouped: Record<TagType, Tag[]> = {
+    specialization: [],
+    company: [],
+    collection: [],
+    industry: [],
+  };
   for (const row of rows as Tag[]) grouped[row.type].push(row);
   return grouped;
 }
@@ -28,7 +33,12 @@ async function getAllTagsGroupedWithUsageImpl(): Promise<Record<TagType, TagWith
     GROUP BY t.id
     ORDER BY t.type, t.name
   `;
-  const grouped: Record<TagType, TagWithUsage[]> = { specialization: [], company: [], collection: [] };
+  const grouped: Record<TagType, TagWithUsage[]> = {
+    specialization: [],
+    company: [],
+    collection: [],
+    industry: [],
+  };
   for (const row of rows as TagWithUsage[]) grouped[row.type].push(row);
   return grouped;
 }

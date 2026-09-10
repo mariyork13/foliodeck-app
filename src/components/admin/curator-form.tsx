@@ -18,20 +18,22 @@ export function CuratorForm({
   action: (formData: FormData) => void | Promise<void>;
   /** A full record when editing, or a partial prefill when creating from a submission. */
   curator?: Partial<CuratorRecord>;
-  tags: Record<"specialization" | "company" | "collection", Tag[]>;
+  tags: Record<"specialization" | "company" | "collection" | "industry", Tag[]>;
   geoOptions: string[];
   /** Existing roles for the autocomplete list. */
   roleOptions: string[];
   /** When set, saving also marks the source portfolio submission as published. */
   fromSubmissionId?: number;
 }) {
-  const selectedIds = (type: "specialization" | "company" | "collection") => {
+  const selectedIds = (type: "specialization" | "company" | "collection" | "industry") => {
     const names = new Set(
       type === "specialization"
         ? curator?.specializations
         : type === "company"
           ? curator?.companies
-          : curator?.collections,
+          : type === "collection"
+            ? curator?.collections
+            : curator?.industries,
     );
     return tags[type].filter((tag) => names.has(tag.name)).map((tag) => tag.id);
   };
@@ -141,6 +143,13 @@ export function CuratorForm({
         label="Коллекции"
         options={tags.collection}
         defaultSelectedIds={selectedIds("collection")}
+      />
+      <TagPicker
+        tagType="industry"
+        fieldName="industryIds"
+        label="Индустрия"
+        options={tags.industry}
+        defaultSelectedIds={selectedIds("industry")}
       />
 
       <div>

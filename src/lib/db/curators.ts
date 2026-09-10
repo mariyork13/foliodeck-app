@@ -23,6 +23,7 @@ export type CuratorInput = {
   specializationIds: number[];
   companyIds: number[];
   collectionIds: number[];
+  industryIds: number[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,6 +39,7 @@ function mapRow(row: any): CuratorRecord {
     embeddable: row.embeddable ?? null,
     images: row.images ?? [],
     specializations: row.specializations ?? [],
+    industries: row.industries ?? [],
     geo: row.geo ?? undefined,
     companies: row.companies ?? [],
     collections: row.collections ?? [],
@@ -53,7 +55,8 @@ async function getCuratorsImpl(): Promise<CuratorRecord[]> {
        FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
-      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
+      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections,
+      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'industry'), '{}') AS industries
     FROM curators c
     LEFT JOIN curator_tags ct ON ct.curator_id = c.id
     LEFT JOIN tags t ON t.id = ct.tag_id
@@ -75,7 +78,8 @@ async function getCuratorBySlugImpl(slug: string): Promise<CuratorRecord | null>
        FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
-      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
+      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections,
+      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'industry'), '{}') AS industries
     FROM curators c
     LEFT JOIN curator_tags ct ON ct.curator_id = c.id
     LEFT JOIN tags t ON t.id = ct.tag_id
@@ -94,7 +98,8 @@ async function getCuratorByIdImpl(id: number): Promise<CuratorRecord | null> {
        FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
-      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
+      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections,
+      COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'industry'), '{}') AS industries
     FROM curators c
     LEFT JOIN curator_tags ct ON ct.curator_id = c.id
     LEFT JOIN tags t ON t.id = ct.tag_id
@@ -123,6 +128,7 @@ async function linkTags(curatorId: number, input: CuratorInput): Promise<void> {
   await setCuratorTagIds(curatorId, "specialization", input.specializationIds);
   await setCuratorTagIds(curatorId, "company", input.companyIds);
   await setCuratorTagIds(curatorId, "collection", input.collectionIds);
+  await setCuratorTagIds(curatorId, "industry", input.industryIds);
 }
 
 export async function createCurator(input: CuratorInput): Promise<number> {
@@ -202,6 +208,9 @@ export async function getCuratorsPage(options: {
   const like = `%${query}%`;
   const offset = (page - 1) * pageSize;
 
+  // A curator matches when the name, the slug, or ANY of its tag names
+  // (company, specialization, collection, industry) contains the query — so
+  // "fintech" or "Alfa Bank" turns up portfolios, not just people's names.
   const [rows, countRows] = await Promise.all([
     sql`
       SELECT
@@ -210,16 +219,30 @@ export async function getCuratorsPage(options: {
          FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
         COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
         COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'company'), '{}') AS companies,
-        COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections
+        COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'collection'), '{}') AS collections,
+        COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'industry'), '{}') AS industries
       FROM curators c
       LEFT JOIN curator_tags ct ON ct.curator_id = c.id
       LEFT JOIN tags t ON t.id = ct.tag_id
       WHERE c.name ILIKE ${like} OR c.slug ILIKE ${like}
+        OR EXISTS (
+          SELECT 1 FROM curator_tags cts
+          JOIN tags ts ON ts.id = cts.tag_id
+          WHERE cts.curator_id = c.id AND ts.name ILIKE ${like}
+        )
       GROUP BY c.id
       ORDER BY c.sort_order, c.id
       LIMIT ${pageSize} OFFSET ${offset}
     `,
-    sql`SELECT COUNT(*)::int AS count FROM curators WHERE name ILIKE ${like} OR slug ILIKE ${like}`,
+    sql`
+      SELECT COUNT(*)::int AS count FROM curators c
+      WHERE c.name ILIKE ${like} OR c.slug ILIKE ${like}
+        OR EXISTS (
+          SELECT 1 FROM curator_tags cts
+          JOIN tags ts ON ts.id = cts.tag_id
+          WHERE cts.curator_id = c.id AND ts.name ILIKE ${like}
+        )
+    `,
   ]);
 
   return { items: rows.map(mapRow), total: countRows[0].count as number };

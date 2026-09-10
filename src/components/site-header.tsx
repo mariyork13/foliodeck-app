@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFilter } from "@/lib/filter-context";
 import type { Curator, FilterOptions } from "@/lib/types";
 import { FavoritesPanel } from "./favorites-panel";
@@ -81,13 +81,18 @@ export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; f
         {/* Tablet: a normal flex item that shrinks between the two button
             groups, keeping a 16px gap via the row's own gap-4. */}
         <div className="hidden min-w-0 flex-1 md:flex lg:hidden">
-          <SearchBox search={search} setSearch={setSearch} className="w-full" />
+          <SearchBox search={search} setSearch={setSearch} curators={curators} className="w-full" />
         </div>
 
         {/* Desktop: centered on the full header width regardless of how
             wide the button groups on either side are. */}
         <div className="pointer-events-none absolute inset-0 hidden items-center justify-center lg:flex">
-          <SearchBox search={search} setSearch={setSearch} className="pointer-events-auto w-full max-w-[416px]" />
+          <SearchBox
+            search={search}
+            setSearch={setSearch}
+            curators={curators}
+            className="pointer-events-auto w-full max-w-[416px]"
+          />
         </div>
 
         <div className="ml-auto flex shrink-0 items-center">
@@ -185,33 +190,124 @@ export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; f
   );
 }
 
+const SUGGEST_LIMIT = 6;
+
 function SearchBox({
   search,
   setSearch,
+  curators,
   className,
 }: {
   search: string;
   setSearch: (value: string) => void;
+  curators: Curator[];
   className?: string;
 }) {
+  const [open, setOpen] = useState(false);
+  const blurTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const allIndustries = useMemo(
+    () => [...new Set(curators.flatMap((c) => c.industries ?? []))].sort((a, b) => a.localeCompare(b)),
+    [curators],
+  );
+
+  const query = search.trim().toLowerCase();
+  const industryMatches = query
+    ? allIndustries.filter((name) => name.toLowerCase().includes(query)).slice(0, SUGGEST_LIMIT)
+    : [];
+  const peopleMatches = query
+    ? curators.filter((c) => c.name.toLowerCase().includes(query)).slice(0, SUGGEST_LIMIT)
+    : [];
+  const showDropdown = open && query.length > 0 && industryMatches.length + peopleMatches.length > 0;
+
+  const scheduleClose = () => {
+    if (blurTimer.current) clearTimeout(blurTimer.current);
+    // Delay so a click on a suggestion lands before the panel unmounts.
+    blurTimer.current = setTimeout(() => setOpen(false), 120);
+  };
+  const cancelClose = () => {
+    if (blurTimer.current) clearTimeout(blurTimer.current);
+  };
+
   return (
-    <div className={`relative min-w-0 rounded-lg ${searchBg} ${className ?? ""}`}>
-      <SearchIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Find a designer, company or industry..."
-        className={`w-full rounded-lg bg-transparent py-[9px] pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
-      />
-      {search && (
-        <button
-          onClick={() => setSearch("")}
-          aria-label="Clear search"
-          className={`absolute right-3 top-1/2 -translate-y-1/2 ${clearBadge}`}
+    // The blurred glass lives on the inner wrapper, not here: Chrome ignores a
+    // child's backdrop-filter when an ancestor already has one, so the dropdown
+    // (a sibling of that wrapper) needs an un-blurred parent to blur against.
+    <div className={`relative min-w-0 ${className ?? ""}`}>
+      <div className={`relative rounded-lg ${searchBg}`}>
+        <SearchIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          onBlur={scheduleClose}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setOpen(false);
+          }}
+          placeholder="Find a designer, company or industry..."
+          className={`w-full rounded-lg bg-transparent py-[9px] pl-8 pr-8 ${TEXT} text-white placeholder:text-white focus:outline-none`}
+        />
+        {search && (
+          <button
+            onClick={() => setSearch("")}
+            aria-label="Clear search"
+            className={`absolute right-3 top-1/2 -translate-y-1/2 ${clearBadge}`}
+          >
+            <XIcon />
+          </button>
+        )}
+      </div>
+
+      {showDropdown && (
+        <div
+          onMouseDown={cancelClose}
+          className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl border border-white/[0.04] bg-[#26262B]/80 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-[74px]`}
         >
-          <XIcon />
-        </button>
+          {industryMatches.length > 0 && (
+            <div className="pb-1">
+              <p className="px-3 pb-1 pt-1 text-[11px] font-medium uppercase tracking-wide text-white/40">
+                Industry
+              </p>
+              {industryMatches.map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => {
+                    setSearch(name);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-2 px-3 py-1.5 text-left ${TEXT} text-white transition-colors hover:bg-white/10`}
+                >
+                  <SearchIcon className="shrink-0 text-white/40" />
+                  <span className="truncate">{name}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {peopleMatches.length > 0 && (
+            <div className={industryMatches.length > 0 ? "border-t border-white/[0.06] pt-1" : ""}>
+              <p className="px-3 pb-1 pt-1 text-[11px] font-medium uppercase tracking-wide text-white/40">
+                Designers
+              </p>
+              {peopleMatches.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/curator/${c.slug}`}
+                  onClick={() => setOpen(false)}
+                  className={`flex w-full items-center justify-between gap-2 px-3 py-1.5 ${TEXT} text-white transition-colors hover:bg-white/10`}
+                >
+                  <span className="truncate">{c.name}</span>
+                  <span className="shrink-0 truncate text-white/40">{c.role}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

@@ -38,7 +38,9 @@ export function Gallery({ curators }: { curators: Curator[] }) {
         (c) =>
           c.name.toLowerCase().includes(query) ||
           c.role.toLowerCase().includes(query) ||
-          c.companies?.some((co) => co.toLowerCase().includes(query)),
+          c.companies?.some((co) => co.toLowerCase().includes(query)) ||
+          c.industries?.some((i) => i.toLowerCase().includes(query)) ||
+          c.specializations.some((s) => s.toLowerCase().includes(query)),
       );
     }
 

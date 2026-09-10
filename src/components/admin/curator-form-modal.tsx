@@ -23,7 +23,7 @@ export function CuratorFormModal({
   action: (formData: FormData) => Promise<void>;
   /** Full record when editing, partial prefill when creating, undefined otherwise. */
   curator?: Partial<CuratorRecord>;
-  tags: Record<"specialization" | "company" | "collection", Tag[]>;
+  tags: Record<"specialization" | "company" | "collection" | "industry", Tag[]>;
   geoOptions: string[];
   roleOptions: string[];
   fromSubmissionId?: number;
