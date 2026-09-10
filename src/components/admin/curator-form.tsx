@@ -38,18 +38,15 @@ export function CuratorForm({
       {fromSubmissionId != null && (
         <input type="hidden" name="fromSubmission" value={fromSubmissionId} />
       )}
+      {/* Slug is derived from the name on the server. Kept as a hidden field so
+          editing an existing curator preserves its current page address. */}
+      <input type="hidden" name="slug" defaultValue={curator?.slug ?? ""} />
+
       <div>
         <label className={labelClass} htmlFor="name">
           Имя
         </label>
         <input id="name" name="name" defaultValue={curator?.name} required className={inputClass} />
-      </div>
-
-      <div>
-        <label className={labelClass} htmlFor="slug">
-          Адрес страницы (в ссылке на сайте)
-        </label>
-        <input id="slug" name="slug" defaultValue={curator?.slug} required className={inputClass} />
       </div>
 
       <div>
@@ -73,19 +70,10 @@ export function CuratorForm({
         />
       </div>
 
-      <div>
-        <label className={labelClass} htmlFor="previewImage">
-          Превью сайта (скриншот)
-        </label>
-        <input
-          id="previewImage"
-          name="previewImage"
-          type="url"
-          defaultValue={curator?.previewImage}
-          required
-          className={inputClass}
-        />
-      </div>
+      {/* The old auto-screenshot URL. Preserved on edit (700 existing curators
+          use it for their card thumbnail); left empty for new ones, which use
+          the uploaded card image below. */}
+      <input type="hidden" name="previewImage" defaultValue={curator?.previewImage ?? ""} />
 
       <CoverImageField defaultValue={curator?.coverImage} />
 

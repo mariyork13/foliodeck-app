@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdminSession } from "@/lib/admin-auth";
 import { createCurator, deleteCurator, reorderCurator, updateCurator, type CuratorInput } from "@/lib/db/curators";
 import { updateSubmissionStatus } from "@/lib/db/submissions";
+import { slugify } from "@/lib/designers/slug";
 
 function parseIds(formData: FormData, field: string): number[] {
   return formData
@@ -15,9 +16,13 @@ function parseIds(formData: FormData, field: string): number[] {
 function parseInput(formData: FormData): CuratorInput {
   const geo = formData.get("geo");
   const notes = formData.get("notes");
+  const name = String(formData.get("name") ?? "").trim();
+  // The form no longer shows a slug field: keep the existing one when editing,
+  // derive it from the name for a new curator.
+  const slug = String(formData.get("slug") ?? "").trim() || slugify(name);
   return {
-    slug: String(formData.get("slug") ?? "").trim(),
-    name: String(formData.get("name") ?? "").trim(),
+    slug,
+    name,
     role: String(formData.get("role") ?? "").trim(),
     externalUrl: String(formData.get("externalUrl") ?? "").trim(),
     previewImage: String(formData.get("previewImage") ?? "").trim(),

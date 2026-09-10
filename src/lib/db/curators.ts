@@ -123,10 +123,16 @@ async function linkTags(curatorId: number, input: CuratorInput): Promise<void> {
 }
 
 export async function createCurator(input: CuratorInput): Promise<number> {
+  const slug = input.slug || "curator";
   const rows = await sql`
     INSERT INTO curators (slug, name, role, external_url, preview_image, cover_image, geo, notes, sort_order)
     VALUES (
-      ${input.slug}, ${input.name}, ${input.role}, ${input.externalUrl}, ${input.previewImage},
+      -- auto-derived slugs can collide (two curators with the same name);
+      -- append a short suffix when the base slug is already taken.
+      (SELECT CASE WHEN EXISTS (SELECT 1 FROM curators WHERE slug = ${slug})
+               THEN ${slug} || '-' || substr(md5(random()::text), 1, 4)
+               ELSE ${slug} END),
+      ${input.name}, ${input.role}, ${input.externalUrl}, ${input.previewImage},
       ${input.coverImage}, ${input.geo ?? null}, ${input.notes ?? null},
       COALESCE((SELECT MIN(sort_order) FROM curators), 0) - 1
     )
