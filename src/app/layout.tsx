@@ -12,6 +12,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.SITE_ORIGIN ?? "https://foliodeck.pro"),
   title: "Foliodeck — a curated portfolio gallery",
   description: "A curated portfolio gallery of designers, developers, and studios by Maria Chubina.",
 };

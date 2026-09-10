@@ -1,6 +1,7 @@
-import { put } from "@vercel/blob";
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { verifySession } from "@/lib/admin-auth";
+import { isStorageConfigured, putObject } from "@/lib/storage";
 
 export const runtime = "nodejs";
 
@@ -13,30 +14,40 @@ const ALLOWED = new Set([
   "image/avif",
 ]);
 
-function safePathname(name: string): string {
-  const cleaned = name
+const EXT: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/gif": "gif",
+  "image/avif": "avif",
+};
+
+/** `designers/<slug>-<random>.<ext>` — mirrors the old Vercel Blob layout. */
+function objectKey(name: string, contentType: string): string {
+  const base = name
     .split(/[/\\]/)
     .pop()!
+    .replace(/\.[^.]+$/, "")
     .replace(/[^a-zA-Z0-9._-]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 80);
-  return `designers/${cleaned || "image"}`;
+  return `designers/${base || "image"}-${randomUUID().slice(0, 8)}.${EXT[contentType] ?? "bin"}`;
 }
 
-// Receives the (client-downscaled) image and stores it in Vercel Blob using the
-// project's OIDC credentials (VERCEL_OIDC_TOKEN + BLOB_STORE_ID) — no static
-// BLOB_READ_WRITE_TOKEN needed. Auth is enforced here; /api/* is outside the
-// proxy.ts matcher, same as Server Actions calling requireAdminSession().
+// Receives the (client-downscaled) image and stores it in object storage
+// (Yandex Cloud Object Storage — see src/lib/storage.ts). Auth is enforced
+// here; /api/* is outside the proxy.ts matcher, same as Server Actions that
+// call requireAdminSession().
 export async function POST(request: Request): Promise<NextResponse> {
   if (!(await verifySession())) {
     return NextResponse.json({ error: "Нет доступа." }, { status: 401 });
   }
 
-  if (!process.env.BLOB_STORE_ID && !process.env.BLOB_READ_WRITE_TOKEN) {
+  if (!isStorageConfigured()) {
     return NextResponse.json(
       {
         error:
-          "Хранилище не настроено. Создайте публичный Blob-стор в Vercel и выполните `vercel env pull .env.local`, затем перезапустите dev-сервер.",
+          "Хранилище не настроено. Задайте S3_ENDPOINT / S3_BUCKET / S3_ACCESS_KEY_ID / S3_SECRET_ACCESS_KEY / MEDIA_PUBLIC_BASE и перезапустите сервер.",
       },
       { status: 503 },
     );
@@ -61,26 +72,10 @@ export async function POST(request: Request): Promise<NextResponse> {
   const filename = request.headers.get("x-filename") ?? "image";
 
   try {
-    const blob = await put(safePathname(filename), bytes, {
-      access: "public",
-      addRandomSuffix: true,
-      contentType,
-      // Local dev uses the static store token; on Vercel this is undefined and
-      // the SDK falls back to the project's OIDC credentials.
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    });
-    return NextResponse.json({ url: blob.url });
+    const { url } = await putObject(objectKey(filename, contentType), new Uint8Array(bytes), contentType);
+    return NextResponse.json({ url });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Не удалось загрузить.";
-    return NextResponse.json(
-      {
-        error: /private store/i.test(message)
-          ? "Blob-стор приватный. Нужен публичный стор (Access: Public), пересоздайте его в Vercel."
-          : /oidc|token|expired|credentials/i.test(message)
-            ? "Учётные данные Blob истекли. Выполните `vercel env pull .env.local` и перезапустите dev-сервер."
-            : message,
-      },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }

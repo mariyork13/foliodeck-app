@@ -1,6 +1,5 @@
 "use server";
 
-import { del } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminSession } from "@/lib/admin-auth";
@@ -10,7 +9,7 @@ import {
   getDesignerById,
   updateDesigner,
 } from "@/lib/db/designers";
-import { isBlobUrl } from "@/lib/designers/blob";
+import { deleteObjects, isOwnedMediaUrl } from "@/lib/storage";
 import { designerSlug } from "@/lib/designers/slug";
 import type { Designer, DesignerInput } from "@/lib/designers/types";
 
@@ -20,14 +19,14 @@ function imageUrls(source: Pick<Designer, "coverImage" | "images"> | DesignerInp
   );
 }
 
-/** Best-effort removal of blobs we own; never blocks the main mutation. */
+/** Best-effort removal of images we own; never blocks the main mutation. */
 async function deleteBlobs(urls: string[]): Promise<void> {
-  const owned = urls.filter(isBlobUrl);
+  const owned = urls.filter(isOwnedMediaUrl);
   if (owned.length === 0) return;
   try {
-    await del(owned, { token: process.env.BLOB_READ_WRITE_TOKEN });
+    await deleteObjects(owned);
   } catch {
-    // orphaned blobs are harmless; ignore
+    // orphaned objects are harmless; ignore
   }
 }
 
