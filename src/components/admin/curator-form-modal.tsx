@@ -13,6 +13,7 @@ export function CuratorFormModal({
   curator,
   tags,
   geoOptions,
+  roleOptions,
   fromSubmissionId,
   note,
   intercepted = false,
@@ -24,6 +25,7 @@ export function CuratorFormModal({
   curator?: Partial<CuratorRecord>;
   tags: Record<"specialization" | "company" | "collection", Tag[]>;
   geoOptions: string[];
+  roleOptions: string[];
   fromSubmissionId?: number;
   note?: ReactNode;
   /** True only when opened by the intercepting route (a soft nav from a list). */
@@ -90,6 +92,7 @@ export function CuratorFormModal({
             curator={curator}
             tags={tags}
             geoOptions={geoOptions}
+            roleOptions={roleOptions}
             fromSubmissionId={fromSubmissionId}
           />
         </div>

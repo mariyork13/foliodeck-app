@@ -40,6 +40,18 @@ async function getDistinctGeoValuesImpl(): Promise<string[]> {
 }
 export const getDistinctGeoValues = cache(getDistinctGeoValuesImpl);
 
+/** Existing curator roles, most-used first — feeds the admin form's role autocomplete. */
+async function getDistinctRoleValuesImpl(): Promise<string[]> {
+  const rows = await sql`
+    SELECT role FROM curators
+    WHERE role <> ''
+    GROUP BY role
+    ORDER BY COUNT(*) DESC, role
+  `;
+  return rows.map((row) => row.role as string);
+}
+export const getDistinctRoleValues = cache(getDistinctRoleValuesImpl);
+
 export async function createTag(type: TagType, name: string): Promise<Tag> {
   const rows = await sql`
     INSERT INTO tags (type, name) VALUES (${type}, ${name})

@@ -12,6 +12,7 @@ export function CuratorForm({
   curator,
   tags,
   geoOptions,
+  roleOptions,
   fromSubmissionId,
 }: {
   action: (formData: FormData) => void | Promise<void>;
@@ -19,6 +20,8 @@ export function CuratorForm({
   curator?: Partial<CuratorRecord>;
   tags: Record<"specialization" | "company" | "collection", Tag[]>;
   geoOptions: string[];
+  /** Existing roles for the autocomplete list. */
+  roleOptions: string[];
   /** When set, saving also marks the source portfolio submission as published. */
   fromSubmissionId?: number;
 }) {
@@ -53,7 +56,23 @@ export function CuratorForm({
         <label className={labelClass} htmlFor="role">
           Роль
         </label>
-        <input id="role" name="role" defaultValue={curator?.role} required className={inputClass} />
+        <input
+          id="role"
+          name="role"
+          list="role-options"
+          defaultValue={curator?.role}
+          required
+          autoComplete="off"
+          className={inputClass}
+        />
+        <datalist id="role-options">
+          {roleOptions.map((role) => (
+            <option key={role} value={role} />
+          ))}
+        </datalist>
+        <p className="mt-1 text-xs text-white/40">
+          Выберите из списка или впишите новую.
+        </p>
       </div>
 
       <div>

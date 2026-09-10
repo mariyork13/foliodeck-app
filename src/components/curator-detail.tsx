@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFavorites } from "@/lib/favorites-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
@@ -100,15 +100,34 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
 
 function PortfolioView({ curator }: { curator: Curator }) {
   const [coverBroken, setCoverBroken] = useState(false);
+  // "loading" until the iframe signals a load; "blocked" if it never does
+  // (X-Frame-Options / CSP) — Tilda and the like.
+  const [frameStatus, setFrameStatus] = useState<"loading" | "ok" | "blocked">("loading");
 
-  // A manually uploaded cover always wins — it's what the admin adds for sites
-  // that can't be embedded.
-  if (curator.coverImage && !coverBroken) {
+  const hasCover = Boolean(curator.coverImage) && !coverBroken;
+  const explicitlyBlocked = curator.embeddable === false;
+  const tryEmbed = !explicitlyBlocked && Boolean(curator.externalUrl);
+
+  // The live site is what the detail page shows. The uploaded image is only a
+  // fallback here — for sites that refuse to be framed. If the iframe hasn't
+  // loaded within a few seconds and we have an image to fall back to, use it.
+  useEffect(() => {
+    if (!tryEmbed || !hasCover) return;
+    const t = setTimeout(() => {
+      setFrameStatus((s) => (s === "loading" ? "blocked" : s));
+    }, 6000);
+    return () => clearTimeout(t);
+  }, [tryEmbed, hasCover]);
+
+  const showCover =
+    hasCover && (explicitlyBlocked || !curator.externalUrl || frameStatus === "blocked");
+
+  if (showCover) {
     return (
       <div className={FRAME}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={curator.coverImage}
+          src={curator.coverImage!}
           alt={`${curator.name} portfolio`}
           onError={() => setCoverBroken(true)}
           className="h-full w-full object-cover object-top"
@@ -117,19 +136,19 @@ function PortfolioView({ curator }: { curator: Curator }) {
     );
   }
 
-  // No cover and the site allows framing → show the live site.
-  if (curator.embeddable !== false && curator.externalUrl) {
+  if (tryEmbed) {
     return (
       <iframe
         src={curator.externalUrl}
         title={`${curator.name} portfolio`}
+        onLoad={() => setFrameStatus("ok")}
         className={`${FRAME} border-0`}
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox"
       />
     );
   }
 
-  // Site blocks framing and no cover yet — the admin flags this to add a cover.
+  // Site blocks framing and there's no image to show instead.
   return (
     <div className={`${FRAME} flex flex-col items-center justify-center gap-4 text-center`}>
       <p className={`${TEXT_SCALE} text-white/50`}>This site can&apos;t be shown here.</p>

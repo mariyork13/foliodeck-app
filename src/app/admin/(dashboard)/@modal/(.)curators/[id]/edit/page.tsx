@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { CuratorFormModal } from "@/components/admin/curator-form-modal";
 import { updateCuratorAction } from "@/lib/actions/curators";
 import { getCuratorById } from "@/lib/db/curators";
-import { getAllTagsGrouped, getDistinctGeoValues } from "@/lib/db/tags";
+import { getAllTagsGrouped, getDistinctGeoValues, getDistinctRoleValues } from "@/lib/db/tags";
 
 export const dynamic = "force-dynamic";
 
@@ -18,10 +18,11 @@ export default async function InterceptedEditCuratorModal({
   const curatorId = Number(id);
   if (!Number.isInteger(curatorId)) notFound();
 
-  const [curator, tags, geoOptions] = await Promise.all([
+  const [curator, tags, geoOptions, roleOptions] = await Promise.all([
     getCuratorById(curatorId),
     getAllTagsGrouped(),
     getDistinctGeoValues(),
+    getDistinctRoleValues(),
   ]);
   if (!curator) notFound();
 
@@ -32,6 +33,7 @@ export default async function InterceptedEditCuratorModal({
       curator={curator}
       tags={tags}
       geoOptions={geoOptions}
+      roleOptions={roleOptions}
       intercepted
     />
   );
