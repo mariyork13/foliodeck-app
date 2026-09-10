@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import type { Curator } from "@/lib/types";
 import { sql } from "./client";
@@ -63,13 +62,10 @@ async function getCuratorsImpl(): Promise<CuratorRecord[]> {
   `;
   return rows.map(mapRow);
 }
-// Public pages are `force-dynamic` (they render per request) but the data
-// itself is cached in Next's data cache — the small Timeweb instance only gets
-// hit on a cache miss or when an admin edit calls `revalidateTag("curators")`.
-// React's `cache` still dedupes within a single render (layout + page).
-export const getCurators = cache(
-  unstable_cache(getCuratorsImpl, ["curators-all"], { tags: ["curators"], revalidate: 3600 }),
-);
+// Per-request dedupe (layout + page). Cross-request caching is handled at the
+// route level (ISR `revalidate` on the public pages) so the small Timeweb
+// instance is only queried when a page actually regenerates.
+export const getCurators = cache(getCuratorsImpl);
 
 async function getCuratorBySlugImpl(slug: string): Promise<CuratorRecord | null> {
   const rows = await sql`
@@ -88,12 +84,7 @@ async function getCuratorBySlugImpl(slug: string): Promise<CuratorRecord | null>
   `;
   return rows.length > 0 ? mapRow(rows[0]) : null;
 }
-export const getCuratorBySlug = cache(
-  unstable_cache(getCuratorBySlugImpl, ["curator-by-slug"], {
-    tags: ["curators"],
-    revalidate: 3600,
-  }),
-);
+export const getCuratorBySlug = cache(getCuratorBySlugImpl);
 
 async function getCuratorByIdImpl(id: number): Promise<CuratorRecord | null> {
   const rows = await sql`

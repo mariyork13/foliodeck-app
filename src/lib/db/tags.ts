@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { sql } from "./client";
 
@@ -11,10 +10,7 @@ async function getTagsByTypeImpl(type: TagType): Promise<Tag[]> {
   const rows = await sql`SELECT id, type, name, logo FROM tags WHERE type = ${type} ORDER BY name`;
   return rows as Tag[];
 }
-// Data-cached (see getCurators); busted by revalidateTag("tags") on any tag edit.
-export const getTagsByType = cache(
-  unstable_cache(getTagsByTypeImpl, ["tags-by-type"], { tags: ["tags"], revalidate: 3600 }),
-);
+export const getTagsByType = cache(getTagsByTypeImpl);
 
 async function getAllTagsGroupedImpl(): Promise<Record<TagType, Tag[]>> {
   const rows = await sql`SELECT id, type, name, logo FROM tags ORDER BY type, name`;
@@ -42,12 +38,7 @@ async function getDistinctGeoValuesImpl(): Promise<string[]> {
   const rows = await sql`SELECT DISTINCT geo FROM curators WHERE geo IS NOT NULL ORDER BY geo`;
   return rows.map((row) => row.geo as string);
 }
-export const getDistinctGeoValues = cache(
-  unstable_cache(getDistinctGeoValuesImpl, ["distinct-geo"], {
-    tags: ["curators"],
-    revalidate: 3600,
-  }),
-);
+export const getDistinctGeoValues = cache(getDistinctGeoValuesImpl);
 
 /** Existing curator roles, most-used first — feeds the admin form's role autocomplete. */
 async function getDistinctRoleValuesImpl(): Promise<string[]> {

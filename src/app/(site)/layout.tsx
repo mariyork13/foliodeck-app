@@ -6,9 +6,9 @@ import { SubscribeBanner } from "@/components/subscribe-banner";
 import { getCurators } from "@/lib/db/curators";
 import { getDistinctGeoValues, getTagsByType } from "@/lib/db/tags";
 
-// The header depends on live curator/tag data from Postgres on every page in
-// this group, so none of them can be snapshotted at build time.
-export const dynamic = "force-dynamic";
+// ISR for the whole (site) group. The header's curator/tag data regenerates at
+// most every 2 minutes; admin edits call revalidatePath("/", "layout").
+export const revalidate = 120;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [curators, specializations, companies, collections, geo] = await Promise.all([

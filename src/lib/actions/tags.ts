@@ -1,17 +1,14 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { requireAdminSession } from "@/lib/admin-auth";
 import * as tagsDb from "@/lib/db/tags";
 
 export type { TagType, Tag } from "@/lib/db/tags";
 
-// Tag names and company logos surface both in the tag lists and inside every
-// curator's data, so bust both data-cache tags.
 function revalidateTagCaches(): void {
-  revalidateTag("tags", { expire: 0 });
-  revalidateTag("curators", { expire: 0 });
-  revalidatePath("/", "layout");
+  revalidatePath("/", "layout"); // filter options + company logos in the header
+  revalidatePath("/curator/[slug]", "page"); // tag names shown on curator pages
   revalidatePath("/admin/tags");
 }
 
