@@ -96,6 +96,19 @@ export function CuratorForm({
 
       <CoverImageField defaultValue={curator?.coverImage} />
 
+      <label className="flex items-start gap-2 text-sm text-white/80">
+        <input
+          type="checkbox"
+          name="notEmbeddable"
+          defaultChecked={curator?.embeddable === false}
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/10 accent-white"
+        />
+        <span>
+          Сайт не открывается во встроенном виде — показывать картинку карточки
+          на странице портфолио (для Тильды и подобных).
+        </span>
+      </label>
+
       <div>
         <label className={labelClass} htmlFor="geo">
           География

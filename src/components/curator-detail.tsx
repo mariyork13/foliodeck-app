@@ -100,29 +100,52 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
 
 function PortfolioView({ curator }: { curator: Curator }) {
   const [coverBroken, setCoverBroken] = useState(false);
-  // "loading" until the iframe signals a load; "blocked" if it never does
-  // (X-Frame-Options / CSP) — Tilda and the like.
-  const [frameStatus, setFrameStatus] = useState<"loading" | "ok" | "blocked">("loading");
-
   const hasCover = Boolean(curator.coverImage) && !coverBroken;
-  const explicitlyBlocked = curator.embeddable === false;
-  const tryEmbed = !explicitlyBlocked && Boolean(curator.externalUrl);
 
-  // The live site is what the detail page shows. The uploaded image is only a
-  // fallback here — for sites that refuse to be framed. If the iframe hasn't
-  // loaded within a few seconds and we have an image to fall back to, use it.
+  // The detail page shows the live site. The card image is only the fallback
+  // here — for sites that refuse to be framed (Tilda etc.).
+  //   embeddable === false → skip the frame, straight to the fallback
+  //   embeddable === true  → trust the frame
+  //   embeddable == null   → try the frame, but give up after a few seconds if
+  //                          it never confirms a real cross-origin load
+  const [status, setStatus] = useState<"try" | "ok" | "blocked">(
+    curator.embeddable === false ? "blocked" : "try",
+  );
+  const trusted = curator.embeddable === true;
+
   useEffect(() => {
-    if (!tryEmbed || !hasCover) return;
-    const t = setTimeout(() => {
-      setFrameStatus((s) => (s === "loading" ? "blocked" : s));
-    }, 6000);
+    if (status !== "try" || trusted || !curator.externalUrl) return;
+    const t = setTimeout(() => setStatus((s) => (s === "try" ? "blocked" : s)), 4000);
     return () => clearTimeout(t);
-  }, [tryEmbed, hasCover]);
+  }, [status, trusted, curator.externalUrl]);
 
-  const showCover =
-    hasCover && (explicitlyBlocked || !curator.externalUrl || frameStatus === "blocked");
+  const onFrameLoad = (e: { target: EventTarget | null }) => {
+    if (trusted) return;
+    try {
+      // A real cross-origin page throws on this read; a frame that was blocked
+      // (X-Frame-Options / CSP) sits on an about:blank we *can* read.
+      const href = (e.target as HTMLIFrameElement).contentWindow?.location.href;
+      if (href && href !== "about:blank") setStatus("ok");
+    } catch {
+      setStatus("ok");
+    }
+  };
 
-  if (showCover) {
+  const showFrame = Boolean(curator.externalUrl) && status !== "blocked";
+
+  if (showFrame) {
+    return (
+      <iframe
+        src={curator.externalUrl}
+        title={`${curator.name} portfolio`}
+        onLoad={onFrameLoad}
+        className={`${FRAME} border-0`}
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox"
+      />
+    );
+  }
+
+  if (hasCover) {
     return (
       <div className={FRAME}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -133,18 +156,6 @@ function PortfolioView({ curator }: { curator: Curator }) {
           className="h-full w-full object-cover object-top"
         />
       </div>
-    );
-  }
-
-  if (tryEmbed) {
-    return (
-      <iframe
-        src={curator.externalUrl}
-        title={`${curator.name} portfolio`}
-        onLoad={() => setFrameStatus("ok")}
-        className={`${FRAME} border-0`}
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-popups-to-escape-sandbox"
-      />
     );
   }
 

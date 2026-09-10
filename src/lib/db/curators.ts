@@ -16,6 +16,8 @@ export type CuratorInput = {
   externalUrl: string;
   previewImage: string;
   coverImage: string | null;
+  /** false = site refuses framing, show the cover on the detail page instead. */
+  embeddable: boolean | null;
   geo?: string | null;
   notes?: string | null;
   specializationIds: number[];
@@ -125,7 +127,8 @@ async function linkTags(curatorId: number, input: CuratorInput): Promise<void> {
 export async function createCurator(input: CuratorInput): Promise<number> {
   const slug = input.slug || "curator";
   const rows = await sql`
-    INSERT INTO curators (slug, name, role, external_url, preview_image, cover_image, geo, notes, sort_order)
+    INSERT INTO curators
+      (slug, name, role, external_url, preview_image, cover_image, embeddable, geo, notes, sort_order)
     VALUES (
       -- auto-derived slugs can collide (two curators with the same name);
       -- append a short suffix when the base slug is already taken.
@@ -133,7 +136,7 @@ export async function createCurator(input: CuratorInput): Promise<number> {
                THEN ${slug} || '-' || substr(md5(random()::text), 1, 4)
                ELSE ${slug} END),
       ${input.name}, ${input.role}, ${input.externalUrl}, ${input.previewImage},
-      ${input.coverImage}, ${input.geo ?? null}, ${input.notes ?? null},
+      ${input.coverImage}, ${input.embeddable}, ${input.geo ?? null}, ${input.notes ?? null},
       COALESCE((SELECT MIN(sort_order) FROM curators), 0) - 1
     )
     RETURNING id
@@ -152,6 +155,7 @@ export async function updateCurator(id: number, input: CuratorInput): Promise<vo
       external_url = ${input.externalUrl},
       preview_image = ${input.previewImage},
       cover_image = ${input.coverImage},
+      embeddable = ${input.embeddable},
       geo = ${input.geo ?? null},
       notes = ${input.notes ?? null},
       updated_at = now()
