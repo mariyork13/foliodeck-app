@@ -46,7 +46,7 @@ Hereinafter referred to as the “Operator”.
 
 2.2. The Website may also process technical information necessary for the operation and security of the Website, including IP address, browser and device information, User Agent, date and time of submission, and other technical data.
 
-2.3. The Website does not currently use web analytics services for tracking user behavior.
+2.3. Subject to the visitor's consent given through the cookie banner, the Website uses the Yandex Metrica web analytics service (operated by YANDEX LLC) to collect aggregated, anonymized statistics about site traffic — such as pages viewed, referral source, approximate geographic region, and device and browser type. Session recording ("Webvisor") is not enabled. The analytics script is not loaded until the visitor accepts analytics cookies; the visitor may decline. Data collected through Yandex Metrica is processed on Yandex infrastructure located within the Russian Federation.
 
 2.4. The Operator does not intentionally collect or process special categories of personal data, including information about health, political opinions, religious or philosophical beliefs, intimate life, or biometric personal data.
 
@@ -132,13 +132,13 @@ When collecting personal data of citizens of the Russian Federation through the 
 
 ## 10. Cookies
 
-The Website may use technically necessary cookies to ensure proper operation and functionality.
+The Website uses technically necessary cookies to ensure proper operation and functionality.
 
-The Website does not currently use web analytics services.
+Subject to the visitor's consent, the Website uses analytics cookies set by the Yandex Metrica service for anonymized traffic statistics (see clause 2.3). On the first visit the Website shows a cookie banner allowing the visitor to accept or decline analytics cookies; the choice is stored locally in the browser and can be changed by clearing the Website's site data. If analytics cookies are declined, the Yandex Metrica script is not loaded.
 
-If analytics or other tracking technologies are introduced in the future, this Policy must be updated accordingly.
+If other analytics or tracking technologies are introduced in the future, this Policy must be updated accordingly.
 
-Users may restrict or disable cookies through their browser settings. Disabling certain cookies may affect Website functionality.
+Users may also restrict or disable cookies through their browser settings. Disabling certain cookies may affect Website functionality.
 
 ## 11. Personal Data Protection
 
@@ -242,7 +242,7 @@ Email: [design.awesome@yandex.ru](mailto:design.awesome@yandex.ru)`,
 
 2.2. Сайт также может обрабатывать техническую информацию, необходимую для его работы и безопасности, включая IP-адрес, информацию о браузере и устройстве, User Agent, дату и время отправки заявки и иные технические данные.
 
-2.3. В настоящее время Сайт не использует системы веб-аналитики для отслеживания поведения пользователей.
+2.3. При условии согласия посетителя, выраженного через баннер о файлах cookie, Сайт использует сервис веб-аналитики Яндекс.Метрика (оператор — ООО «ЯНДЕКС») для сбора обезличенной сводной статистики посещений — в частности, о просмотренных страницах, источнике перехода, приблизительном регионе, типе устройства и браузера. Запись сессий («Вебвизор») не используется. Скрипт аналитики не загружается до принятия посетителем аналитических файлов cookie; посетитель вправе отказаться. Данные, собираемые через Яндекс.Метрику, обрабатываются на инфраструктуре Яндекса, расположенной на территории Российской Федерации.
 
 2.4. Оператор не осуществляет целенаправленный сбор и обработку специальных категорий персональных данных, включая сведения о состоянии здоровья, политических взглядах, религиозных или философских убеждениях, интимной жизни, а также биометрические персональные данные.
 
@@ -328,13 +328,13 @@ Telegram может использоваться исключительно дл
 
 ## 10. Файлы cookie
 
-Сайт может использовать технически необходимые файлы cookie для обеспечения корректной работы и функционирования Сайта.
+Сайт использует технически необходимые файлы cookie для обеспечения корректной работы и функционирования Сайта.
 
-В настоящее время Сайт не использует системы веб-аналитики.
+При условии согласия посетителя Сайт использует аналитические файлы cookie сервиса Яндекс.Метрика для обезличенной статистики посещений (см. пункт 2.3). При первом посещении Сайт показывает баннер, позволяющий принять или отклонить аналитические файлы cookie; выбор сохраняется локально в браузере и может быть изменён очисткой данных Сайта. При отказе от аналитических файлов cookie скрипт Яндекс.Метрики не загружается.
 
-В случае подключения систем веб-аналитики или иных технологий отслеживания настоящая Политика подлежит соответствующему обновлению.
+В случае подключения иных систем веб-аналитики или технологий отслеживания настоящая Политика подлежит соответствующему обновлению.
 
-Пользователь может ограничить или отключить использование файлов cookie в настройках своего браузера. Отключение отдельных файлов cookie может повлиять на корректную работу некоторых функций Сайта.
+Пользователь также может ограничить или отключить использование файлов cookie в настройках своего браузера. Отключение отдельных файлов cookie может повлиять на корректную работу некоторых функций Сайта.
 
 ## 11. Защита персональных данных
 

@@ -3,6 +3,8 @@ import { ScrollToTopButton } from "@/components/scroll-to-top-button";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SubscribeBanner } from "@/components/subscribe-banner";
+import { YandexMetrica } from "@/components/yandex-metrica";
+import { ConsentProvider } from "@/lib/consent-context";
 import { getCurators } from "@/lib/db/curators";
 import { getDistinctGeoValues, getTagsByType } from "@/lib/db/tags";
 
@@ -29,7 +31,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   };
 
   return (
-    <>
+    <ConsentProvider>
       <SiteHeader curators={curators} filterOptions={filterOptions} />
       <main className="flex-1">{children}</main>
       <SiteFooter />
@@ -41,6 +43,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <SubscribeBanner />
       </div>
       <ScrollToTopButton />
-    </>
+      <YandexMetrica />
+    </ConsentProvider>
   );
 }
