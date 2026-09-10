@@ -1,13 +1,13 @@
 import { S3Client, PutObjectCommand, DeleteObjectsCommand } from "@aws-sdk/client-s3";
 
 // Object storage for uploaded images (curator covers, designer covers/gallery).
-// Yandex Cloud Object Storage is S3-compatible:
-//   S3_ENDPOINT=https://storage.yandexcloud.net
-//   S3_REGION=ru-central1
+// Timeweb Cloud Object Storage (S3-compatible, path-style):
+//   S3_ENDPOINT=https://s3.twcstorage.ru
+//   S3_REGION=ru-1
 //   S3_BUCKET=foliodeck-media
-//   MEDIA_PUBLIC_BASE=https://foliodeck-media.storage.yandexcloud.net
-// The bucket serves the uploaded prefix with public-read ACL, so stored URLs
-// are plain `${MEDIA_PUBLIC_BASE}/${key}` and load directly from an <img>.
+//   MEDIA_PUBLIC_BASE=https://s3.twcstorage.ru/foliodeck-media
+// The bucket is public, so stored URLs are plain `${MEDIA_PUBLIC_BASE}/${key}`
+// and load directly from an <img>.
 
 const PUBLIC_BASE = (process.env.MEDIA_PUBLIC_BASE ?? "").replace(/\/+$/, "");
 
@@ -16,8 +16,8 @@ function s3(): S3Client {
   if (!client) {
     client = new S3Client({
       endpoint: process.env.S3_ENDPOINT,
-      region: process.env.S3_REGION ?? "ru-central1",
-      forcePathStyle: false,
+      region: process.env.S3_REGION ?? "ru-1",
+      forcePathStyle: true,
       credentials: {
         accessKeyId: process.env.S3_ACCESS_KEY_ID!,
         secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
