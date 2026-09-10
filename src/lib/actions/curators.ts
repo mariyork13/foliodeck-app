@@ -30,8 +30,10 @@ function parseInput(formData: FormData): CuratorInput {
     externalUrl: String(formData.get("externalUrl") ?? "").trim(),
     previewImage: String(formData.get("previewImage") ?? "").trim(),
     coverImage: String(formData.get("coverImage") ?? "").trim() || null,
-    // Checkbox: ticked = the site refuses to be framed → show the cover instead.
-    embeddable: formData.get("notEmbeddable") === "on" ? false : true,
+    // Checkbox ticked = the site refuses to be framed → show the cover instead.
+    // Unticked = unknown: the detail page tries the iframe and falls back to the
+    // cover on its own if it doesn't load.
+    embeddable: formData.get("notEmbeddable") === "on" ? false : null,
     geo: typeof geo === "string" && geo.trim() ? geo.trim() : null,
     notes: typeof notes === "string" && notes.trim() ? notes.trim() : null,
     specializationIds: parseIds(formData, "specializationIds"),
