@@ -18,8 +18,11 @@ function parseInput(formData: FormData): CuratorInput {
   const notes = formData.get("notes");
   const name = String(formData.get("name") ?? "").trim();
   // The form no longer shows a slug field: keep the existing one when editing,
-  // derive it from the name for a new curator.
-  const slug = String(formData.get("slug") ?? "").trim() || slugify(name);
+  // derive it from the name otherwise. Anything that isn't already slug-shaped
+  // (e.g. an old card where a full URL got typed into the removed field) is
+  // regenerated from the name — self-healing on the next save.
+  const rawSlug = String(formData.get("slug") ?? "").trim();
+  const slug = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(rawSlug) ? rawSlug : slugify(name);
   return {
     slug,
     name,
