@@ -17,10 +17,15 @@ function caCert(): string | undefined {
 }
 const ca = caCert();
 
+// This runs on Vercel serverless: every function instance opens its own pool,
+// and the small Timeweb instance has a low max_connections. Keep the pool tiny
+// (postgres.js pipelines multiple queries down one connection) and let idle
+// connections drop fast so frozen/recycled instances don't pin slots.
 const client = postgres(connectionString, {
   ssl: ca ? { ca } : "require",
-  max: Number(process.env.PGPOOL_MAX ?? 10),
-  idle_timeout: 20,
+  max: Number(process.env.PGPOOL_MAX ?? 1),
+  idle_timeout: 10,
+  max_lifetime: 60 * 5,
   connect_timeout: 10,
 });
 
