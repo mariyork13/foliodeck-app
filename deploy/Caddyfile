@@ -1,0 +1,26 @@
+# Public entrypoint for foliodeck.pro.
+#
+# Runs on a small Russian VPS because RU mobile carriers throttle Vercel's IP
+# ranges — visitors on cellular data couldn't open the site. This box answers
+# on a clean RU address and reverse-proxies to the Vercel production
+# deployment; the VPS -> Vercel hop is datacenter-to-datacenter and isn't
+# throttled.
+#
+# Install:  /etc/caddy/Caddyfile  then  systemctl reload caddy
+# Rollback: point the foliodeck.pro DNS A record back at Vercel.
+
+foliodeck.pro {
+	encode zstd gzip
+
+	reverse_proxy https://foliodeck-app.vercel.app {
+		# Vercel's firewall returns 403 (x-vercel-mitigated) when the HTTP
+		# Host doesn't match the TLS SNI, so send Vercel's own hostname
+		# upstream. Canonical / OG URLs come from SITE_ORIGIN in the app,
+		# not the request Host, so they stay https://foliodeck.pro.
+		header_up Host foliodeck-app.vercel.app
+	}
+}
+
+www.foliodeck.pro {
+	redir https://foliodeck.pro{uri} permanent
+}
