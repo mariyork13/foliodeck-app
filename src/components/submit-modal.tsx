@@ -68,7 +68,14 @@ export function SubmitModal({
   };
 
   const showSuccess = state?.ok === true;
-  const showError = !showSuccess && state != null && !state.ok && state.error === "server" && !retry;
+  const showRateLimit = !showSuccess && state != null && !state.ok && state.error === "rate_limit";
+  const showError =
+    !showSuccess &&
+    !showRateLimit &&
+    state != null &&
+    !state.ok &&
+    state.error === "server" &&
+    !retry;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -92,6 +99,14 @@ export function SubmitModal({
               We&apos;ll contact you if we need any additional information.
             </p>
           </div>
+        ) : showRateLimit ? (
+          <div className="py-4 text-center">
+            <h2 className="text-xl font-medium text-white">Slow down a moment</h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/60">
+              We&apos;ve had a few submissions from you already. Please try again a
+              little later.
+            </p>
+          </div>
         ) : showError ? (
           <div className="py-4 text-center">
             <h2 className="text-xl font-medium text-white">Something went wrong</h2>
@@ -108,6 +123,15 @@ export function SubmitModal({
           </div>
         ) : (
           <form action={formAction} onSubmit={handleSubmit} noValidate>
+            {/* Honeypot — hidden from people, tempting to bots. Kept in the DOM
+                (not type="hidden") and off-screen so real submissions leave it empty. */}
+            <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              <label>
+                Company
+                <input type="text" name="company" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+
             <h2 className="pr-8 text-xl font-medium text-white">Want to be in the gallery?</h2>
             <p className="mt-3 text-sm leading-relaxed text-white/60">
               Send your portfolio and we&apos;ll review it.

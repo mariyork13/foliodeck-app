@@ -75,6 +75,25 @@ export function toPublicSafe(submission: Submission): PublicSafeSubmission {
   };
 }
 
+/**
+ * Submissions in the last `windowMinutes` — total, and from this IP.
+ * Used by the public action to throttle spam (no extra infrastructure:
+ * the IP is already stored on every row as `consent_ip`).
+ */
+export async function recentSubmissionCounts(
+  ip: string | null,
+  windowMinutes: number,
+): Promise<{ fromIp: number; total: number }> {
+  const rows = await sql`
+    SELECT
+      COUNT(*) FILTER (WHERE consent_ip = ${ip})::int AS from_ip,
+      COUNT(*)::int AS total
+    FROM portfolio_submissions
+    WHERE created_at > now() - make_interval(mins => ${windowMinutes})
+  `;
+  return { fromIp: rows[0].from_ip as number, total: rows[0].total as number };
+}
+
 export async function createSubmission(input: SubmissionInput): Promise<number> {
   const rows = await sql`
     INSERT INTO portfolio_submissions

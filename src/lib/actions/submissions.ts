@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdminSession } from "@/lib/admin-auth";
 import {
   createSubmission,
+  recentSubmissionCounts,
   SUBMISSION_STATUSES,
   updateSubmissionStatus,
   type SubmissionStatus,
@@ -14,7 +15,17 @@ import { validateSubmission, type FieldErrors } from "@/lib/submissions/validati
 export type SubmitResult =
   | { ok: true }
   | { ok: false; error: "validation"; fields: FieldErrors }
+  | { ok: false; error: "rate_limit" }
   | { ok: false; error: "server" };
+
+// Anti-spam. No captcha, no extra services:
+//  - a hidden honeypot field (`company`) that only bots fill;
+//  - a per-IP and global cap over a rolling window, counted straight from
+//    the submissions table.
+const HONEYPOT_FIELD = "company";
+const RATE_WINDOW_MINUTES = 60;
+const MAX_PER_IP = 3;
+const MAX_TOTAL = 20;
 
 function field(formData: FormData, name: string): string {
   return String(formData.get(name) ?? "").trim();
@@ -53,6 +64,12 @@ export async function submitPortfolioAction(
     consentDisclosure: formData.get("consentDisclosure") === "on",
   };
 
+  // Honeypot: a real person never sees or fills this field. Pretend success
+  // so the bot moves on and learns nothing; write nothing.
+  if (field(formData, HONEYPOT_FIELD) !== "") {
+    return { ok: true };
+  }
+
   const fields = validateSubmission(values);
   if (Object.keys(fields).length > 0) {
     return { ok: false, error: "validation", fields };
@@ -63,6 +80,14 @@ export async function submitPortfolioAction(
     const forwardedFor = headerList.get("x-forwarded-for");
     const consentIp = forwardedFor ? forwardedFor.split(",")[0].trim() : null;
     const consentUserAgent = headerList.get("user-agent");
+
+    const recent = await recentSubmissionCounts(consentIp, RATE_WINDOW_MINUTES);
+    if (recent.fromIp >= MAX_PER_IP || recent.total >= MAX_TOTAL) {
+      console.warn(
+        `[submissions] rate limited: ip=${consentIp} fromIp=${recent.fromIp} total=${recent.total}`,
+      );
+      return { ok: false, error: "rate_limit" };
+    }
 
     const id = await createSubmission({
       name: values.name,
