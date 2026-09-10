@@ -1,22 +1,23 @@
 import { readFileSync } from "node:fs";
 import postgres from "postgres";
 
-// Managed PostgreSQL (Yandex Cloud, ru-central1). The app runs long-lived on a
-// VM in the same subnet, so a normal connection pool is fine — no per-request
-// HTTP driver.
-//
-// TLS to the YC cluster wants their root CA:
-//   PGSSL_CA_FILE — path to CA.pem (preferred on the VM / in the container)
-//   PGSSL_CA      — the PEM contents inline (alternative)
-// With neither, we still require an encrypted connection but skip chain
-// verification.
+// Managed PostgreSQL — Timeweb Cloud (ru-1, Москва). Read `DATABASE_URL_RU`
+// first so we can point Production at the Russian database without touching
+// the Vercel–Neon integration's own `DATABASE_URL` (which it keeps managed).
+// Falls back to `DATABASE_URL` for local dev and any not-yet-switched env.
+const connectionString = process.env.DATABASE_URL_RU || process.env.DATABASE_URL!;
+
+// Optional TLS root CA (Timeweb publishes one). Without it the connection is
+// still encrypted, just not chain-verified.
+//   PGSSL_CA_FILE — path to the .pem
+//   PGSSL_CA      — the PEM contents inline
 function caCert(): string | undefined {
   if (process.env.PGSSL_CA_FILE) return readFileSync(process.env.PGSSL_CA_FILE, "utf8");
   return process.env.PGSSL_CA || undefined;
 }
 const ca = caCert();
 
-const client = postgres(process.env.DATABASE_URL!, {
+const client = postgres(connectionString, {
   ssl: ca ? { ca } : "require",
   max: Number(process.env.PGPOOL_MAX ?? 10),
   idle_timeout: 20,
