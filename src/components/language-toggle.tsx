@@ -11,7 +11,7 @@ export function LanguageToggle() {
   const { language, setLanguage } = useLanguage();
 
   return (
-    <div className="flex items-center gap-1 rounded-full bg-white/5 p-0.5">
+    <div className="flex w-fit items-center gap-1 self-start rounded-full bg-white/5 p-0.5 sm:self-auto">
       {OPTIONS.map((option) => (
         <button
           key={option.value}
