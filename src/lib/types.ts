@@ -24,6 +24,8 @@ export type Curator = {
   collections?: string[];
   /** Curator's own commentary on this portfolio, shown in the Notes dropdown on the detail page. */
   notes?: string;
+  /** Russian translation of `notes`. When present, the detail page offers a RU/EN toggle. */
+  notesRu?: string;
 };
 
 /** DB-backed replacement for the old static filterOptions.ts constants. */

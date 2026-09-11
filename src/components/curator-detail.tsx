@@ -25,6 +25,11 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
   const { isFavorited: checkFavorited, toggleFavorite } = useFavorites();
   const isFavorited = checkFavorited(curator.slug);
   const [notesOpen, setNotesOpen] = useState(false);
+  const hasBothLanguages = Boolean(curator.notes) && Boolean(curator.notesRu);
+  // Audience is mostly Russian-speaking students/subscribers, so default to
+  // RU whenever a translation exists; fall back to whichever one is set.
+  const [notesLang, setNotesLang] = useState<"ru" | "en">(curator.notesRu ? "ru" : "en");
+  const notesText = notesLang === "ru" ? curator.notesRu ?? curator.notes : curator.notes ?? curator.notesRu;
 
   return (
     <div className="flex h-screen flex-col bg-[#161618]">
@@ -47,7 +52,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
         </div>
 
         <div className="flex shrink-0 items-center gap-0">
-          {curator.notes && (
+          {(curator.notes || curator.notesRu) && (
             <>
               <button
                 type="button"
@@ -63,7 +68,23 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
                   <div
                     className={`absolute left-3 right-3 top-[calc(100%-8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 text-[15px] leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
                   >
-                    {curator.notes}
+                    {hasBothLanguages && (
+                      <div className="mb-3 flex items-center gap-1 text-xs font-medium">
+                        {(["ru", "en"] as const).map((lang) => (
+                          <button
+                            key={lang}
+                            type="button"
+                            onClick={() => setNotesLang(lang)}
+                            className={`rounded-full px-2.5 py-1 uppercase transition-colors ${
+                              notesLang === lang ? "bg-white/15 text-white" : "text-white/40 hover:text-white/70"
+                            }`}
+                          >
+                            {lang}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {notesText}
                   </div>
                 </>
               )}

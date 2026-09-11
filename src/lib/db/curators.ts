@@ -20,6 +20,7 @@ export type CuratorInput = {
   embeddable: boolean | null;
   geo?: string | null;
   notes?: string | null;
+  notesRu?: string | null;
   specializationIds: number[];
   companyIds: number[];
   collectionIds: number[];
@@ -44,13 +45,14 @@ function mapRow(row: any): CuratorRecord {
     companies: row.companies ?? [],
     collections: row.collections ?? [],
     notes: row.notes ?? undefined,
+    notesRu: row.notes_ru ?? undefined,
   };
 }
 
 async function getCuratorsImpl(): Promise<CuratorRecord[]> {
   const rows = await sql`
     SELECT
-      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.notes_ru, c.sort_order,
       (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
        FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
@@ -73,7 +75,7 @@ export const getCurators = cache(getCuratorsImpl);
 async function getCuratorBySlugImpl(slug: string): Promise<CuratorRecord | null> {
   const rows = await sql`
     SELECT
-      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.notes_ru, c.sort_order,
       (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
        FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
@@ -93,7 +95,7 @@ export const getCuratorBySlug = cache(getCuratorBySlugImpl);
 async function getCuratorByIdImpl(id: number): Promise<CuratorRecord | null> {
   const rows = await sql`
     SELECT
-      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+      c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.notes_ru, c.sort_order,
       (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
        FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
       COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,
@@ -135,7 +137,7 @@ export async function createCurator(input: CuratorInput): Promise<number> {
   const slug = input.slug || "curator";
   const rows = await sql`
     INSERT INTO curators
-      (slug, name, role, external_url, preview_image, cover_image, embeddable, geo, notes, sort_order)
+      (slug, name, role, external_url, preview_image, cover_image, embeddable, geo, notes, notes_ru, sort_order)
     VALUES (
       -- auto-derived slugs can collide (two curators with the same name);
       -- append a short suffix when the base slug is already taken.
@@ -144,6 +146,7 @@ export async function createCurator(input: CuratorInput): Promise<number> {
                ELSE ${slug} END),
       ${input.name}, ${input.role}, ${input.externalUrl}, ${input.previewImage},
       ${input.coverImage}, ${input.embeddable}, ${input.geo ?? null}, ${input.notes ?? null},
+      ${input.notesRu ?? null},
       COALESCE((SELECT MIN(sort_order) FROM curators), 0) - 1
     )
     RETURNING id
@@ -165,6 +168,7 @@ export async function updateCurator(id: number, input: CuratorInput): Promise<vo
       embeddable = ${input.embeddable},
       geo = ${input.geo ?? null},
       notes = ${input.notes ?? null},
+      notes_ru = ${input.notesRu ?? null},
       updated_at = now()
     WHERE id = ${id}
   `;
@@ -214,7 +218,7 @@ export async function getCuratorsPage(options: {
   const [rows, countRows] = await Promise.all([
     sql`
       SELECT
-        c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.sort_order,
+        c.id, c.slug, c.name, c.role, c.external_url, c.preview_image, c.cover_image, c.embeddable, c.geo, c.notes, c.notes_ru, c.sort_order,
         (SELECT COALESCE(array_agg(ci.url ORDER BY ci.sort_order, ci.id), '{}')
          FROM curator_images ci WHERE ci.curator_id = c.id) AS images,
         COALESCE(array_agg(t.name) FILTER (WHERE t.type = 'specialization'), '{}') AS specializations,

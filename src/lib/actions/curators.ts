@@ -16,6 +16,7 @@ function parseIds(formData: FormData, field: string): number[] {
 function parseInput(formData: FormData): CuratorInput {
   const geo = formData.get("geo");
   const notes = formData.get("notes");
+  const notesRu = formData.get("notesRu");
   const name = String(formData.get("name") ?? "").trim();
   // The form no longer shows a slug field: keep the existing one when editing,
   // derive it from the name otherwise. Anything that isn't already slug-shaped
@@ -36,6 +37,7 @@ function parseInput(formData: FormData): CuratorInput {
     embeddable: formData.get("notEmbeddable") === "on" ? false : null,
     geo: typeof geo === "string" && geo.trim() ? geo.trim() : null,
     notes: typeof notes === "string" && notes.trim() ? notes.trim() : null,
+    notesRu: typeof notesRu === "string" && notesRu.trim() ? notesRu.trim() : null,
     specializationIds: parseIds(formData, "specializationIds"),
     companyIds: parseIds(formData, "companyIds"),
     collectionIds: parseIds(formData, "collectionIds"),
