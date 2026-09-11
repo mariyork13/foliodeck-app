@@ -153,20 +153,20 @@ export function CuratorForm({
       />
 
       <div>
-        <label className={labelClass} htmlFor="notes">
-          Заметки о портфолио (EN)
-        </label>
-        <textarea id="notes" name="notes" defaultValue={curator?.notes} rows={6} className={inputClass} />
-      </div>
-
-      <div>
         <label className={labelClass} htmlFor="notesRu">
           Заметки о портфолио (RU)
         </label>
-        <p className="mb-2 text-xs text-white/40">
-          Необязательно — если заполнено, на странице портфолио появится переключатель RU/EN.
-        </p>
         <textarea id="notesRu" name="notesRu" defaultValue={curator?.notesRu} rows={6} className={inputClass} />
+      </div>
+
+      <div>
+        <label className={labelClass} htmlFor="notes">
+          Заметки о портфолио (EN)
+        </label>
+        <p className="mb-2 text-xs text-white/40">
+          Необязательно — если заполнены оба поля, на странице портфолио появится переключатель RU/EN.
+        </p>
+        <textarea id="notes" name="notes" defaultValue={curator?.notes} rows={6} className={inputClass} />
       </div>
 
       <FormSubmitButton>Сохранить</FormSubmitButton>
