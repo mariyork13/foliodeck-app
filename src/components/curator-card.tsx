@@ -39,10 +39,50 @@ export function CuratorCard({
         <p className={`${TEXT_SCALE} text-white/30 ${textClamp}`}>{curator.role}</p>
       </div>
 
-      <Link
-        href={`/curator/${curator.slug}`}
-        className={`group relative block overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)] ${stretch ? "flex-1" : "aspect-[4/3]"}`}
-      >
+      {/* No overflow-hidden here (unlike the Link below) — the notes popover
+          needs to spill past the card's edges instead of being clipped. */}
+      <div className={`group relative ${stretch ? "flex-1" : "aspect-[4/3]"}`}>
+        <Link
+          href={`/curator/${curator.slug}`}
+          className="absolute inset-0 block overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)]"
+        >
+          <button
+            type="button"
+            aria-label="Open external site"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              window.open(curator.externalUrl, "_blank", "noopener,noreferrer");
+            }}
+            className={`absolute bottom-2 right-2 z-10 ${iconBadge}`}
+          >
+            <ExternalLinkIcon />
+          </button>
+          {/* Grey underlay — animated while loading, static once the image (or a dead state) resolves. */}
+          <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
+            {!loaded && !errored && (
+              <div className="absolute inset-0 -translate-x-full animate-[shimmer-sweep_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            )}
+          </div>
+          {!errored && cardImage && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={cardImage}
+              alt={`${curator.name} portfolio preview`}
+              loading="lazy"
+              // Decode off the main thread so a fresh card scrolling into view
+              // doesn't stall the scroll while its (up-to-2400px) image decodes.
+              decoding="async"
+              // onLoad doesn't fire for images already in the browser cache — catch those on mount.
+              ref={(el) => {
+                if (el?.complete && el.naturalWidth > 0 && !loaded) setLoaded(true);
+              }}
+              onLoad={() => setLoaded(true)}
+              onError={() => setErrored(true)}
+              className="relative h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+            />
+          )}
+        </Link>
         <div className="absolute right-2 top-2 z-10 flex items-center gap-2">
           {notesText && (
             <div
@@ -110,43 +150,7 @@ export function CuratorCard({
             <HeartIcon active={isFavorited} />
           </button>
         </div>
-        <button
-          type="button"
-          aria-label="Open external site"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            window.open(curator.externalUrl, "_blank", "noopener,noreferrer");
-          }}
-          className={`absolute bottom-2 right-2 z-10 ${iconBadge}`}
-        >
-          <ExternalLinkIcon />
-        </button>
-        {/* Grey underlay — animated while loading, static once the image (or a dead state) resolves. */}
-        <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
-          {!loaded && !errored && (
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer-sweep_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          )}
-        </div>
-        {!errored && cardImage && (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={cardImage}
-            alt={`${curator.name} portfolio preview`}
-            loading="lazy"
-            // Decode off the main thread so a fresh card scrolling into view
-            // doesn't stall the scroll while its (up-to-2400px) image decodes.
-            decoding="async"
-            // onLoad doesn't fire for images already in the browser cache — catch those on mount.
-            ref={(el) => {
-              if (el?.complete && el.naturalWidth > 0 && !loaded) setLoaded(true);
-            }}
-            onLoad={() => setLoaded(true)}
-            onError={() => setErrored(true)}
-            className="relative h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-        )}
-      </Link>
+      </div>
     </div>
   );
 }
