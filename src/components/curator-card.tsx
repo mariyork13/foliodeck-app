@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useFavorites } from "@/lib/favorites-context";
 import { TEXT_SCALE } from "@/lib/scale";
 import type { Curator } from "@/lib/types";
-import { ExternalLinkIcon, HeartIcon } from "./icons";
+import { ExternalLinkIcon, HeartIcon, HistoryIcon } from "./icons";
 
 // Always visible on touch devices (no hover); hover-reveal only from lg up.
 const iconBadge =
@@ -25,7 +25,12 @@ export function CuratorCard({
   const textClamp = compact ? "truncate" : "";
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(false);
   const cardImage = curator.coverImage || curator.previewImage;
+  const hasBothLanguages = Boolean(curator.notes) && Boolean(curator.notesRu);
+  // Same RU-first default as the detail page's Notes popover.
+  const [notesLang, setNotesLang] = useState<"ru" | "en">(curator.notesRu ? "ru" : "en");
+  const notesText = notesLang === "ru" ? curator.notesRu ?? curator.notes : curator.notes ?? curator.notesRu;
 
   return (
     <div className={stretch ? "flex h-full flex-col" : ""}>
@@ -38,18 +43,73 @@ export function CuratorCard({
         href={`/curator/${curator.slug}`}
         className={`group relative block overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)] ${stretch ? "flex-1" : "aspect-[4/3]"}`}
       >
-        <button
-          type="button"
-          aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleFavorite(curator.slug);
-          }}
-          className={`absolute right-2 top-2 z-10 ${iconBadge}`}
-        >
-          <HeartIcon active={isFavorited} />
-        </button>
+        <div className="absolute right-2 top-2 z-10 flex items-center gap-2">
+          {notesText && (
+            <div
+              className="relative"
+              onMouseEnter={() => setNotesOpen(true)}
+              onMouseLeave={() => setNotesOpen(false)}
+            >
+              <button
+                type="button"
+                aria-label="Curator notes"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                className={iconBadge}
+              >
+                <HistoryIcon />
+              </button>
+              {notesOpen && (
+                // Invisible spacer (no gap from the button, just padding) so the
+                // pointer never leaves the hoverable area on its way down to the
+                // visible bubble below — a real CSS gap here would drop the hover
+                // state (and the popup) before the cursor reaches it.
+                <div className="absolute right-0 top-full z-20 pt-2">
+                  <div
+                    className="w-64 max-w-[80vw] rounded-xl bg-[#1e1e21]/70 px-4 py-3 text-[13px] leading-[1.55] text-white/80 backdrop-blur-[74px]"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {hasBothLanguages && (
+                      <div className="mb-2 flex items-center gap-1 text-xs font-medium">
+                        {(["ru", "en"] as const).map((lang) => (
+                          <button
+                            key={lang}
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setNotesLang(lang);
+                            }}
+                            className={`rounded-full px-2.5 py-1 uppercase transition-colors ${
+                              notesLang === lang ? "bg-white/15 text-white" : "text-white/40 hover:text-white/70"
+                            }`}
+                          >
+                            {lang}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {notesText}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          <button
+            type="button"
+            aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleFavorite(curator.slug);
+            }}
+            className={iconBadge}
+          >
+            <HeartIcon active={isFavorited} />
+          </button>
+        </div>
         <button
           type="button"
           aria-label="Open external site"
