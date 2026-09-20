@@ -18,8 +18,8 @@ export function TagLogoField({
   const dirty = value !== (defaultValue ?? "");
 
   return (
-    <form action={action.bind(null, tagId)} className="flex items-center gap-2">
-      <div className="w-60">
+    <form action={action.bind(null, tagId)} className="flex flex-wrap items-center gap-2">
+      <div className={value ? undefined : "w-60"}>
         <ImageUploadField
           name="logo"
           value={value}
