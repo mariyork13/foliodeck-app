@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useConsent } from "@/lib/consent-context";
 import { useLanguage } from "@/lib/language-context";
+import { useInMetricaPlayer } from "@/lib/metrica-player";
 
 const panelBg = "bg-[#26262B]/70 backdrop-blur-[74px]";
 
@@ -48,9 +49,10 @@ const T = {
 export function CookieBanner() {
   const { consent, accept, reject } = useConsent();
   const { language } = useLanguage();
+  const inPlayer = useInMetricaPlayer();
   const t = T[language === "ru" ? "ru" : "en"];
 
-  if (consent !== "pending") return null;
+  if (consent !== "pending" || inPlayer) return null;
 
   if (!ANALYTICS_ENABLED) {
     return (

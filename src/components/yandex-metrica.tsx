@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useConsent } from "@/lib/consent-context";
+import { useInMetricaPlayer } from "@/lib/metrica-player";
 
 // Loads Yandex Metrica only after the visitor accepts analytics cookies, and
 // only if a counter id is configured. Webvisor (session recording), click and
@@ -18,11 +19,13 @@ declare global {
 
 export function YandexMetrica() {
   const { consent } = useConsent();
+  const inPlayer = useInMetricaPlayer();
+  const allowed = consent === "all" || inPlayer;
   const pathname = usePathname();
   const ready = useRef(false);
 
   useEffect(() => {
-    if (!COUNTER_ID || consent !== "all" || ready.current) return;
+    if (!COUNTER_ID || !allowed || ready.current) return;
     if (document.querySelector('script[src="https://mc.yandex.ru/metrika/tag.js"]')) {
       ready.current = true;
       return;
@@ -48,12 +51,12 @@ export function YandexMetrica() {
       defer: true, // we send every page view ourselves, incl. SPA navigations
     });
     ready.current = true;
-  }, [consent]);
+  }, [allowed]);
 
   useEffect(() => {
-    if (!COUNTER_ID || consent !== "all" || !ready.current || !window.ym) return;
+    if (!COUNTER_ID || !allowed || !ready.current || !window.ym) return;
     window.ym(Number(COUNTER_ID), "hit", window.location.href);
-  }, [pathname, consent]);
+  }, [pathname, allowed]);
 
   return null;
 }
