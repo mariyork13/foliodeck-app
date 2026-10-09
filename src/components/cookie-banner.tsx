@@ -14,8 +14,8 @@ const T = {
   en: {
     analytics: (
       <>
-        We use necessary cookies to keep the site working, and Yandex Metrica for
-        anonymous traffic statistics. See the{" "}
+        We use necessary cookies to keep the site working, and Yandex Metrica
+        (including Webvisor) for visit statistics and to improve the site. See the{" "}
         <Link href="/privacy-policy" className="underline hover:text-white">
           Privacy Policy
         </Link>
@@ -30,8 +30,8 @@ const T = {
   ru: {
     analytics: (
       <>
-        Мы используем необходимые cookie для работы сайта и Яндекс.Метрику для
-        анонимной статистики посещений. Подробнее — в{" "}
+        Мы используем необходимые cookie для работы сайта и Яндекс.Метрику
+        (включая Вебвизор) для статистики посещений и улучшения сайта. Подробнее — в{" "}
         <Link href="/privacy-policy" className="underline hover:text-white">
           Политике конфиденциальности
         </Link>

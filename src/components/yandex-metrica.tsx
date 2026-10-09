@@ -5,8 +5,9 @@ import { useEffect, useRef } from "react";
 import { useConsent } from "@/lib/consent-context";
 
 // Loads Yandex Metrica only after the visitor accepts analytics cookies, and
-// only if a counter id is configured. Webvisor (session recording) is off — the
-// portfolio-submission form contains personal data. Click and scroll maps are on.
+// only if a counter id is configured. Webvisor (session recording), click and
+// scroll maps are on; the portfolio-submission form is masked from Webvisor
+// (ym-hide-content / ym-disable-keys in submit-modal.tsx).
 const COUNTER_ID = process.env.NEXT_PUBLIC_YM_COUNTER_ID;
 
 declare global {

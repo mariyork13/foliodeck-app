@@ -122,7 +122,13 @@ export function SubmitModal({
             </button>
           </div>
         ) : (
-          <form action={formAction} onSubmit={handleSubmit} noValidate>
+          <form
+            action={formAction}
+            onSubmit={handleSubmit}
+            noValidate
+            // Personal data: keep field contents and keystrokes out of Webvisor recordings.
+            className="ym-hide-content ym-disable-keys"
+          >
             {/* Honeypot — hidden from people, tempting to bots. Kept in the DOM
                 (not type="hidden") and off-screen so real submissions leave it empty. */}
             <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">

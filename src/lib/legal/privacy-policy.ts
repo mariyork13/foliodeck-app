@@ -4,7 +4,7 @@
 export const privacyPolicy = {
   en: `# Privacy and Personal Data Processing Policy
 
-Effective date: August 28, 2026
+Effective date: October 9, 2026
 
 ## 1. General Provisions
 
@@ -46,7 +46,11 @@ Hereinafter referred to as the “Operator”.
 
 2.2. The Website may also process technical information necessary for the operation and security of the Website, including IP address, browser and device information, User Agent, date and time of submission, and other technical data.
 
-2.3. Subject to the visitor's consent given through the cookie banner, the Website uses the Yandex Metrica web analytics service (operated by YANDEX LLC) to collect aggregated, anonymized statistics about site traffic — such as pages viewed, referral source, approximate geographic region, and device and browser type. Session recording ("Webvisor") is not enabled. The analytics script is not loaded until the visitor accepts analytics cookies; the visitor may decline. Data collected through Yandex Metrica is processed on Yandex infrastructure located within the Russian Federation.
+2.3. Subject to the visitor's consent given through the cookie banner, the Website uses the Yandex Metrica web analytics service (operated by YANDEX LLC) on all of its public pages. Yandex Metrica collects statistics about site traffic and visitor behavior, including: pages viewed, referral source, approximate geographic region (determined from the IP address), device, browser and operating system type, screen resolution, date, time and duration of the visit, and the cookie-based identifier assigned by Yandex Metrica.
+
+2.3.1. The Website uses the Webvisor feature of Yandex Metrica, which records visitor actions on the Website's pages — mouse movements, clicks, scrolling, and the content of the pages viewed — as well as click and scroll maps. The content of the portfolio submission form fields and keystrokes in that form are excluded from Webvisor recordings. Webvisor does not record the content of third-party portfolio sites displayed on the Website.
+
+2.3.2. The data is used to evaluate traffic and improve the usability of the Website, and is not used to identify specific visitors. The Operator does not combine Yandex Metrica data with personal data received through the submission form. The analytics script is not loaded until the visitor accepts analytics cookies; the visitor may decline. Data collected through Yandex Metrica is processed on Yandex infrastructure located within the Russian Federation, in accordance with the Yandex Metrica Terms of Use (https://yandex.ru/legal/metrica_termsofuse/).
 
 2.4. The Operator does not intentionally collect or process special categories of personal data, including information about health, political opinions, religious or philosophical beliefs, intimate life, or biometric personal data.
 
@@ -134,7 +138,7 @@ When collecting personal data of citizens of the Russian Federation through the 
 
 The Website uses technically necessary cookies to ensure proper operation and functionality.
 
-Subject to the visitor's consent, the Website uses analytics cookies set by the Yandex Metrica service for anonymized traffic statistics (see clause 2.3). On the first visit the Website shows a cookie banner allowing the visitor to accept or decline analytics cookies; the choice is stored locally in the browser and can be changed by clearing the Website's site data. If analytics cookies are declined, the Yandex Metrica script is not loaded.
+Subject to the visitor's consent, the Website uses analytics cookies set by the Yandex Metrica service, including its Webvisor feature, for traffic statistics and analysis of visitor behavior (see clause 2.3). On the first visit the Website shows a cookie banner allowing the visitor to accept or decline analytics cookies; the choice is stored locally in the browser and can be changed by clearing the Website's site data. If analytics cookies are declined, the Yandex Metrica script is not loaded.
 
 If other analytics or tracking technologies are introduced in the future, this Policy must be updated accordingly.
 
@@ -200,7 +204,7 @@ Email: [design.awesome@yandex.ru](mailto:design.awesome@yandex.ru)`,
 
   ru: `# Политика в отношении обработки персональных данных
 
-Дата вступления в силу: 28 августа 2026 года
+Дата вступления в силу: 9 октября 2026 года
 
 ## 1. Общие положения
 
@@ -242,7 +246,11 @@ Email: [design.awesome@yandex.ru](mailto:design.awesome@yandex.ru)`,
 
 2.2. Сайт также может обрабатывать техническую информацию, необходимую для его работы и безопасности, включая IP-адрес, информацию о браузере и устройстве, User Agent, дату и время отправки заявки и иные технические данные.
 
-2.3. При условии согласия посетителя, выраженного через баннер о файлах cookie, Сайт использует сервис веб-аналитики Яндекс.Метрика (оператор — ООО «ЯНДЕКС») для сбора обезличенной сводной статистики посещений — в частности, о просмотренных страницах, источнике перехода, приблизительном регионе, типе устройства и браузера. Запись сессий («Вебвизор») не используется. Скрипт аналитики не загружается до принятия посетителем аналитических файлов cookie; посетитель вправе отказаться. Данные, собираемые через Яндекс.Метрику, обрабатываются на инфраструктуре Яндекса, расположенной на территории Российской Федерации.
+2.3. При условии согласия посетителя, выраженного через баннер о файлах cookie, Сайт использует на всех своих публичных страницах сервис веб-аналитики Яндекс.Метрика (оператор — ООО «ЯНДЕКС»). Яндекс.Метрика собирает статистику посещений и поведения посетителей, в том числе: просмотренные страницы, источник перехода, приблизительный регион (определяется по IP-адресу), тип устройства, браузера и операционной системы, разрешение экрана, дату, время и продолжительность посещения, а также идентификатор, присваиваемый Яндекс.Метрикой с помощью файлов cookie.
+
+2.3.1. Сайт использует функцию Вебвизор сервиса Яндекс.Метрика, которая записывает действия посетителя на страницах Сайта — движения курсора, клики, прокрутку и содержимое просматриваемых страниц, — а также карты кликов и скроллинга. Содержимое полей формы подачи портфолио и нажатия клавиш в этой форме из записей Вебвизора исключены. Вебвизор не записывает содержимое сторонних сайтов-портфолио, отображаемых на Сайте.
+
+2.3.2. Данные используются для оценки посещаемости и улучшения удобства Сайта и не используются для установления личности конкретных посетителей. Оператор не сопоставляет данные Яндекс.Метрики с персональными данными, полученными через форму подачи заявки. Скрипт аналитики не загружается до принятия посетителем аналитических файлов cookie; посетитель вправе отказаться. Данные, собираемые через Яндекс.Метрику, обрабатываются на инфраструктуре Яндекса, расположенной на территории Российской Федерации, в соответствии с Условиями использования сервиса Яндекс.Метрика (https://yandex.ru/legal/metrica_termsofuse/).
 
 2.4. Оператор не осуществляет целенаправленный сбор и обработку специальных категорий персональных данных, включая сведения о состоянии здоровья, политических взглядах, религиозных или философских убеждениях, интимной жизни, а также биометрические персональные данные.
 
@@ -330,7 +338,7 @@ Telegram может использоваться исключительно дл
 
 Сайт использует технически необходимые файлы cookie для обеспечения корректной работы и функционирования Сайта.
 
-При условии согласия посетителя Сайт использует аналитические файлы cookie сервиса Яндекс.Метрика для обезличенной статистики посещений (см. пункт 2.3). При первом посещении Сайт показывает баннер, позволяющий принять или отклонить аналитические файлы cookie; выбор сохраняется локально в браузере и может быть изменён очисткой данных Сайта. При отказе от аналитических файлов cookie скрипт Яндекс.Метрики не загружается.
+При условии согласия посетителя Сайт использует аналитические файлы cookie сервиса Яндекс.Метрика, включая функцию Вебвизор, для статистики посещений и анализа поведения посетителей (см. пункт 2.3). При первом посещении Сайт показывает баннер, позволяющий принять или отклонить аналитические файлы cookie; выбор сохраняется локально в браузере и может быть изменён очисткой данных Сайта. При отказе от аналитических файлов cookie скрипт Яндекс.Метрики не загружается.
 
 В случае подключения иных систем веб-аналитики или технологий отслеживания настоящая Политика подлежит соответствующему обновлению.
 
