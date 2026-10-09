@@ -43,7 +43,7 @@ export function YandexMetrica() {
       clickmap: true,
       trackLinks: true,
       accurateTrackBounce: true,
-      webvisor: false,
+      webvisor: true,
       defer: true, // we send every page view ourselves, incl. SPA navigations
     });
     ready.current = true;
