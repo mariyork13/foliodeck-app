@@ -15,6 +15,15 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_ORIGIN ?? "https://foliodeck.pro"),
   title: "Foliodeck — a curated portfolio gallery",
   description: "A curated portfolio gallery of designers, developers, and studios by Maria Chubina.",
+  // Link previews (LinkedIn, Telegram, Slack…). The image itself comes from
+  // the opengraph-image.tsx files next to the routes.
+  openGraph: {
+    type: "website",
+    siteName: "Foliodeck",
+    title: "Foliodeck — a curated portfolio gallery",
+    description: "700+ portfolios of designers and studios, with curator notes on what works.",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
