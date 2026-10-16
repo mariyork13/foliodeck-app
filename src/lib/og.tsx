@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import sharp from "sharp";
 
 // Shared bits for the opengraph-image routes (link previews in LinkedIn,
 // Telegram, Slack…). ImageResponse's built-in font has no Cyrillic, so we ship
@@ -37,19 +38,21 @@ export function OgBrand({ size = 44 }: { size?: number }) {
 }
 
 /**
- * Fetches a remote image and inlines it as a data URI, or returns null if it's
- * missing/slow/not a format ImageResponse can draw. Preview links are often
- * dead Tilda URLs, so the card must render without one.
+ * Fetches a remote image and inlines it as a JPEG data URI, or returns null if
+ * it's missing/slow/undecodable. Preview links are often dead Tilda URLs, so
+ * the card must render without one. Covers are stored as WebP, which
+ * ImageResponse can't draw — sharp converts (and shrinks) everything to JPEG.
  */
-export async function fetchOgImage(url: string | null | undefined): Promise<string | null> {
+export async function fetchOgImage(url: string | null | undefined, width = 1000): Promise<string | null> {
   if (!url) return null;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) return null;
-    const type = res.headers.get("content-type") ?? "";
-    if (!/^image\/(png|jpe?g|gif)/.test(type)) return null;
-    const buf = Buffer.from(await res.arrayBuffer());
-    return `data:${type.split(";")[0]};base64,${buf.toString("base64")}`;
+    const jpeg = await sharp(Buffer.from(await res.arrayBuffer()))
+      .resize({ width, withoutEnlargement: true })
+      .jpeg({ quality: 82 })
+      .toBuffer();
+    return `data:image/jpeg;base64,${jpeg.toString("base64")}`;
   } catch {
     return null;
   }
