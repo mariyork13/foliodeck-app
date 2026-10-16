@@ -54,7 +54,14 @@ export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; f
     <header className="sticky top-0 z-50">
       <div className="relative mx-auto flex max-w-[1920px] items-center gap-4 px-4 pb-4 pt-4">
         <div className="flex shrink-0 items-center">
-          <Link href="/" className={`rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
+          {/* The logo is "start over": back to the full, unfiltered gallery. */}
+          <Link
+            href="/"
+            onClick={() => {
+              reset();
+              setSearch("");
+            }}
+            className={`rounded-lg ${PAD_BTN} ${TEXT} font-medium text-white ${pillBg}`}>
             Foliodeck
           </Link>
           <button
