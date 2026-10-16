@@ -23,8 +23,9 @@
   --background: #f4f4f5;
   --foreground: #161618;
   --foreground-inverse: #ffffff;
-  --surface-pill: #ffffff;
-  --surface-pill-hover: #e4e4e7;
+  /* A step darker than the page so nav buttons stand out from it. */
+  --surface-pill: #dcdce0;
+  --surface-pill-hover: #cbcbd0;
   --surface-panel: #ffffff;
   --surface-raised: #e7e7ea;
   --line: #d4d4d8;
