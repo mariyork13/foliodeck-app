@@ -13,16 +13,13 @@ const iconBadge =
 
 export function CuratorCard({
   curator,
-  compact,
   stretch,
 }: {
   curator: Curator;
-  compact?: boolean;
   stretch?: boolean;
 }) {
   const { isFavorited: checkFavorited, toggleFavorite } = useFavorites();
   const isFavorited = checkFavorited(curator.slug);
-  const textClamp = compact ? "truncate" : "";
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
   const [notesOpen, setNotesOpen] = useState(false);
@@ -33,10 +30,16 @@ export function CuratorCard({
   const notesText = notesLang === "ru" ? curator.notesRu ?? curator.notes : curator.notes ?? curator.notesRu;
 
   return (
-    <div className={stretch ? "flex h-full flex-col" : ""}>
+    <div className={`min-w-0 ${stretch ? "flex h-full flex-col" : ""}`}>
+      {/* One line each, ellipsis past that — a wrapped name or role would push
+          this card's image lower than its row neighbours'. */}
       <div className="mb-2 shrink-0">
-        <h3 className={`${TEXT_SCALE} font-medium text-white/90 ${textClamp}`}>{curator.name}</h3>
-        <p className={`${TEXT_SCALE} text-white/30 ${textClamp}`}>{curator.role}</p>
+        <h3 className={`${TEXT_SCALE} truncate font-medium text-white/90`} title={curator.name}>
+          {curator.name}
+        </h3>
+        <p className={`${TEXT_SCALE} truncate text-white/30`} title={curator.role}>
+          {curator.role}
+        </p>
       </div>
 
       {/* No overflow-hidden here (unlike the Link below) — the notes popover

@@ -40,7 +40,7 @@ export function FavoritesPanel({
         ) : (
           <div className="grid grid-cols-1 gap-4 overflow-y-auto sm:grid-cols-2">
             {favoritedCurators.map((curator) => (
-              <CuratorCard key={curator.slug} curator={curator} compact />
+              <CuratorCard key={curator.slug} curator={curator} />
             ))}
           </div>
         )}
