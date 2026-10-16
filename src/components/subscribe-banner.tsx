@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { XIcon } from "./x-icon";
 
 const STORAGE_KEY = "foliodeck-subscribe-banner-dismissed";
-const panelBg = "bg-[#26262B]/70 backdrop-blur-[74px]";
+const panelBg = "bg-pill/70 backdrop-blur-[74px]";
 
 export function SubscribeBanner() {
   const [dismissed, setDismissed] = useState(true);

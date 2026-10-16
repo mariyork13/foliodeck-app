@@ -5,7 +5,7 @@ import { useConsent } from "@/lib/consent-context";
 import { useLanguage } from "@/lib/language-context";
 import { useInMetricaPlayer } from "@/lib/metrica-player";
 
-const panelBg = "bg-[#26262B]/70 backdrop-blur-[74px]";
+const panelBg = "bg-pill/70 backdrop-blur-[74px]";
 
 // When a Metrica counter is configured the banner asks for analytics consent;
 // otherwise it's just an informational note about necessary cookies.

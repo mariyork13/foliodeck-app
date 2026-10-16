@@ -100,10 +100,10 @@ export function FiltersPanel({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div className="absolute right-14 -top-2 hidden h-2 w-4 bg-[#1e1e21]/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)] sm:block" />
+      <div className="absolute right-14 -top-2 hidden h-2 w-4 bg-panel/70 backdrop-blur-[74px] [clip-path:polygon(50%_0%,0%_100%,100%_100%)] sm:block" />
       {/* Fixed height + `overflow-hidden` so each column scrolls inside its own
           track rather than the whole panel moving as one. */}
-      <div className="grid h-[70vh] max-h-[436px] grid-cols-2 gap-x-4 overflow-hidden rounded-xl bg-[#1e1e21]/70 p-6 backdrop-blur-[74px] sm:flex sm:h-[436px] sm:max-h-none sm:w-[640px] sm:flex-row sm:gap-8 sm:overflow-visible">
+      <div className="grid h-[70vh] max-h-[436px] grid-cols-2 gap-x-4 overflow-hidden rounded-xl bg-panel/70 p-6 backdrop-blur-[74px] sm:flex sm:h-[436px] sm:max-h-none sm:w-[640px] sm:flex-row sm:gap-8 sm:overflow-visible">
         {/* Below sm this is the single scrolling "left column" (Design + Geography
             + Collections); from sm up `contents` promotes its children to flex
             siblings so each one scrolls on its own. */}

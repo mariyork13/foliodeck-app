@@ -9,15 +9,16 @@ import { FavoritesPanel } from "./favorites-panel";
 import { FiltersPanel } from "./filters-panel";
 import { FilterIcon, HeartIcon, SearchIcon } from "./icons";
 import { SubmitModal } from "./submit-modal";
+import { ThemeIconButton, ThemeMenuItem } from "./theme-toggle";
 import { XIcon } from "./x-icon";
 
 const clearBadge = "flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white";
 
-const pillBgStatic = "bg-[#26262B]/70 backdrop-blur-[74px]";
+const pillBgStatic = "bg-pill/70 backdrop-blur-[74px]";
 // `max-lg:active:` gives touch devices (mobile + tablet) a pressed-state colour
 // change, since there's no hover there.
-const pillBg = `${pillBgStatic} transition-colors hover:bg-[#4D4D55]/70 max-lg:active:bg-[#4D4D55]/70`;
-const searchBg = "bg-[#26262B]/70 backdrop-blur-[74px] border border-white/[0.04]";
+const pillBg = `${pillBgStatic} transition-colors hover:bg-pill-hover/70 max-lg:active:bg-pill-hover/70`;
+const searchBg = "bg-pill/70 backdrop-blur-[74px] border border-white/[0.04]";
 const submitBg = "bg-white/90 backdrop-blur-[74px] border border-[#C6CDD3]/[0.26]";
 
 const TEXT = "text-[13px]";
@@ -130,6 +131,10 @@ export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; f
             <span className="hidden sm:inline">Favorites</span>
           </button>
 
+          <ThemeIconButton
+            className={`hidden h-[39.5px] w-[39.5px] items-center justify-center rounded-full text-white sm:flex ${pillBg}`}
+          />
+
           {/* Mobile: nav links (Project/Curator) collapse behind a hamburger button,
               placed last so it sits at the outer edge of the icon cluster. */}
           <div className="relative sm:hidden">
@@ -164,6 +169,7 @@ export function SiteHeader({ curators, filterOptions }: { curators: Curator[]; f
                   >
                     Curator
                   </Link>
+                  <ThemeMenuItem />
                 </div>
               </>
             )}
@@ -265,7 +271,7 @@ function SearchBox({
       {showDropdown && (
         <div
           onMouseDown={cancelClose}
-          className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl border border-white/[0.04] bg-[#26262B]/80 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-[74px]`}
+          className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl border border-white/[0.04] bg-pill/80 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-[74px]`}
         >
           {industryMatches.length > 0 && (
             <div className="pb-1">

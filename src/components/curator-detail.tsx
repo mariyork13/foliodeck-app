@@ -8,12 +8,12 @@ import type { Curator } from "@/lib/types";
 import { ChevronLeftIcon, ExternalLinkIcon, HeartIcon, HistoryIcon } from "./icons";
 
 const FRAME =
-  "relative h-full w-full overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)]";
+  "relative h-full w-full overflow-hidden rounded-[8px] border border-white/[0.06] bg-raised shadow-card";
 
 // `max-lg:active:` gives touch devices (mobile + tablet) a pressed-state colour
 // change, since there's no hover there.
 const pillBg =
-  "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70 max-lg:active:bg-[#4D4D55]/70";
+  "bg-pill/70 backdrop-blur-[74px] transition-colors hover:bg-pill-hover/70 max-lg:active:bg-pill-hover/70";
 // Matches the main site header's button sizing.
 const BTN_TEXT = "text-[13px]";
 // Icon-only square tap target on tablet and below; full text+icon pill from lg up.
@@ -32,7 +32,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
   const notesText = notesLang === "ru" ? curator.notesRu ?? curator.notes : curator.notes ?? curator.notesRu;
 
   return (
-    <div className="flex h-screen flex-col bg-[#161618]">
+    <div className="flex h-screen flex-col bg-page">
       <header className="relative flex shrink-0 items-center justify-between gap-4 px-4 py-4">
         <div className="flex min-w-0 items-center gap-3">
           <button
@@ -66,7 +66,7 @@ export function CuratorDetail({ curator }: { curator: Curator }) {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNotesOpen(false)} />
                   <div
-                    className={`absolute left-3 right-3 top-[calc(100%-8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-[#1e1e21]/70 p-4 text-[15px] leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
+                    className={`absolute left-3 right-3 top-[calc(100%-8px)] z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-panel/70 p-4 text-[15px] leading-relaxed text-white/80 backdrop-blur-[74px] sm:left-auto sm:w-80`}
                   >
                     {hasBothLanguages && (
                       <div className="mb-3 flex items-center gap-1 text-xs font-medium">

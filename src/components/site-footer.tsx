@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/lib/language-context";
 import { LanguageToggle } from "./language-toggle";
+import { ThemeToggle } from "./theme-toggle";
 
 const LINKS: { href: string; en: string; ru: string }[] = [
   { href: "/privacy-policy", en: "Privacy Policy", ru: "Политика обработки данных" },
@@ -30,6 +31,7 @@ export function SiteFooter() {
               </Link>
             ))}
             <LanguageToggle />
+            <ThemeToggle />
           </nav>
           <span>2026</span>
         </div>

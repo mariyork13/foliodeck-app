@@ -9,7 +9,7 @@ import { ExternalLinkIcon, HeartIcon, HistoryIcon } from "./icons";
 
 // Always visible on touch devices (no hover); hover-reveal only from lg up.
 const iconBadge =
-  "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-white opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100";
+  "flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#5D5D72]/30 backdrop-blur-[74px] text-pure-white opacity-100 transition-opacity lg:opacity-0 lg:group-hover:opacity-100";
 
 export function CuratorCard({
   curator,
@@ -44,7 +44,7 @@ export function CuratorCard({
       <div className={`group relative ${stretch ? "flex-1" : "aspect-[4/3]"}`}>
         <Link
           href={`/curator/${curator.slug}`}
-          className="absolute inset-0 block overflow-hidden rounded-[8px] border border-white/[0.06] bg-[#2A2A2E] shadow-[0_4px_4px_0_rgba(0,0,0,0.12)]"
+          className="absolute inset-0 block overflow-hidden rounded-[8px] border border-white/[0.06] bg-raised shadow-card"
         >
           <button
             type="button"
@@ -59,7 +59,7 @@ export function CuratorCard({
             <ExternalLinkIcon />
           </button>
           {/* Grey underlay — animated while loading, static once the image (or a dead state) resolves. */}
-          <div className="absolute inset-0 overflow-hidden bg-[#2A2A2E]">
+          <div className="absolute inset-0 overflow-hidden bg-raised">
             {!loaded && !errored && (
               <div className="absolute inset-0 -translate-x-full animate-[shimmer-sweep_1.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             )}
@@ -108,7 +108,7 @@ export function CuratorCard({
                 // state (and the popup) before the cursor reaches it.
                 <div className="absolute right-0 top-full z-20 pt-2">
                   <div
-                    className="w-64 max-w-[80vw] rounded-xl bg-[#1e1e21]/70 px-4 py-3 text-[13px] leading-[1.55] text-white/80 backdrop-blur-[74px]"
+                    className="w-64 max-w-[80vw] rounded-xl bg-panel/70 px-4 py-3 text-[13px] leading-[1.55] text-white/80 backdrop-blur-[74px]"
                     onClick={(e) => e.preventDefault()}
                   >
                     {hasBothLanguages && (

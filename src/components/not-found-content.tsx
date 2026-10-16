@@ -16,7 +16,7 @@ const COPY = {
   },
 };
 
-const pillBg = "bg-[#26262B]/70 backdrop-blur-[74px] transition-colors hover:bg-[#4D4D55]/70 max-lg:active:bg-[#4D4D55]/70";
+const pillBg = "bg-pill/70 backdrop-blur-[74px] transition-colors hover:bg-pill-hover/70 max-lg:active:bg-pill-hover/70";
 
 export function NotFoundContent() {
   const { language } = useLanguage();

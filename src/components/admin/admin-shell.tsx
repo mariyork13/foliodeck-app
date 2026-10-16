@@ -39,7 +39,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
 
   return (
-    <div className="flex min-h-screen bg-[#161618] text-white max-md:flex-col">
+    <div data-theme="dark" className="flex min-h-screen bg-[#161618] text-white max-md:flex-col">
       <aside className="flex shrink-0 flex-col gap-1 border-white/10 p-3 md:sticky md:top-0 md:h-screen md:w-52 md:border-r max-md:flex-row max-md:overflow-x-auto max-md:border-b">
         <div className="mb-3 px-3 py-1 text-sm font-medium text-white/90 max-md:hidden">Школа ДТ</div>
 

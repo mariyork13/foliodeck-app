@@ -1,14 +1,58 @@
 @import "tailwindcss";
 
-:root {
+/* Theme tokens. Dark is the default; <html data-theme="light"> switches the
+   public site to the light palette. Admin screens pin themselves to dark with
+   their own data-theme="dark" wrapper. */
+:root,
+[data-theme="dark"] {
   --background: #161618;
   --foreground: #ffffff;
+  /* Text on `bg-black`-style inverted surfaces (primary buttons, active toggles). */
+  --foreground-inverse: #000000;
+  --surface-pill: #26262b;
+  --surface-pill-hover: #4d4d55;
+  --surface-panel: #1e1e21;
+  --surface-raised: #2a2a2e;
+  --line: #3a3a3d;
+  --card-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.12);
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color-scheme: dark;
 }
 
+:root[data-theme="light"] {
+  --background: #f4f4f5;
+  --foreground: #161618;
+  --foreground-inverse: #ffffff;
+  --surface-pill: #ffffff;
+  --surface-pill-hover: #e4e4e7;
+  --surface-panel: #ffffff;
+  --surface-raised: #e7e7ea;
+  --line: #d4d4d8;
+  /* Softer and more diffuse than dark: on a light page the dark-theme shadow reads as a hard edge. */
+  --card-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+  color-scheme: light;
+}
+
+/* `inline` so utilities reference the variables directly — that way they
+   resolve against whichever data-theme the element sits under.
+   `white`/`black` are remapped to foreground/inverse so the existing
+   text-white/NN and bg-white/NN classes flip with the theme; use
+   `pure-white`/`pure-black` for colour that must stay fixed (icons over
+   photos, scrims). */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-white: var(--foreground);
+  --color-black: var(--foreground-inverse);
+  --color-pure-white: #ffffff;
+  --color-pure-black: #000000;
+  --color-page: var(--background);
+  --color-pill: var(--surface-pill);
+  --color-pill-hover: var(--surface-pill-hover);
+  --color-panel: var(--surface-panel);
+  --color-raised: var(--surface-raised);
+  --color-line: var(--line);
+  --shadow-card: var(--card-shadow);
   --font-sans: var(--font-sans);
 }
 
@@ -19,8 +63,8 @@ body {
 }
 
 ::selection {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: var(--foreground);
+  color: var(--foreground-inverse);
 }
 
 @keyframes shimmer-sweep {

@@ -34,7 +34,7 @@ export function MultiSelect({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-11 w-full items-center justify-between gap-2 rounded-[10px] border border-[#3A3A3D] bg-transparent px-4 text-left text-sm text-white focus:outline-none"
+        className="flex h-11 w-full items-center justify-between gap-2 rounded-[10px] border border-line bg-transparent px-4 text-left text-sm text-white focus:outline-none"
       >
         <span className={`truncate ${value.length === 0 ? "text-white/40" : ""}`}>
           {value.length === 0 ? placeholder : value.join(", ")}
@@ -53,7 +53,7 @@ export function MultiSelect({
       </button>
 
       {open && (
-        <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-10 max-h-56 overflow-y-auto rounded-[10px] border border-[#3A3A3D] bg-[#161618] p-1 shadow-xl">
+        <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-10 max-h-56 overflow-y-auto rounded-[10px] border border-line bg-page p-1 shadow-xl">
           {options.map((option) => {
             const checked = value.includes(option);
             return (
@@ -65,7 +65,7 @@ export function MultiSelect({
                   type="checkbox"
                   checked={checked}
                   onChange={() => toggle(option)}
-                  className="h-3.5 w-3.5 shrink-0 rounded-sm border-[#3A3A3D] bg-transparent accent-white"
+                  className="h-3.5 w-3.5 shrink-0 rounded-sm border-line bg-transparent accent-white"
                 />
                 {option}
               </label>

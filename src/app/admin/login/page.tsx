@@ -5,7 +5,7 @@ export default async function AdminLoginPage(props: PageProps<"/admin/login">) {
   const hasError = searchParams.error === "1";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#161618] px-4">
+    <div data-theme="dark" className="flex min-h-screen items-center justify-center bg-[#161618] px-4">
       <form action={loginAction} className="w-full max-w-sm rounded-xl bg-[#212124] p-6">
         <h1 className="mb-4 text-lg font-medium text-white">Школа ДТ</h1>
         {hasError && <p className="mb-3 text-sm text-red-400">Неверный пароль.</p>}

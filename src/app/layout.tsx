@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { FilterProvider } from "@/lib/filter-context";
 import { LanguageProvider } from "@/lib/language-context";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -28,8 +29,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${roboto.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#161618]">
+    // suppressHydrationWarning: THEME_INIT_SCRIPT sets data-theme on <html>
+    // before React hydrates.
+    <html lang="en" className={`${roboto.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="min-h-full flex flex-col bg-page">
         <LanguageProvider>
           <FilterProvider>
             <FavoritesProvider>{children}</FavoritesProvider>

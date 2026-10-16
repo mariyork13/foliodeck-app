@@ -8,7 +8,7 @@ import { MultiSelect } from "./multi-select";
 import { XIcon } from "./x-icon";
 
 const inputClass =
-  "h-11 w-full rounded-[10px] border border-[#3A3A3D] bg-transparent px-4 text-sm text-white placeholder:text-white/40 focus:outline-none";
+  "h-11 w-full rounded-[10px] border border-line bg-transparent px-4 text-sm text-white placeholder:text-white/40 focus:outline-none";
 const errorClass = "mt-1 text-xs text-red-400";
 
 function FieldError({ message }: { message?: string }) {
@@ -79,8 +79,8 @@ export function SubmitModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70" onClick={close} />
-      <div className="relative w-full max-w-[420px] rounded-2xl border border-white/10 bg-[#161618]/70 p-8 backdrop-blur-[74px]">
+      <div className="absolute inset-0 bg-pure-black/70" onClick={close} />
+      <div className="relative w-full max-w-[420px] rounded-2xl border border-white/10 bg-page/70 p-8 backdrop-blur-[74px]">
         <button
           onClick={close}
           aria-label="Close"
@@ -189,7 +189,7 @@ export function SubmitModal({
                   name="consentProcessing"
                   checked={agreedProcessing}
                   onChange={(e) => setAgreedProcessing(e.target.checked)}
-                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-[#3A3A3D] bg-transparent accent-white"
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-line bg-transparent accent-white"
                 />
                 <span>
                   I consent to the processing of my personal data and confirm that I have read the{" "}
@@ -209,7 +209,7 @@ export function SubmitModal({
                   name="consentDisclosure"
                   checked={agreedDistribution}
                   onChange={(e) => setAgreedDistribution(e.target.checked)}
-                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-[#3A3A3D] bg-transparent accent-white"
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-sm border-line bg-transparent accent-white"
                 />
                 <span>
                   I consent to the processing and{" "}
