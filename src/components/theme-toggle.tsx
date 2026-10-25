@@ -46,7 +46,7 @@ export function ThemeIconButton({ className }: { className?: string }) {
   );
 }
 
-// Row in the mobile header's hamburger menu.
+// Row in the mobile header's hamburger menu: text only, like the nav links above it.
 export function ThemeMenuItem() {
   const theme = useTheme();
   const next: Theme = theme === "light" ? "dark" : "light";
@@ -55,9 +55,8 @@ export function ThemeMenuItem() {
     <button
       type="button"
       onClick={() => setTheme(next)}
-      className="flex items-center gap-2 px-4 py-2.5 text-left text-[13px] font-medium text-white transition-colors hover:bg-white/10"
+      className="px-4 py-2.5 text-left text-[13px] font-medium text-white transition-colors hover:bg-white/10"
     >
-      {next === "light" ? <SunIcon /> : <MoonIcon />}
       {next === "light" ? "Light theme" : "Dark theme"}
     </button>
   );
