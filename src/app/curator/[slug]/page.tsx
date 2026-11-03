@@ -3,9 +3,15 @@ import { notFound } from "next/navigation";
 import { CuratorDetail } from "@/components/curator-detail";
 import { getCuratorBySlug } from "@/lib/db/curators";
 
-// ISR: each curator page is rendered on first visit, then cached for 5 minutes
+// ISR: each curator page is rendered on first visit, then cached for an hour
 // (admin edits purge it via revalidatePath). New slugs render on demand.
-export const revalidate = 300;
+export const revalidate = 3600;
+
+// Returning [] (even empty) is what turns on-demand ISR on for a dynamic
+// segment — without it Next renders every request dynamically.
+export async function generateStaticParams() {
+  return [];
+}
 
 export async function generateMetadata(props: PageProps<"/curator/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;

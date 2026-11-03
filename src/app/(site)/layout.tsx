@@ -9,8 +9,8 @@ import { getCurators } from "@/lib/db/curators";
 import { getDistinctGeoValues, getTagsByType } from "@/lib/db/tags";
 
 // ISR for the whole (site) group. The header's curator/tag data regenerates at
-// most every 2 minutes; admin edits call revalidatePath("/", "layout").
-export const revalidate = 120;
+// most once an hour; admin edits call revalidatePath("/", "layout").
+export const revalidate = 3600;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [curators, specializations, companies, collections, geo] = await Promise.all([

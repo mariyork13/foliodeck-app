@@ -6,10 +6,15 @@ import { OG_BG, OG_SIZE, OgBrand, fetchOgImage, loadOgFonts } from "@/lib/og";
 // Per-curator link preview: name, role, specializations and the portfolio
 // screenshot. Cached like the page itself; admin edits don't purge it, so a
 // renamed curator's preview catches up within the revalidate window.
-export const revalidate = 300;
+export const revalidate = 3600;
 export const alt = "Portfolio on Foliodeck";
 export const size = OG_SIZE;
 export const contentType = "image/png";
+
+// Same as the page: an (empty) generateStaticParams enables on-demand ISR.
+export async function generateStaticParams() {
+  return [];
+}
 
 export default async function Image(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;

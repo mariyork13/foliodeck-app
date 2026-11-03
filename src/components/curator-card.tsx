@@ -47,6 +47,10 @@ export function CuratorCard({
       <div className={`group relative ${stretch ? "flex-1" : "aspect-[4/3]"}`}>
         <Link
           href={`/curator/${curator.slug}`}
+          // No viewport prefetch: with 50+ cards on screen every visit fired
+          // dozens of background requests, which blew the Vercel Hobby
+          // Fast Origin Transfer limit (account paused Nov 2026).
+          prefetch={false}
           className="absolute inset-0 block overflow-hidden rounded-[8px] border border-white/[0.06] bg-raised shadow-card"
         >
           <button
